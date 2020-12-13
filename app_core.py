@@ -9,8 +9,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 app = Flask(__name__)
 
 # LINE 聊天機器人的基本資料
-line_bot_api = LineBotApi('聊天機器人的 Chennel access token')
-handler = WebhookHandler('聊天機器人的 Channel secret')
+line_bot_api = LineBotApi('NpTtgG2aENN8PGBvJQgq986lUDiFeCd5zr2/woya4ELt8J7MefsdLv+VOc+Cja39aV8ii3Hd8+jR8lQHYHlIcDtVKpTbKjPTnl4kQPxuOHZp1pkq2khE8XIhF1XuPKrF3naNuJftXI5cNp6HIvvXUQdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('0acda87e7e1ca62222c044dbcad7bd31')
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
