@@ -241,12 +241,15 @@ def gathering(event):
 def gathering(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
+    progress_target = progress_list_halfgroupdata
+    
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
+    
     i = data_g.index(None)
     print("i =",i)
     column_all = ['acrivity_no', 'activity_type', 'activity_name',
