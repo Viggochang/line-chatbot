@@ -103,7 +103,9 @@ def app_core(event):
             cursor.execute(postgres_delete_query)
             conn.commit()
             
-
+@handler.add(PostbackEvent)
+def printevent(event):
+    print(event)
 
 if __name__ == "__main__":
     app.run()
