@@ -1,5 +1,5 @@
 
-def cancel(cursor, event):
+def cancel(cursor, conn, event):
 
     postgres_select_query=f'''SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND condition= 'initial';'''
     cursor.execute(postgres_select_query)
