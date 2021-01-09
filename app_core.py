@@ -164,7 +164,7 @@ def app_core(event):
                             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
                             cursor.execute(postgres_select_query)
                             data = cursor.fetchone()
-                            msg = flexmsg.summary(data)
+                            msg = flexmsg.summary(data_g)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg
@@ -179,12 +179,20 @@ def gathering(event):
 
     print(f"postback_event:{event}")
                     
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+    cursor.execute(postgres_select_query)
+    data_g = cursor.fetchone()
+    postback_data=event.postback.data
+    
     if False:
         pass
         
     else:
 
-        i = data.index(None)
+        i = data_g.index(None)
         print("i =",i)
         column_all = ['acrivity_no', 'activity_type', 'activity_name',
                       'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
@@ -194,8 +202,8 @@ def gathering(event):
         if event.postback.data == "Activity_time" :
 
             record = event.postback.params['datetime']
-            record=record.split("T")
-            temp=dt.date.fromisoformat(record[0])-dt.timedelta(days=1)
+            record = record.split("T")
+            temp = dt.date.fromisoformat(record[0])-dt.timedelta(days=1)
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
@@ -211,16 +219,16 @@ def gathering(event):
         cursor.execute(postgres_select_query)
         data = cursor.fetchone()
 
-        if None in data:
-            msg=flexmsg.flex(i,data,progress_target)
+        if None in data_g:
+            msg = flexmsg.flex(i, data_g, progress_target)
             line_bot_api.reply_message(
                 event.reply_token,
                 msg)
-        elif None not in data:
+        elif None not in data_g:
             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
             cursor.execute(postgres_select_query)
             data = cursor.fetchone()
-            msg=flexmsg.summary(data)
+            msg = flexmsg.summary(data_g)
             line_bot_api.reply_message(
                 event.reply_token,
                 msg)
@@ -237,7 +245,7 @@ def gathering(event):
     cursor = conn.cursor()
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
-    data = cursor.fetchone()
+    data_g = cursor.fetchone()
     i = data.index(None)
     print("i =",i)
     column_all = ['acrivity_no', 'activity_type', 'activity_name',
@@ -245,9 +253,9 @@ def gathering(event):
                   'due_date', 'description', 'photo', 'name',
                   'phone', 'mail', 'attendee', 'condition', 'user_id']
 
-    record =[ event.message.title, event.message.latitude, event.message.longitude]
-    if record[0]==None:
-        record[0]=event.message.address[:50]
+    record = [event.message.title, event.message.latitude, event.message.longitude]
+    if record[0] == None:
+        record[0] = event.message.address[:50]
     postgres_update_query = f"""UPDATE group_data SET ({column_all[i]}, {column_all[i+1]}, {column_all[i+2]}) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_update_query)
     conn.commit()
@@ -256,16 +264,16 @@ def gathering(event):
 
     progress_target = progress_list_fullgroupdata
     
-    if None in data:
-        msg=flexmsg.flex(i,data,progress_target)
+    if None in data_g:
+        msg = flexmsg.flex(i, data_g, progress_target)
         line_bot_api.reply_message(
             event.reply_token,
             msg)
-    elif None not in data:
+    elif None not in data_g:
         postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
         cursor.execute(postgres_select_query)
         data = cursor.fetchone()
-        msg=flexmsg.summary(data)
+        msg=flexmsg.summary(data_g)
         line_bot_api.reply_message(
             event.reply_token,
             msg
@@ -280,8 +288,8 @@ def pic(event):
     cursor = conn.cursor()
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
-    data = cursor.fetchone()
-    if data:
+    data_g = cursor.fetchone()
+    if data_g:
         i = data.index(None)
         print("i =",i)
         if i == 12:
@@ -327,9 +335,9 @@ def pic(event):
                 
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
                 cursor.execute(postgres_select_query)
-                data = cursor.fetchone()
+                data_g = cursor.fetchone()
                 if None not in data:
-                    msg.append(flexmsg.summary(data))
+                    msg.append(flexmsg.summary(data_g))
                     
                 line_bot_api.reply_message(
                     event.reply_token,
