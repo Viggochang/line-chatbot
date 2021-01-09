@@ -37,6 +37,10 @@ def callback():
 
     return 'OK'
 
+@handler.add(PostbackEvent)
+def printevent(event):
+    print(f"postback event:{event}")
+    
 # 學你說話
 @handler.add(MessageEvent, message=TextMessage)
 def app_core(event):
@@ -46,7 +50,7 @@ def app_core(event):
 #        event.reply_token,
 #        TextSendMessage(text=event.message.text)
 #        )
-        print(event)
+        print(f"event:{event}")
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = conn.cursor()
@@ -103,9 +107,7 @@ def app_core(event):
             cursor.execute(postgres_delete_query)
             conn.commit()
             
-@handler.add(PostbackEvent)
-def printevent(event):
-    print(event)
+
 
 if __name__ == "__main__":
     app.run()
