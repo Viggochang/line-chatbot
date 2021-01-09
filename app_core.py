@@ -179,7 +179,7 @@ def app_core(event):
 
                         line_bot_api.reply_message(
                             event.reply_token,
-                            TextSendMessage(text="finish!!")
+                            TextSendMessage(text = "開團成功！")
                         )
 
                         cursor.close()
@@ -193,7 +193,7 @@ def app_core(event):
                             cursor.execute(postgres_update_query)
                             conn.commit()
                             progress_target=[7, 6, 6, 6, 6, 6, 6, 6]
-                            msg=flexmsg.flex(column,data,progress_target)
+                            msg=flexmsg.flex(column, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg
@@ -203,7 +203,7 @@ def app_core(event):
                             cursor.execute(postgres_update_query)
                             conn.commit()
                             progress_target=[7, 6, 6, 6, 6, 6, 6, 6 ]
-                            msg=flexmsg.flex(column,data,progress_target)
+                            msg = flexmsg.flex(column, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg
