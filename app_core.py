@@ -169,6 +169,50 @@ def app_core(event):
                                 event.reply_token,
                                 msg
                             )
+                            
+                else:
+                    if event.message.text == '確認開團':
+
+                        postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                        cursor.execute(postgres_update_query)
+                        conn.commit()
+
+                        line_bot_api.reply_message(
+                            event.reply_token,
+                            TextSendMessage(text="finish!!")
+                        )
+
+                        cursor.close()
+                        conn.close()
+                        
+                    else:
+                        column = event.message.text
+                         # 處理location 因為location 跟資料庫的名字不一樣
+                        if column == "location":
+                            postgres_update_query = f"""UPDATE group_data SET location_tittle = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                            cursor.execute(postgres_update_query)
+                            conn.commit()
+                            progress_target=[7, 6, 6, 6, 6, 6, 6, 6]
+                            msg=flexmsg.flex(column,data,progress_target)
+                            line_bot_api.reply_message(
+                                event.reply_token,
+                                msg
+                            )
+                        elif column in column_all:
+                            postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                            cursor.execute(postgres_update_query)
+                            conn.commit()
+                            progress_target=[7, 6, 6, 6, 6, 6, 6, 6 ]
+                            msg=flexmsg.flex(column,data,progress_target)
+                            line_bot_api.reply_message(
+                                event.reply_token,
+                                msg
+                            )
+                        else :
+                            line_bot_api.reply_message(
+                                event.reply_token,
+                                TextSendMessage(text= "請輸入想修改的欄位名稱")
+                            )
 
 #處理postback 事件，例如datetime picker
 @handler.add(PostbackEvent)
