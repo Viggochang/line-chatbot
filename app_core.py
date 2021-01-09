@@ -19,9 +19,11 @@ def callback():
 
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+    
+    print(body)
 
     try:
-        print(body, signature)
+        
         handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
