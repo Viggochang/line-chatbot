@@ -247,7 +247,7 @@ def gathering(event):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
-    i = data.index(None)
+    i = data_g.index(None)
     print("i =",i)
     column_all = ['acrivity_no', 'activity_type', 'activity_name',
                   'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
