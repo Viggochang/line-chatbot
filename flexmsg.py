@@ -1,6 +1,6 @@
 from linebot.models import (
     TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,/Users/shao/chatbot/flexmsg.py
+    PostbackAction, DatetimePickerAction,
     CameraAction, CameraRollAction, LocationAction,
     CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
     FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
