@@ -41,10 +41,10 @@ def callback():
 def app_core(event):
     
     if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-        line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-        )
+#        line_bot_api.reply_message(
+#        event.reply_token,
+#        TextSendMessage(text=event.message.text)
+#        )
         
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
