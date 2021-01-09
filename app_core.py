@@ -149,9 +149,9 @@ def app_core(event):
                             )
                         
                         #如果還沒輸入到最後一格, 則繼續詢問下一題
-                        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial'AND user_id = '{event.source.user_id}';"""
+                        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                         cursor.execute(postgres_select_query)
-                        data = cursor.fetchone()
+                        data_g = cursor.fetchone()
 
                         if None in data_g:
                             msg=flexmsg.flex(i, data_g, progress_target)

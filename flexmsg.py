@@ -63,11 +63,11 @@ def flex(i, data, progress):
         msg = description
     elif i == 11 or i == "photo":
         msg = photo
-    elif i == "name" or i == 9 or i==12:
+    elif i == "name" or i == 9 or i == 12:
         msg = name(progress)
     elif i == 13 or i == "phone":
         msg = phone(progress)
-    elif i == "mail" or i ==14:
+    elif i == "mail" or i == 14:
         msg = mail
     elif i == "activity_type":
         msg = activity_type
