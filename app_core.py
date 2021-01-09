@@ -129,8 +129,8 @@ def app_core(event):
             if data_g:
                 progress_target = progress_list_halfgroupdata
                 
-                if None in data:
-                    i = data.index(None)
+                if None in data_g:
+                    i = data_g.index(None)
                     print(f"i={i}")
                     
                     if False:
@@ -153,13 +153,13 @@ def app_core(event):
                         cursor.execute(postgres_select_query)
                         data = cursor.fetchone()
 
-                        if None in data:
-                            msg=flexmsg.flex(i, data, progress_target)
+                        if None in data_g:
+                            msg=flexmsg.flex(i, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg)
                                 
-                        elif None not in data:
+                        elif None not in data_g:
 
                             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
                             cursor.execute(postgres_select_query)
