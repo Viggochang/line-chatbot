@@ -203,6 +203,7 @@ def gathering(event):
 
             record = event.postback.params['datetime']
             record = record.split("T")
+            print(record)
             temp = dt.date.fromisoformat(record[0])-dt.timedelta(days=1)
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
