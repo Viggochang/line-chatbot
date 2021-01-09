@@ -1,5 +1,6 @@
+from linebot.models import TextSendMessage
 
-def cancel(cursor, conn, event):
+def cancel(line_bot_api, cursor, conn, event):
 
     postgres_select_query=f'''SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND condition= 'initial';'''
     cursor.execute(postgres_select_query)

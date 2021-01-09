@@ -53,7 +53,7 @@ def app_core(event):
         print("連接資料庫")
 
         if event.message.text == "~cancel":
-            cancel.cancel(cursor, conn, event)
+            cancel.cancel(line_bot_api, cursor, conn, event)
 #            postgres_select_query=f'''SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND condition= 'initial';'''
 #            cursor.execute(postgres_select_query)
 #            data = cursor.fetchone()
