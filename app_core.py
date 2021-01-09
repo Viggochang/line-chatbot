@@ -265,8 +265,6 @@ def gathering(event):
     conn.commit()
     cursor.execute(postgres_select_query)
     data = cursor.fetchone()
-
-    progress_target = progress_list_fullgroupdata
     
     if None in data_g:
         msg = flexmsg.flex(i, data_g, progress_target)
