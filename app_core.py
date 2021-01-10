@@ -139,10 +139,10 @@ def app_core(event):
                         record = event.message.text
                         #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
                         try:
+                            #輸入資料
                             postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                             cursor.execute(postgres_update_query)
                             conn.commit()
-                            print(f"輸入資料 data_g:{data_g}")
                             
                         except:
                             line_bot_api.reply_message(
@@ -154,9 +154,10 @@ def app_core(event):
                         postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                         cursor.execute(postgres_select_query)
                         data_g = cursor.fetchone()
+                        print(f"輸入資料後 data_g:{data_g}")
 
                         if None in data_g:
-                            msg=flexmsg.flex(i, data_g, progress_target)
+                            msg = flexmsg.flex(i, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg)
@@ -164,9 +165,6 @@ def app_core(event):
                                 
                         elif None not in data_g:
 
-                            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
-                            cursor.execute(postgres_select_query)
-                            data = cursor.fetchone()
                             msg = flexmsg.summary(data_g)
                             line_bot_api.reply_message(
                                 event.reply_token,
@@ -232,7 +230,7 @@ def gathering(event):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
-    postback_data=event.postback.data
+    postback_data = event.postback.data
     
     if False:
         pass
@@ -252,6 +250,7 @@ def gathering(event):
             record = record.split("T")
             print(record)
             temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1)
+            # 寫入資料(更新活動時間)
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
@@ -260,12 +259,14 @@ def gathering(event):
         elif event.postback.data == "Due_time":
 
             record = event.postback.params['date']
+            # 寫入資料(更新截止時間)
             postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
 
+        #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
-        data = cursor.fetchone()
+        data_g = cursor.fetchone()
 
         if None in data_g:
             msg = flexmsg.flex(i, data_g, progress_target)
@@ -273,9 +274,6 @@ def gathering(event):
                 event.reply_token,
                 msg)
         elif None not in data_g:
-            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
-            cursor.execute(postgres_select_query)
-            data = cursor.fetchone()
             msg = flexmsg.summary(data_g)
             line_bot_api.reply_message(
                 event.reply_token,
@@ -307,11 +305,13 @@ def gathering(event):
     record = [event.message.title, event.message.latitude, event.message.longitude]
     if record[0] == None:
         record[0] = event.message.address[:50]
+    # 寫入資料(更新位置資訊)
     postgres_update_query = f"""UPDATE group_data SET ({column_all[i]}, {column_all[i+1]}, {column_all[i+2]}) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_update_query)
     conn.commit()
+    
     cursor.execute(postgres_select_query)
-    data = cursor.fetchone()
+    data_g = cursor.fetchone()
     
     if None in data_g:
         msg = flexmsg.flex(i, data_g, progress_target)
@@ -319,9 +319,6 @@ def gathering(event):
             event.reply_token,
             msg)
     elif None not in data_g:
-        postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
-        cursor.execute(postgres_select_query)
-        data = cursor.fetchone()
         msg=flexmsg.summary(data_g)
         line_bot_api.reply_message(
             event.reply_token,
@@ -329,6 +326,7 @@ def gathering(event):
         )
     cursor.close()
     conn.close()
+    
     
 @handler.add(MessageEvent, message=ImageMessage)
 def pic(event):
@@ -364,9 +362,9 @@ def pic(event):
                 client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
                 con = {
                     'album': config.get('imgur', 'album_id'),
-                    'name': f'{event.source.user_id}_{data[3]}',
-                    'title': f'{event.source.user_id}_{data[3]}',
-                    'description': f'{event.source.user_id}_{data[3]}'
+                    'name': f'{event.source.user_id}_{data_g[3]}',
+                    'title': f'{event.source.user_id}_{data_g[3]}',
+                    'description': f'{event.source.user_id}_{data_g[3]}'
                 }
                 path = os.path.join('static', 'tmp', dist_name)
                 image=client.upload_from_path(path, config=con, anon=False)
@@ -385,13 +383,14 @@ def pic(event):
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
                 cursor.execute(postgres_select_query)
                 data_g = cursor.fetchone()
+                
                 if None not in data_g:
                     msg.append(flexmsg.summary(data_g))
                     
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    msg
-                )
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        msg
+                    )
             except:
                 line_bot_api.reply_message(
                     event.reply_token,
