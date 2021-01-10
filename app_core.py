@@ -155,9 +155,9 @@ def app_core(event):
                         cursor.execute(postgres_select_query)
                         data_g = cursor.fetchone()
                         print(f"輸入資料後 data_g:{data_g}")
-                        i = data_g.index(None)
 
                         if None in data_g:
+                            i = data_g.index(None)
                             msg = flexmsg.flex(i, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
@@ -269,9 +269,9 @@ def gathering(event):
         #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
-        i = data_g.index(None)
 
         if None in data_g:
+            i = data_g.index(None)
             msg = flexmsg.flex(i, data_g, progress_target)
             line_bot_api.reply_message(
                 event.reply_token,
@@ -315,9 +315,9 @@ def gathering(event):
     
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
-    i = data_g.index(None)
     
     if None in data_g:
+        i = data_g.index(None)
         msg = flexmsg.flex(i, data_g, progress_target)
         line_bot_api.reply_message(
             event.reply_token,
