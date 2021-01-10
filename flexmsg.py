@@ -47,27 +47,27 @@ activity_type_for_attendee = TextSendMessage(
 
 # 給開團者用的
 def flex(i, data, progress):
-    if i == 1 or i == "activity_name":
+    if i == 2 or i == "activity_name":
         msg = activity_name(progress)
-    elif i == 2 or i == "activity_date":
+    elif i == 3 or i == "activity_date":
         msg = activity_time(progress)
-    elif i == 3 or i == "location":
+    elif i == 5 or i == "location":
         msg=location(progress)
-    elif i == 5 or i == "people":
+    elif i == 8 or i == "people":
         msg = people(progress)
-    elif i == 8 or i == "cost":
+    elif i == 9 or i == "cost":
         msg = cost(progress)
     elif i == "due_date":
         msg = due_time(data)
-    elif i == 10 or i == "description":
+    elif i == "description":
         msg = description
-    elif i == 11 or i == "photo":
+    elif i == "photo":
         msg = photo
-    elif i == "name" or i == 9 or i == 12:
+    elif i == 13 or i == "name":
         msg = name(progress)
-    elif i == 13 or i == "phone":
+    elif i == 14 or i == "phone":
         msg = phone(progress)
-    elif i == "mail" or i == 14:
+    elif i == 15 or i == "mail":
         msg = mail
     elif i == "activity_type":
         msg = activity_type

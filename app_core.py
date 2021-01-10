@@ -155,6 +155,7 @@ def app_core(event):
                         cursor.execute(postgres_select_query)
                         data_g = cursor.fetchone()
                         print(f"輸入資料後 data_g:{data_g}")
+                        i = data_g.index(None)
 
                         if None in data_g:
                             msg = flexmsg.flex(i, data_g, progress_target)
@@ -187,6 +188,7 @@ def app_core(event):
                         conn.close()
                         
                     else:
+                        # 在summary點選修改後
                         column = event.message.text
                          # 處理location 因為location 跟資料庫的名字不一樣
                         if column == "location":
@@ -194,7 +196,7 @@ def app_core(event):
                             cursor.execute(postgres_update_query)
                             conn.commit()
                             progress_target=[7, 6, 6, 6, 6, 6, 6, 6]
-                            msg=flexmsg.flex(column, data_g, progress_target)
+                            msg = flexmsg.flex(column, data_g, progress_target)
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg
@@ -250,7 +252,7 @@ def gathering(event):
             record = record.split("T")
             print(record)
             temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1)
-            # 寫入資料(更新活動時間)
+            # 寫入資料(更新活動日期、時間，預填截止時間）
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
@@ -267,6 +269,7 @@ def gathering(event):
         #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
+        i = data_g.index(None)
 
         if None in data_g:
             msg = flexmsg.flex(i, data_g, progress_target)
@@ -312,6 +315,7 @@ def gathering(event):
     
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
+    i = data_g.index(None)
     
     if None in data_g:
         msg = flexmsg.flex(i, data_g, progress_target)
