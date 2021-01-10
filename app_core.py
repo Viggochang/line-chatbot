@@ -77,7 +77,7 @@ def app_core(event):
             cursor.execute(postgres_insert_query)
             conn.commit()
             #撈主揪的資料
-            postgres_select_query=f'''SELECT name,phone FROM group_data WHERE user_id = '{event.source.user_id}' AND condition!= 'initial' ORDER BY activity_no DESC;'''
+            postgres_select_query=f'''SELECT name,phone FROM group_data WHERE user_id = '{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
             cursor.execute(postgres_select_query)
             data_for_basicinfo = cursor.fetchone()
 
@@ -142,6 +142,8 @@ def app_core(event):
                             postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                             cursor.execute(postgres_update_query)
                             conn.commit()
+                            print(f"輸入資料 data_g:{data_g}")
+                            
                         except:
                             line_bot_api.reply_message(
                                 event.reply_token,
@@ -158,6 +160,7 @@ def app_core(event):
                             line_bot_api.reply_message(
                                 event.reply_token,
                                 msg)
+                            print("問下一題")
                                 
                         elif None not in data_g:
 
@@ -336,7 +339,7 @@ def pic(event):
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
     if data_g:
-        i = data.index(None)
+        i = data_g.index(None)
         print("i =",i)
         if i == 12:
             column_all = ['acrivity_no', 'activity_type', 'activity_name',
@@ -382,7 +385,7 @@ def pic(event):
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
                 cursor.execute(postgres_select_query)
                 data_g = cursor.fetchone()
-                if None not in data:
+                if None not in data_g:
                     msg.append(flexmsg.summary(data_g))
                     
                 line_bot_api.reply_message(
