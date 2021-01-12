@@ -379,7 +379,7 @@ def MoreInfoSummary(data):
 
 
 def flex(i, progress):
-    if i == 3 or i == "name"
+    if i == 3 or i == "name":
         msg = name(progress)
     elif i == 4 or i == "phone":
         msg = phone(progress)
