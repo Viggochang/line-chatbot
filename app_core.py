@@ -240,104 +240,104 @@ def gathering(event):
     if False:
         pass
     
-#    # 按下rich menu中"我要報名" 選擇其中一種活動類型後
-#    elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
-#
-#        DATABASE_URL = os.environ['DATABASE_URL']
-#        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-#        cursor = conn.cursor()
-#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{event.message.text}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
-#        cursor.execute(postgres_select_query)
-#        data_carousel = cursor.fetchall()
-#
-#        msg = flexmsg_r.carousel(postback_data, data_carousel)
-#        line_bot_api.reply_message(
-#            event.reply_token,
-#            msg
-#        )
-#
-#    elif "詳細資訊" in postback_data :
-#        record = postback_data.split("_")
-#        DATABASE_URL = os.environ['DATABASE_URL']
-#        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-#        cursor = conn.cursor()
-#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
-#        cursor.execute(postgres_select_query)
-#        data_tmp = cursor.fetchone()
-#        msg = flexmsg_r.MoreInfoSummary(data_tmp)
-#
-#        line_bot_api.reply_message(
-#            event.reply_token,
-#            msg
-#        )
-#
-#    elif '立即報名' in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
-#        record = postback_data.split("_")
-#        #record[0]:立即報名 record[1]：活動代號 record[2]:活動名稱
-#
-#        #把只創建卻沒有寫入資料的列刪除
-#        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-#        cursor.execute(postgres_delete_query)
-#        conn.commit()
-#        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-#        cursor.execute(postgres_delete_query)
-#        conn.commit()
-#
-#        #創建一列
-#        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_name ) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}');"""
-#        cursor.execute(postgres_insert_query)
-#        conn.commit()
-#
-#        #撈報團者的資料
-#        postgres_select_query=f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
-#        cursor.execute(postgres_select_query)
-#        data_for_basicinfo = cursor.fetchone()
-#        print("data_for_basicinfo = ",data_for_basicinfo)
-#
-#        #審核電話
-#        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
-#        cursor.execute(postgres_select_query)
-#        phone_registration = cursor.fetchall()
-#
-#        # 取出使用者正在填寫的那一列
-#        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-#        cursor.execute(postgres_select_query)
-#        data_r = cursor.fetchone()
-#        i_r = data_r.index(None)
-#        print(f"count none in data_r = {data_r.count(None)}")
-#        print(f"i_r = {i_r}")
-#
-#        if data_for_basicinfo:
-#            phone = data_for_basicinfo[1]
-#
-#            if (f'{phone}',) in phone_registration:  # 該使用者已報名此活動
-#
-#                msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
-#                line_bot_api.reply_message(
-#                    event.reply_token,
-#                    msg
-#                )
-#
-#            else:
-#                # 已有報名紀錄則直接帶入先前資料
-#                postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-#                cursor.execute(postgres_update_query)
-#                conn.commit()
-#                postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-#                cursor.execute(postgres_select_query)
-#                data_r = cursor.fetchone()
-#                msg = flexmsg_r.summary_for_attend(data_r)
-#                line_bot_api.reply_message(
-#                    event.reply_token,
-#                    msg
-#                )
-#        else:
-#            # 無報名紀錄, 重新填寫資料
-#            msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
-#            line_bot_api.reply_message(
-#                event.reply_token,
-#                msg
-#            )
+    # 按下rich menu中"我要報名" 選擇其中一種活動類型後
+    elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
+
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = conn.cursor()
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{event.message.text}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+        cursor.execute(postgres_select_query)
+        data_carousel = cursor.fetchall()
+
+        msg = flexmsg_r.carousel(postback_data, data_carousel)
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
+
+    elif "詳細資訊" in postback_data :
+        record = postback_data.split("_")
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = conn.cursor()
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
+        cursor.execute(postgres_select_query)
+        data_tmp = cursor.fetchone()
+        msg = flexmsg_r.MoreInfoSummary(data_tmp)
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
+
+    elif '立即報名' in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
+        record = postback_data.split("_")
+        #record[0]:立即報名 record[1]：活動代號 record[2]:活動名稱
+
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+
+        #創建一列
+        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_name ) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}');"""
+        cursor.execute(postgres_insert_query)
+        conn.commit()
+
+        #撈報團者的資料
+        postgres_select_query=f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
+        cursor.execute(postgres_select_query)
+        data_for_basicinfo = cursor.fetchone()
+        print("data_for_basicinfo = ",data_for_basicinfo)
+
+        #審核電話
+        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
+        cursor.execute(postgres_select_query)
+        phone_registration = cursor.fetchall()
+
+        # 取出使用者正在填寫的那一列
+        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_select_query)
+        data_r = cursor.fetchone()
+        i_r = data_r.index(None)
+        print(f"count none in data_r = {data_r.count(None)}")
+        print(f"i_r = {i_r}")
+
+        if data_for_basicinfo:
+            phone = data_for_basicinfo[1]
+
+            if (f'{phone}',) in phone_registration:  # 該使用者已報名此活動
+
+                msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    msg
+                )
+
+            else:
+                # 已有報名紀錄則直接帶入先前資料
+                postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+                cursor.execute(postgres_update_query)
+                conn.commit()
+                postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                cursor.execute(postgres_select_query)
+                data_r = cursor.fetchone()
+                msg = flexmsg_r.summary_for_attend(data_r)
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    msg
+                )
+        else:
+            # 無報名紀錄, 重新填寫資料
+            msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
     
     else:
         # 開團時,填寫時間資料
