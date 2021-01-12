@@ -383,6 +383,8 @@ def flex(i, progress):
         msg = name(progress)
     elif i == 4 or i == "phone":
         msg = phone(progress)
+        
+    return msg
 
 def name(progress):
     name = FlexSendMessage(

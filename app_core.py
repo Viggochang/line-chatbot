@@ -298,8 +298,7 @@ def gathering(event):
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
         cursor.execute(postgres_select_query)
         phone_registration = cursor.fetchall()
-        
-        print(f"data_for_basicinfo:{data_for_basicinfo}")
+
         print(f"phone_registration:{phone_registration}")
             
         name = data_for_basicinfo[0]
