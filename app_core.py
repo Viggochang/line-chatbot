@@ -298,14 +298,6 @@ def gathering(event):
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
         cursor.execute(postgres_select_query)
         phone_registration = cursor.fetchall()
-
-        # 取出使用者正在填寫的那一列
-        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        data_r = cursor.fetchone()
-        i_r = data_r.index(None)
-        print(f"count none in data_r = {data_r.count(None)}")
-        print(f"i_r = {i_r}")
         
         print(f"data_for_basicinfo:{data_for_basicinfo}")
         print(f"phone_registration:{phone_registration}")
@@ -313,36 +305,35 @@ def gathering(event):
         name = data_for_basicinfo[0]
         phone = data_for_basicinfo[1]
         
-        if data_for_basicinfo:
-        
-            if (f'{phone}',) in phone_registration:  # 該使用者已報名此活動
-
-                msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    msg
-                )
-
-            else:
-                # 已有報名紀錄則直接帶入先前資料
-                postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-                cursor.execute(postgres_update_query)
-                conn.commit()
-                postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_select_query)
-                data_r = cursor.fetchone()
-                msg = flexmsg_r.summary_for_attend(data_r)
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    msg
-                )
+        if name != None and phone != None and phone not in phone_registration[0]:
+            # 已有報名紀錄則直接帶入先前資料
+            postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
+            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_select_query)
+            data_r = cursor.fetchone()
+            msg = flexmsg_r.summary_for_attend(data_r)
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
+    
         else:
-            # 無報名紀錄, 重新填寫資料
+            # 重新填寫報名資料
+            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_select_query)
+            data_r = cursor.fetchone()
+            i_r = data_r.index(None)
+            print(f"count none in data_r = {data_r.count(None)}")
+            print(f"i_r = {i_r}")
+        
             msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
             line_bot_api.reply_message(
                 event.reply_token,
                 msg
             )
+
     
     else:
         # 開團時,填寫時間資料
