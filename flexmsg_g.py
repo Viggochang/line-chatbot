@@ -27,23 +27,6 @@ activity_type = TextSendMessage(
                 action = MessageAction(label = "唱歌跳舞", text = "唱歌跳舞")
                 )
             ]))
-activity_type_for_attendee = TextSendMessage(
-    text = "請選擇活動類型",
-    quick_reply = QuickReply(
-        items = [
-            QuickReplyButton(
-                action = PostbackAction(label = "登山踏青", data = "登山踏青",  display_text = "登山踏青")
-                ),
-            QuickReplyButton(
-                action = PostbackAction(label = "桌遊麻將", data = "桌遊麻將", display_text = "桌遊麻將")
-                ),
-            QuickReplyButton(
-                action = PostbackAction(label = "吃吃喝喝", data = "吃吃喝喝", display_text = "吃吃喝喝")
-                ),
-            QuickReplyButton(
-                action = PostbackAction(label = "唱歌跳舞", data = "唱歌跳舞", display_text = "唱歌跳舞")
-                )
-            ]))
 
 # 給開團者用的
 def flex(i, data, progress):
