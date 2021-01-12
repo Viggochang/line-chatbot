@@ -308,9 +308,13 @@ def gathering(event):
         print(f"i_r = {i_r}")
         
         print(f"data_for_basicinfo:{data_for_basicinfo}")
+        print(f"phone_registration:{phone_registration}")
+            
+        name = data_for_basicinfo[0]
+        phone = data_for_basicinfo[1]
+        
         if data_for_basicinfo:
-            phone = data_for_basicinfo[1]
-
+        
             if (f'{phone}',) in phone_registration:  # 該使用者已報名此活動
 
                 msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
