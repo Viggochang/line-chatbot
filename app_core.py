@@ -246,7 +246,7 @@ def gathering(event):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = conn.cursor()
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{event.postback.data}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{postback_data}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
 
@@ -306,7 +306,8 @@ def gathering(event):
         i_r = data_r.index(None)
         print(f"count none in data_r = {data_r.count(None)}")
         print(f"i_r = {i_r}")
-
+        
+        print(f"data_for_basicinfo:{data_for_basicinfo}")
         if data_for_basicinfo:
             phone = data_for_basicinfo[1]
 
