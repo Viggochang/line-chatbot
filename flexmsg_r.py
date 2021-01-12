@@ -534,8 +534,10 @@ def summary_for_attend(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "attendee_name"
+                                action = PostbackAction(
+                                    label = "修改姓名",
+                                    data = "name",
+                                    display_text = "修改姓名"
                                 )
                             )
                         ]
@@ -563,8 +565,10 @@ def summary_for_attend(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "phone"
+                                action = PostbackAction(
+                                    label = "修改電話",
+                                    data = "phone",
+                                    display_text = "修改電話"
                                 )
                             )
                         ]
