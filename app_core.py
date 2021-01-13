@@ -308,6 +308,8 @@ def gathering(event):
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
     
+    
+    
     postback_data = event.postback.data
     
     if postback_data == "~cancel":
@@ -319,9 +321,6 @@ def gathering(event):
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
 
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        cursor = conn.cursor()
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{postback_data}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
@@ -334,9 +333,7 @@ def gathering(event):
 
     elif "詳細資訊" in postback_data :
         record = postback_data.split("_")
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        cursor = conn.cursor()
+        
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
         cursor.execute(postgres_select_query)
         data_tmp = cursor.fetchone()
@@ -365,7 +362,7 @@ def gathering(event):
         conn.commit()
 
         #撈報團者的資料
-        postgres_select_query=f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
+        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ",data_for_basicinfo)
@@ -387,6 +384,7 @@ def gathering(event):
             conn.commit()
             postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_select_query)
+            
             data_r = cursor.fetchone()
             msg = flexmsg_r.summary_for_attend(data_r)
             line_bot_api.reply_message(
@@ -398,6 +396,7 @@ def gathering(event):
             # 重新填寫報名資料
             postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_select_query)
+            
             data_r = cursor.fetchone()
             i_r = data_r.index(None)
             print(f"count none in data_r = {data_r.count(None)}")
@@ -413,10 +412,6 @@ def gathering(event):
         column = postback_data.split("_", 1)[1]
 
         if column in ["attendee_name", "phone"]:
-
-            postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
 
             msg = flexmsg_r.flex(column, [2, 0, 0, 0, 0, 0, 1, 1])
             line_bot_api.reply_message(
@@ -531,6 +526,7 @@ def gathering(event):
                 
         cursor.close()
         conn.close()
+        
 
 @handler.add(MessageEvent, message = LocationMessage)
 def gathering(event):
