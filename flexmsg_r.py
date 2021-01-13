@@ -538,7 +538,7 @@ def summary_for_attend(data):
                                 weight = "bold",
                                 action = PostbackAction(
                                     label = "修改姓名",
-                                    data = "修改_AttendeeName",
+                                    data = "修改報名_AttendeeName",
                                     display_text = "修改姓名"
                                 )
                             )
@@ -569,7 +569,7 @@ def summary_for_attend(data):
                                 weight = "bold",
                                 action = PostbackAction(
                                     label = "修改電話",
-                                    data = "修改_phone",
+                                    data = "修改報名_phone",
                                     display_text = "修改電話"
                                 )
                             )
