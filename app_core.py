@@ -425,10 +425,6 @@ def gathering(event):
 #                TextSendMessage(text= "請輸入想修改的欄位名稱")
 #            )
         
-
-    '''
-    [我要開團]
-    '''
     else:
         # 開團時,填寫時間資料
         i = data_g.index(None)
