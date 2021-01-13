@@ -310,9 +310,7 @@ def gathering(event):
     if postback_data == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
         
-    '''
-    [我要報名]
-    '''
+
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
 
