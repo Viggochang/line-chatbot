@@ -410,9 +410,9 @@ def gathering(event):
             )
             
     elif "修改報名" in postback_data:
-        column = postback_data.split("_")[1]
+        column = postback_data.split("_", 1)[1]
 
-        if column in ["AttendeeName", "phone"]:
+        if column in ["attendee_name", "phone"]:
 
             postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
