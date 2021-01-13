@@ -270,14 +270,14 @@ def app_core(event):
                 if None in data_r:
                 
                     i_r = data_r.index(None)
-                    msg = flexmsg.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
+                    msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
                     line_bot_api.reply_message(
                         event.reply_token,
                         msg
                     )
                 #出現summary
                 elif None not in data_r:
-                    msg = flexmsg.summary_for_attend(data_r)
+                    msg = flexmsg_r.summary_for_attend(data_r)
                     line_bot_api.reply_message(
                         event.reply_token,
                         msg
