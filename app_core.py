@@ -408,15 +408,15 @@ def gathering(event):
         column = postback_data.split("_")[1]
         
         if column in ("AttendeeName", "phone"):
-        postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
+            postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
 
-        msg = flexmsg_r.flex(column, [2, 0, 0, 0, 0, 0, 1, 1])
-        line_bot_api.reply_message(
-            event.reply_token,
-            msg
-        )
+            msg = flexmsg_r.flex(column, [2, 0, 0, 0, 0, 0, 1, 1])
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
         
         else :
             line_bot_api.reply_message(
