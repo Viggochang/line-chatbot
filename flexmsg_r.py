@@ -443,7 +443,7 @@ def phone(progress):
               ]
             ),
             #進度條的本體
-            footer=BoxComponent(
+            footer = BoxComponent(
                 layout = "vertical",
                 margin = "md",
                 contents = [TextComponent(text = f"{progress[7]} / {progress[0]} ", weight = "bold", size = "md"),
@@ -598,9 +598,10 @@ def summary_for_attend(data):
                         margin = "none",
                         color = "#229C8F",
                         gravity = "bottom",
-                        action = MessageAction(
+                        action = PostbackAction(
                             label = "取消報名",
-                            text = "取消"
+                            data = "~cancel",
+                            display_text = "取消報名"
                         )
                     )
                 ]
