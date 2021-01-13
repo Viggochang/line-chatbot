@@ -220,9 +220,9 @@ def app_core(event):
                             event.reply_token,
                             TextSendMessage(text= "請輸入想修改的欄位名稱")
                         )
-#        '''
-#        [我要報名]
-#        '''
+        '''
+        [我要報名]
+        '''
         elif data_r:
         
             if None in data_r:
