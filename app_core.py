@@ -233,56 +233,56 @@ def app_core(event):
                 phone_registration = cursor.fetchall() #取得報名該團的電話列表
                         
                     #當進行到輸入電話時(i_r==4)，開始檢驗是否重複
-                    if i_r == 4 and record in phone_registration[0]:
-                        #如果使用者輸入的電話重複則報名失敗，刪掉原本創建的列
-                        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                        cursor.execute(postgres_delete_query)
+                if i_r == 4 and record in phone_registration[0]:
+                    #如果使用者輸入的電話重複則報名失敗，刪掉原本創建的列
+                    postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                    cursor.execute(postgres_delete_query)
+                    conn.commit()
+
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        [TextSendMessage(text = "不可重複報名 請重新選擇想要報名的活動類型"), flexmsg_r.activity_type_for_attendee]
+                    )
+                    #~~~這邊感覺可以設計一個flex_msg，出現[返回]按鈕，重新回到報名第一步(按鈕回傳~join)
+
+                else:
+                    try:
+                        # 輸入資料型態正確則更新
+                        postgres_update_query = f"""UPDATE registration_data SET {column_all_registration[i_r]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                        cursor.execute(postgres_update_query)
                         conn.commit()
-
+       
+                    except:
+                        # 輸入資料型態錯誤則回應 "請重新輸入"
                         line_bot_api.reply_message(
                             event.reply_token,
-                            [TextSendMessage(text = "不可重複報名 請重新選擇想要報名的活動類型"), flexmsg_r.activity_type_for_attendee]
+                            TextSendMessage(text = "請重新輸入")
                         )
-                        #~~~這邊感覺可以設計一個flex_msg，出現[返回]按鈕，重新回到報名第一步(按鈕回傳~join)
 
-                    else:
-                        try:
-                            # 輸入資料型態正確則更新
-                            postgres_update_query = f"""UPDATE registration_data SET {column_all_registration[i_r]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                            cursor.execute(postgres_update_query)
-                            conn.commit()
-           
-                        except:
-                            # 輸入資料型態錯誤則回應 "請重新輸入"
-                            line_bot_api.reply_message(
-                                event.reply_token,
-                                TextSendMessage(text = "請重新輸入")
-                            )
-
-                    # 檢查是否完成所有問題
-                    postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                    cursor.execute(postgres_select_query)
-                    data_r = cursor.fetchone() #準備寫入報名資料的那一列
-                    print("i_r = ",i_r)
-                    print("data_r = ",data_r)
+                # 檢查是否完成所有問題
+                postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                cursor.execute(postgres_select_query)
+                data_r = cursor.fetchone() #準備寫入報名資料的那一列
+                print("i_r = ",i_r)
+                print("data_r = ",data_r)
 
 
-                    if None in data_r:
-                    
-                        i_r = data_r.index(None)
-                        msg = flexmsg.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg
-                        )
-                    #出現summary
-                    elif None not in data_r:
-                        msg = flexmsg.summary_for_attend(data_r)
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg
-                        )
-        
+                if None in data_r:
+                
+                    i_r = data_r.index(None)
+                    msg = flexmsg.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        msg
+                    )
+                #出現summary
+                elif None not in data_r:
+                    msg = flexmsg.summary_for_attend(data_r)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        msg
+                    )
+    
 #處理postback 事件，例如datetime picker
 @handler.add(PostbackEvent)
 def gathering(event):
