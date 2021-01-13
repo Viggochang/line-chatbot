@@ -127,6 +127,9 @@ def app_core(event):
         
         activity_type = ['登山踏青', '桌遊麻將', '吃吃喝喝', '唱歌跳舞']
         
+        '''
+        [我要開團]
+        '''
         if data_g:
             progress_target = progress_list_halfgroupdata
             
@@ -217,7 +220,9 @@ def app_core(event):
                             event.reply_token,
                             TextSendMessage(text= "請輸入想修改的欄位名稱")
                         )
-                        
+        '''
+        [我要報名]
+        '''
         elif data_r:
         
             if None in data_r:
@@ -306,7 +311,10 @@ def gathering(event):
     
     if postback_data == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
-    
+        
+    '''
+    [我要報名]
+    '''
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
 
@@ -338,7 +346,7 @@ def gathering(event):
             msg
         )
 
-    elif '立即報名' in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
+    elif "立即報名" in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
         record = postback_data.split("_")
         #record[0]:立即報名 record[1]：活動代號 record[2]:活動名稱
 
@@ -399,8 +407,31 @@ def gathering(event):
                 event.reply_token,
                 msg
             )
+            
+    elif "修改" in postback_data:
+        column = postback_data.split("_")[1]
+        
+        if column in ("AttendeeName", "phone"):
+        postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
 
-    
+        msg = flexmsg_r.flex(column, [2, 0, 0, 0, 0, 0, 1, 1])
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
+        
+        else :
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= "請輸入想修改的欄位名稱")
+            )
+        
+
+    '''
+    [我要開團]
+    '''
     else:
         # 開團時,填寫時間資料
         i = data_g.index(None)

@@ -379,7 +379,7 @@ def MoreInfoSummary(data):
 
 
 def flex(i, progress):
-    if i == 3 or i == "name":
+    if i == 3 or i == "AttendeeName":
         msg = name(progress)
     elif i == 4 or i == "phone":
         msg = phone(progress)
@@ -538,7 +538,7 @@ def summary_for_attend(data):
                                 weight = "bold",
                                 action = PostbackAction(
                                     label = "修改姓名",
-                                    data = "name",
+                                    data = "修改_AttendeeName",
                                     display_text = "修改姓名"
                                 )
                             )
@@ -569,7 +569,7 @@ def summary_for_attend(data):
                                 weight = "bold",
                                 action = PostbackAction(
                                     label = "修改電話",
-                                    data = "phone",
+                                    data = "修改_phone",
                                     display_text = "修改電話"
                                 )
                             )
