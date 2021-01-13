@@ -50,8 +50,6 @@ def flex(i, data, progress):
         msg = name(progress)
     elif i == 14 or i == "phone":
         msg = phone(progress)
-    elif i == 15 or i == "mail":
-        msg = mail
     elif i == "activity_type":
         msg = activity_type
     else:
@@ -455,23 +453,23 @@ def phone(progress):
     )
     return phone
 
-mail = FlexSendMessage(
-    alt_text = "請提供信箱",
-    contents = BubbleContainer(
-        direction = "ltr",
-        body = BoxComponent(
-          layout = "vertical",
-          contents = [
-          TextComponent(
-              text = "請提供可以聯絡您的電子信箱",
-              size = "lg",
-              align = "center",
-              weight = "bold"
-              )
-          ]
-        )
-    )
-)
+#mail = FlexSendMessage(
+#    alt_text = "請提供信箱",
+#    contents = BubbleContainer(
+#        direction = "ltr",
+#        body = BoxComponent(
+#          layout = "vertical",
+#          contents = [
+#          TextComponent(
+#              text = "請提供可以聯絡您的電子信箱",
+#              size = "lg",
+#              align = "center",
+#              weight = "bold"
+#              )
+#          ]
+#        )
+#    )
+#)
 
 
 def summary(data):
