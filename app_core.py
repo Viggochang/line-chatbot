@@ -426,9 +426,9 @@ def gathering(event):
 #            )
         
 
-    """
-    [我要開團]
-    """
+        '''
+        [我要開團]
+        '''
     else:
         # 開團時,填寫時間資料
         i = data_g.index(None)
