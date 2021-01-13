@@ -303,6 +303,7 @@ def gathering(event):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
+    
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
@@ -429,6 +430,56 @@ def gathering(event):
                 TextSendMessage(text= "請輸入想修改的欄位名稱")
             )
         
+    elif "確認報名" in postback_data:
+        #找到他報的團的編號activity_no
+        postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_select_query)
+        activity_no = cursor.fetchone()[0]
+
+        #找報該團現在的報名人數attendee並更新(+1)
+        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
+        cursor.execute(postgres_select_query)
+        temp = cursor.fetchone()
+        attendee = temp[0]
+        condition = temp[1]
+        if condition == "closed":
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = "報名失敗")
+            )
+            
+        else:
+            attendee += 1
+
+            #將更新的報名人數attendee記錄到報名表單group_data裡
+            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
+
+            #檢查報名人數attendee是否達上限people
+            postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
+            cursor.execute(postgres_select_query)
+            people = cursor.fetchone()[0]
+
+            if attendee == people:
+                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
+                cursor.execute(postgres_update_query)
+                conn.commit()
+
+
+            #將報名表單的condition改成closed
+            postgres_update_query = f"""UPDATE registration_data SET condition = 'closed' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = "報名成功！")
+            )
+
+            cursor.close()
+            conn.close()
+
 
 ## ================
 ## 我要開團

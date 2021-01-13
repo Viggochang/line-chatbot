@@ -586,9 +586,10 @@ def summary_for_attend(data):
                         margin = "none",
                         color = "#229C8F",
                         gravity = "bottom",
-                        action = MessageAction(
+                        action = PostbackAction(
                             label = "確認報名",
-                            text = "確認報名"
+                            data = "確認報名",
+                            display_text = "確認報名"
                         )
                     ),
                     SeparatorComponent(),
