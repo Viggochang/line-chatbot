@@ -9,7 +9,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 
 import psycopg2
 import datetime as dt
-import flexmsg_g, flexmsg_r
+import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
 
 app = Flask(__name__)
@@ -57,6 +57,8 @@ def app_core(event):
 
     if event.message.text == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
+        
+        
 
     elif event.message.text == "我要開團":
         line_bot_api.reply_message(
@@ -106,6 +108,39 @@ def app_core(event):
         cursor.execute(postgres_delete_query)
         conn.commit()
         
+    elif event.message.text == "我的開團":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_glist.list_type
+        )
+        
+        print("查詢開團紀錄")
+                
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        
+    elif event.message.text == "我的報名":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_rlist.list_type
+        )
+        
+        print("查詢報名紀錄")
+                
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        
+    # 開始回答問題流程
     else:
         postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
@@ -365,7 +400,7 @@ def gathering(event):
         postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
-        print("data_for_basicinfo = ",data_for_basicinfo)
+        print("data_for_basicinfo = ", data_for_basicinfo)
 
         #審核電話
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
