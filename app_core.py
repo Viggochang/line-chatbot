@@ -546,6 +546,44 @@ def gathering(event):
             event.reply_token,
             msg
             )
+            
+    #主揪查看報名者資訊(報名者暱稱、電話)
+    elif "報名者資訊" in postback_data:
+        activity_no = postback_data.split("_")[1]
+
+        postgres_select_query = f"""SELECT activity_name FROM registration_data WHERE activity_no = '{activity_no}';"""
+        cursor.execute(postgres_select_query)
+
+#         try:
+        temp = cursor.fetchone()
+        if temp:
+            activity_name = "".join(temp)
+            print("activity_name = ", activity_name)
+
+            postgres_select_query = f"""SELECT attendee_name, phone FROM registration_data WHERE activity_no = '{activity_no}' ;"""
+            cursor.execute(postgres_select_query)
+            attendee_data = cursor.fetchall()
+            print("attendee_data = ", attendee_data)
+
+            attendee_lst = []
+            for row in attendee_data:
+                attendee_lst.append(" ".join(row))
+
+            msg = f"{activity_name}"+"\n報名者資訊："
+            for attendee in attendee_lst:
+                msg += f"\n{attendee}"
+    #         except:
+    #             msg = "本活動目前無人報名"
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = msg)
+                )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = '目前無人報名')
+                )
        
 ## ================
 ## 我的報名
