@@ -11,14 +11,14 @@ import datetime as dt
 import json
 
 list_type = TextSendMessage(
-    text = "請選擇查詢[已結束報名紀錄]或[正在進行報名紀錄]",
+    text = "請選擇查詢 [歷史報名紀錄] 或 [我報名的團]",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "已結束報名紀錄", data = "rlist_已結束", display_text = "查詢[已結束報名紀錄]")
+                action = PostbackAction(label = "歷史報名紀錄", data = "rlist_已結束", display_text = "查詢[歷史報名紀錄]")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "正在進行報名紀錄", data = "rlist_進行中", display_text = "查詢[正在進行報名紀錄]")
+                action = PostbackAction(label = "我報名的團", data = "rlist_進行中", display_text = "查詢[我報名的團]")
                 )
             ]))
 
