@@ -534,6 +534,24 @@ def gathering(event):
         msg
         )
         
+    elif "開團資訊" in postback_data:
+        activity_no = postback_data.split("_")[1]
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
+        cursor.execute(postgres_select_query)
+        group_data = cursor.fetchone()
+        print("group_data = ", group_data)
+        
+        msg = flexmsg.MyGroupInfo(group_data)
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+            )
+       
+## ================
+## 我的報名
+## ================
+    elif "rlist" in postback_data:
+
 
 ## ================
 ## 我要開團

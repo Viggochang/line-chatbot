@@ -32,7 +32,7 @@ def glist(data, type):
         #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
         for row in data:
             
-            activity =f'''{{
+            activity = f'''{{
               "type": "box",
               "layout": "horizontal",
               "contents": [
@@ -51,7 +51,7 @@ def glist(data, type):
                 }},
                 {{
                   "type": "text",
-                  "text": "{row[2]}",
+                  "text": "{row[2]}", #activity_name
                   "flex": 9,
                   "size": "md",
                   "align" :  "start",
@@ -59,8 +59,8 @@ def glist(data, type):
                   "weight" :  "regular",
                   "margin": "sm",
                   "action": {{
-                  "type": "postback",
-                  "data": "開團資訊 {row[0]}"
+                    "type": "postback",
+                    "data": "開團資訊_{row[0]}" #activity_no
                   }}
                     
                 }}
@@ -128,6 +128,110 @@ def glist(data, type):
         contents = index
         )
     return msg
+    
+
+def MyGroupInfo(data):
+    if "https://i.imgur.com/" not in data[12]:
+        link="https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+    else:
+        link=f"{data[12]}"
+    bubble = BubbleContainer(
+        size = "kilo",
+        direction = "ltr",
+        hero = ImageComponent(
+            size = "full",
+            aspectMode = "cover",
+            aspectRatio = "320:213",
+            url = f"{link}"
+            ),
+        body = BoxComponent(
+            layout = "vertical",
+            contents = [
+                TextComponent(
+                    text = f"{data[2]}",
+                    weight = "bold",
+                    size = "md",
+                    wrap = True
+                    ),
+                BoxComponent(
+                    layout = "vertical",
+                    contents = [
+                        BoxComponent(
+                            layout = "vertical",
+                            spacing = "sm",
+                            contents = [
+                                TextComponent(
+                                    text = f"地點 {data[5]}",
+                                    wrap = True,
+                                    size = "sm",
+                                    flex = 5,
+                                    ),
+                                TextComponent(
+                                    text = f"時間 {data[3]} {str(data[4])[:5]}",
+                                    size = "sm",
+                                    ),
+                                TextComponent(
+                                    text = f"費用 {data[9]}",
+                                    size = "sm",
+                                    ),
+                                TextComponent(
+                                    text = f"已報名人數 {data[15]}/{data[8]}",
+                                    size = "sm",
+                                    ),
+                                TextComponent(
+                                    text = f"狀態 {data[16]}",
+                                    size = "sm",
+                                    )
+                                ]
+                            )
+                        ]
+                    )
+                ],
+            paddingAll = "13px",
+            spacing = "md",
+            ),
+        footer = BoxComponent(
+            layout = "horizontal",
+            contents = [
+                ButtonComponent(
+                    style = "primary",
+                    action = PostbackAction(
+                        label = "報名者資訊",
+                        data = f"報名者資訊_{data[0]}",  #activity_no
+                        display_text = "查看報名者資訊"
+                        ),
+                    height = "sm",
+                    margin = "none",
+                    gravity = "bottom",
+                    color = "#A7D5E1"
+                    ),
+                SeparatorComponent(
+                    margin = "sm",
+                    color = "#FFFFFF"
+                    ),
+                ButtonComponent(
+                    style = "primary",
+                    action = PostbackAction(
+                        label = "結束報名",
+                        data = f"結束報名_{data[0]}",  #activity_no
+                        display_text = "結束報名"
+                        ),
+                    height = "sm",
+                    margin = "none",
+                    gravity = "bottom",
+                    color = "#A7D5E1"
+                    )
+                ]
+                )
+            )
+    
+    msg = FlexSendMessage(
+        alt_text = "我的開團資訊",
+        contents = bubble
+            )
+    return msg
+    
+    
 
 # 給開團者用的
 def flex(i, data, progress):
