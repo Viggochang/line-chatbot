@@ -23,6 +23,111 @@ list_type = TextSendMessage(
             ]))
 
 
+def glist(data, type):
+
+    if data:
+        
+        group_lst = []
+
+        #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
+        for row in data:
+            
+            activity =f'''{{
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {{
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                    {{
+                        "type": "icon",
+                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+                        "flex": 1,
+                        "align": "start",
+                        "size": "sm"
+                     }}
+                     ]
+                }},
+                {{
+                  "type": "text",
+                  "text": "{row[2]}",
+                  "flex": 9,
+                  "size": "md",
+                  "align" :  "start",
+                  "color" : "#227C9D",
+                  "weight" :  "regular",
+                  "margin": "sm",
+                  "action": {{
+                  "type": "postback",
+                  "data": "開團資訊 {row[0]}"
+                  }}
+                    
+                }}
+              ]
+            }}'''
+
+
+            group_lst.append(json.loads(activity))
+
+            if len(group_lst) > 7:
+                break
+            
+        index = BubbleContainer(
+            size = "kilo",
+            direction = "ltr",
+            header = BoxComponent(
+            layout = "horizontal",
+            contents = [
+                TextComponent(
+                    text =  f"我的開團列表 ({type})",
+                    size =  "lg",
+                    weight =  "bold",
+                    color =  "#AAAAAA"
+                )
+            ]
+            ),
+            body = BoxComponent(
+                layout = "vertical",
+                spacing =  "md",
+                contents = group_lst
+            ),
+            footer = BoxComponent(
+                layout = "horizontal",
+                contents = [
+                    ButtonComponent(
+                        action = PostbackAction(
+                            label =  "上一頁",
+                            data =  "backward"
+                        ),
+                        height = "sm",
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
+                    ),
+                    SeparatorComponent(
+                        margin = "sm",
+                        color = "#FFFFFF"
+                    ),
+                    ButtonComponent(
+                        action = PostbackAction(
+                        label = "下一頁",
+                        data =  "forward"
+                        ),
+                        height = "sm",
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
+                    )
+                ]
+            )
+        )
+
+    msg = FlexSendMessage(
+        alt_text = "我的開團",
+        contents = index
+        )
+    return msg
 
 # 給開團者用的
 def flex(i, data, progress):

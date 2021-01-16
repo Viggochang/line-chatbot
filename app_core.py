@@ -509,6 +509,32 @@ def gathering(event):
 
 
 ## ================
+## 我的開團
+## ================
+
+    elif "glist" in postback_data:
+        type = postback_data.split("_")[1]
+        
+        if type == "已結束":
+            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
+        elif type == "進行中"
+            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
+            
+        cursor.execute(postgres_select_query)
+        group_data = cursor.fetchall()
+        
+        if group_data == None:
+            msg =  f"找不到{type}的開團紀錄！"
+        else:
+            msg = flexmsg_glist.glist(group_data, type)
+            
+        line_bot_api.reply_message(
+        event.reply_token,
+        msg
+        )
+        
+
+## ================
 ## 我要開團
 ## ================
     else:
