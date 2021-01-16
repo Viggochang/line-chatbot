@@ -522,9 +522,9 @@ def gathering(event):
             
         cursor.execute(postgres_select_query)
         group_data = cursor.fetchall()
-        print(group_data)
+        print(f"group_data:{group_data}")
         
-        if group_data == None:
+        if len(group_data) == 0:
             msg =  f"找不到{type}的開團紀錄！"
         else:
             msg = flexmsg_glist.glist(group_data, type)
