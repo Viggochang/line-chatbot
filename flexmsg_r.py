@@ -32,9 +32,9 @@ activity_type_for_attendee = TextSendMessage(
 def carousel(act_type, data):
 
     if data:
-        tem=[]
+        temp = []
         for row in data:
-            te=BoxComponent(
+            te = BoxComponent(
                 layout = "horizontal",
                 contents = [
                     BoxComponent(
@@ -70,8 +70,8 @@ def carousel(act_type, data):
                     )
                 ]
             )
-            tem.append(te)
-            if len(tem)>8:
+            temp.append(te)
+            if len(temp) > 8:
                 break
                 
         index = BubbleContainer(
@@ -91,7 +91,7 @@ def carousel(act_type, data):
             body = BoxComponent(
                 layout = "vertical",
                 spacing =  "md",
-                contents = tem
+                contents = temp
             ),
             footer=BoxComponent(
                 layout = "horizontal",
@@ -128,7 +128,8 @@ def carousel(act_type, data):
                 link = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
             else:
                 link = f"{row[12]}"
-            print("row[12] = ",row[12],"link = ",link)
+                
+            print("row[12] = ", row[12], "link = ",link)
             temp = BubbleContainer(
                         size = "kilo",
                         direction = "ltr",
@@ -217,7 +218,7 @@ def carousel(act_type, data):
         bubbles=[BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
-                size="xs",
+                size = "xs",
                 layout = "vertical",
                 spacing =  "md",
                 contents = [

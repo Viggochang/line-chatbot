@@ -38,12 +38,11 @@ def glist(data, type):
              contents = [
                  BoxComponent(
                      layout =  "horizontal",
+                     flex = 1,
                      contents = [
-                         ImageComponent(
+                         IconComponent(
                              url =  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-                             size =  "sm",
-                             flex = 1
-                        
+                             size =  "sm"
                          ),
                          TextComponent(
                              text =  f"{row[2]}", #activity_name
