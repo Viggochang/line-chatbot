@@ -541,7 +541,7 @@ def gathering(event):
         group_data = cursor.fetchone()
         print("group_data = ", group_data)
         
-        msg = flexmsg.MyGroupInfo(group_data)
+        msg = flexmsg_glist.MyGroupInfo(group_data)
         line_bot_api.reply_message(
             event.reply_token,
             msg
