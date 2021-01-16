@@ -551,7 +551,7 @@ def gathering(event):
 ## 我的報名
 ## ================
     elif "rlist" in postback_data:
-
+        pass
 
 ## ================
 ## 我要開團
