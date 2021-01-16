@@ -584,6 +584,18 @@ def gathering(event):
                 event.reply_token,
                 TextSendMessage(text = '目前無人報名')
                 )
+    #主揪提早關團
+    elif "結束報名" in postback_data:
+        activity_no = postback_data.split("_")[1]
+        
+        postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = '{activity_no}';"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "成功結束報名！")
+            )
        
 ## ================
 ## 我的報名
