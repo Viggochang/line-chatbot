@@ -517,7 +517,7 @@ def gathering(event):
         
         if type == "已結束":
             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
-        elif type == "進行中"
+        elif type == "進行中":
             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
             
         cursor.execute(postgres_select_query)
