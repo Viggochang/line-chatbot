@@ -60,7 +60,7 @@ def glist(data, type):
                   "margin": "sm",
                   "action": {{
                     "type": "postback",
-                    "data": "開團資訊_{row[0]}" #activity_no
+                    "data": "開團資訊 {row[0]}" #activity_no
                   }}
                     
                 }}

@@ -535,7 +535,7 @@ def gathering(event):
         )
         
     elif "開團資訊" in postback_data:
-        activity_no = postback_data.split("_")[1]
+        activity_no = postback_data.split()[1]
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
         cursor.execute(postgres_select_query)
         group_data = cursor.fetchone()
