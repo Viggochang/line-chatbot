@@ -54,7 +54,8 @@ def glist(data, type):
                              margin= "sm",
                              flex = 9,
                              action = PostbackAction(
-                                 data = f"開團資訊_{row[0]}"  #activity_no
+                                 data = f"開團資訊_{row[0]}",  #activity_no
+                                 display_text = f"查看 {row[2]} 的詳細資訊"
                                  )
                              )
                          ]
