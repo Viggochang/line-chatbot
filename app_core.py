@@ -525,7 +525,7 @@ def gathering(event):
         print(f"group_data:{group_data}")
         
         if len(group_data) == 0:
-            msg =  f"找不到{type}的開團紀錄！"
+            msg =  TextSendMessage(text = f"找不到{type}的開團紀錄！")
         else:
             msg = flexmsg_glist.glist(group_data, type)
             
