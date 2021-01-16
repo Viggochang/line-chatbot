@@ -32,43 +32,37 @@ def glist(data, type):
         #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
         for row in data:
             
-            activity = f'''{{
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {{
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                    {{
-                        "type": "icon",
-                        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-                        "flex": 1,
-                        "align": "start",
-                        "size": "sm"
-                     }}
-                     ]
-                }},
-                {{
-                  "type": "text",
-                  "text": "{row[2]}", #activity_name
-                  "flex": 9,
-                  "size": "md",
-                  "align" :  "start",
-                  "color" : "#227C9D",
-                  "weight" :  "regular",
-                  "margin": "sm",
-                  "action": {{
-                    "type": "postback",
-                    "data": "開團資訊 {row[0]}" #activity_no
-                  }}
-                    
-                }}
-              ]
-            }}'''
+            activity = BoxComponent(
+             layout = "horizontal",
+             flex = 1,
+             contents = [
+                 BoxComponent(
+                     layout =  "horizontal",
+                     contents = [
+                         ImageComponent(
+                             url =  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+                             size =  "sm",
+                             flex = 1
+                        
+                         ),
+                         TextComponent(
+                             text =  f"{row[2]}", #activity_name
+                             align =  "start",
+                             size = "md",
+                             color = "#227C9D",
+                             weight =  "regular",
+                             margin= "sm",
+                             flex = 9,
+                             action = PostbackAction(
+                                 data = f"開團資訊_{row[0]}"  #activity_no
+                                 )
+                             )
+                         ]
+                     )
+                 ]
+             )
 
-
-            group_lst.append(json.loads(activity))
+            group_lst.append(activity)
 
             if len(group_lst) > 7:
                 break
@@ -134,7 +128,8 @@ def MyGroupInfo(data):
     if "https://i.imgur.com/" not in data[12]:
         link="https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
     else:
-        link=f"{data[12]}"
+        link = f"{data[12]}"
+        
     bubble = BubbleContainer(
         size = "kilo",
         direction = "ltr",
