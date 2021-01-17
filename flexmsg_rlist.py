@@ -95,7 +95,8 @@ def rlist(data, type):
                     ButtonComponent(
                         action = PostbackAction(
                             label =  "上一頁",
-                            data =  "backward"
+                            data =  "backward_",
+                            display_text = "上一頁"
                         ),
                         height = "sm",
                         style = "primary",
@@ -108,8 +109,9 @@ def rlist(data, type):
                     ),
                     ButtonComponent(
                         action = PostbackAction(
-                        label = "下一頁",
-                        data =  "forward"
+                            label = "下一頁",
+                            data = "forward",
+                            display_text = "下一頁"
                         ),
                         height = "sm",
                         style = "primary",

@@ -86,10 +86,10 @@ def carousel(act_type, data, i = 0):
             layout = "horizontal",
             contents = [
                 TextComponent(
-                    text =  f"{act_type}-揪團列表",
-                    size =  "lg",
-                    weight =  "bold",
-                    color =  "#AAAAAA"
+                    text = f"{act_type}-揪團列表",
+                    size = "lg",
+                    weight = "bold",
+                    color = "#AAAAAA"
                 )
             ]
             ),
@@ -137,7 +137,7 @@ def carousel(act_type, data, i = 0):
             else:
                 link = f"{row[12]}"
                 
-            print("row[12] = ", row[12], "link = ",link)
+            print("相片連結row[12] = ", row[12], "link = ",link)
             main = BubbleContainer(
                         size = "kilo",
                         direction = "ltr",

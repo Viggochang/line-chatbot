@@ -23,12 +23,16 @@ list_type = TextSendMessage(
             ]))
 
 
-def glist(data, type):
+def glist(data, type, i = 0):
 
+    if i < 0:
+        i = 0
+    elif i > len(data):
+        i -= 8
+        
     group_lst = []
-
     #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
-    for row in data:
+    for row in data[i:]:
         
         activity = BoxComponent(
          layout = "horizontal",
@@ -61,7 +65,7 @@ def glist(data, type):
 
         group_lst.append(activity)
 
-        if len(group_lst) > 7:
+        if len(group_lst) >= 8:
             break
         
     index = BubbleContainer(
@@ -89,7 +93,8 @@ def glist(data, type):
                 ButtonComponent(
                     action = PostbackAction(
                         label =  "上一頁",
-                        data =  "backward"
+                        data =  f"backward_glist_{type}_{i-8}",
+                        display_text = "上一頁"
                     ),
                     height = "sm",
                     style = "primary",
@@ -102,8 +107,9 @@ def glist(data, type):
                 ),
                 ButtonComponent(
                     action = PostbackAction(
-                    label = "下一頁",
-                    data =  "forward"
+                        label = "下一頁",
+                        data =  f"forward_glist_{type}_{i+8}",
+                        display_text = "下一頁"
                     ),
                     height = "sm",
                     style = "primary",
