@@ -693,7 +693,7 @@ def gathering(event):
             postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
            
             cursor.execute(postgres_select_query)
-            data = list(set(cursor.fetchall()))
+            data = cursor.fetchall()
             print(f"data:{data}")
             msg = flexmsg_r.carousel(data, type, i)
             
@@ -706,7 +706,7 @@ def gathering(event):
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
            
             cursor.execute(postgres_select_query)
-            data = list(set(cursor.fetchall()))
+            data = cursor.fetchall()
             print(f"data:{data}")
             msg = flexmsg_glist.glist(data, type, i)
 
@@ -715,12 +715,12 @@ def gathering(event):
         elif record[1] == "rlist":
             #record[2] = 進行中或已結束, record[3] = i
             if type == "已結束":
-                postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+                postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             elif type == "進行中":
-                postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+                postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
             cursor.execute(postgres_select_query)
-            data = list(set(cursor.fetchall()))
+            data = list(set(cursor.fetchall())).sort(key = lambda x: x[2])
             print(f"data:{data}")
             msg = flexmsg_rlist.rlist(data, type, i)
         
