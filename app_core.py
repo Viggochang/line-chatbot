@@ -659,7 +659,7 @@ def gathering(event):
         activity_no = postback_data.split('_')[1]
 
         # 刪除報名
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE record_no = {record_no} AND user_id = '{event.source.user_id}';"""
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE record_no = {registration_no} AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_delete_query)
         conn.commit()
 
