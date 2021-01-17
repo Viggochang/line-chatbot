@@ -685,6 +685,31 @@ def gathering(event):
         )
 
 ## ================
+## 上下頁
+## ================
+    elif "forward" in postback_data:
+        
+        record = postback_data.split("_") #record[0] = forward, reocord[1] = command
+
+        # [我要報名] 活動列表的下一頁
+        if record[1] == "activity":
+
+            #record[2] = activity_type, record[3] = i
+            act_type = record[2]
+            i = record[3]
+            
+            postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
+            cursor.execute(postgres_select_query)
+            data = cursor.fetchall()
+            
+            msg = flexmsg_r.carousel(record[2], data, i)
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+                )
+                
+                
+## ================
 ## 我要開團
 ## ================
     else:
@@ -734,31 +759,6 @@ def gathering(event):
                 
         cursor.close()
         conn.close()
-     
-     
-## ================
-## 上下頁
-## ================
-    elif "forward" in postback_data:
-        
-        record = postback_data.split("_") #record[0] = forward, reocord[1] = command
-
-        # [我要報名] 活動列表的下一頁
-        if record[1] == "activity":
-
-            #record[2] = activity_type, record[3] = i
-            act_type = record[2]
-            i = record[3]
-            
-            postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
-            cursor.execute(postgres_select_query)
-            data = cursor.fetchall()
-            
-            msg = flexmsg_r.carousel(record[2], data, i)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-                )
                 
 
 @handler.add(MessageEvent, message = LocationMessage)
