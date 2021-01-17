@@ -166,6 +166,7 @@ def app_core(event):
 ## ================
         if data_g:
             progress_target = progress_list_halfgroupdata
+            i = data_g.index(None) # 寫入資料的那一格
             
             if None in data_g:
                 record = event.message.text
