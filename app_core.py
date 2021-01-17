@@ -405,7 +405,7 @@ def gathering(event):
         #審核電話
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
         cursor.execute(postgres_select_query)
-        phone_registration = [data[0] for data in cursor.fetchall()]
+        phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
 
         print(f"phone_registration:{phone_registration}")
             
