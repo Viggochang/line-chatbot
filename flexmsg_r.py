@@ -110,10 +110,10 @@ def carousel(data, act_type, i = 0):
                             data = f"backward_activity_{act_type}_{i-8}",
                             display_text = "上一頁"
                         ),
-                        color = "#A7D5E1",
-                        gravity = "bottom",
                         height = "sm",
-                        style = "link"
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
                     ),
                     SeparatorComponent(
                     ),
@@ -123,10 +123,10 @@ def carousel(data, act_type, i = 0):
                             data = f"forward_activity_{act_type}_{i+8}",
                             display_text = "下一頁"
                         ),
-                        color = "#A7D5E1",
-                        gravity = "bottom",
                         height = "sm",
-                        style = "link"
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
                     )
                 ]
             )
