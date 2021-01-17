@@ -397,7 +397,7 @@ def gathering(event):
         conn.commit()
 
         #撈報團者的資料
-        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' ORDER BY record_no DESC;'''
+        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY record_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ", data_for_basicinfo)

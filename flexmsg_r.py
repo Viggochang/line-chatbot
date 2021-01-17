@@ -389,7 +389,7 @@ def flex(i, progress):
 
 def name(progress):
     name = FlexSendMessage(
-        alt_text = "請提供名稱",
+        alt_text = "請提供姓名或暱稱",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
