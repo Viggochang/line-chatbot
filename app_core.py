@@ -634,7 +634,25 @@ def gathering(event):
         event.reply_token,
         msg
         )
-
+    
+    # 在報名列表點選活動
+    elif "查報名" in postback_data:
+        activity_no = postback_data.split('_')[0]
+        
+        #根據回傳的activity_no，從group_data裡找到活動資訊
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
+        cursor.execute(postgres_select_query)
+        group_info = cursor.fetchone()
+        #根據回傳的activity_no和user_id找到報名資訊(可能不只一列)
+        postgres_select_query = f"""SELECT * FROM registration_data WHERE activity_no = {activity_no} AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_select_query)
+        registration_info = cursor.fetchall()
+        
+        msg = flexmsg.carousel_registration(group_info, registration_info)
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
 
 ## ================
 ## 我要開團
