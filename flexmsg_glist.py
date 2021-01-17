@@ -25,102 +25,100 @@ list_type = TextSendMessage(
 
 def glist(data, type):
 
-    if data:
+    group_lst = []
+
+    #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
+    for row in data:
         
-        group_lst = []
-
-        #row [activity_no, activity_type, activity_name, activity_date, activity_time, activity_title, ...]
-        for row in data:
-            
-            activity = BoxComponent(
-             layout = "horizontal",
-             contents = [
-                 BoxComponent(
-                     layout =  "horizontal",
-                     contents = [
-                         ImageComponent(
-                             url =  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-                             size =  "sm",
-                             flex = 1
-                         ),
-                         TextComponent(
-                             text =  f"{row[2]}", #activity_name
-                             align =  "start",
-                             size = "md",
-                             color = "#227C9D",
-                             weight =  "regular",
-                             margin= "sm",
-                             flex = 9,
-                             action = PostbackAction(
-                                 data = f"開團資訊_{row[0]}",  #activity_no
-                                 display_text = f"查看 {row[2]} 的詳細資訊"
-                                 )
+        activity = BoxComponent(
+         layout = "horizontal",
+         contents = [
+             BoxComponent(
+                 layout =  "horizontal",
+                 contents = [
+                     ImageComponent(
+                         url =  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+                         size =  "sm",
+                         flex = 1
+                     ),
+                     TextComponent(
+                         text =  f"{row[2]}", #activity_name
+                         align =  "start",
+                         size = "md",
+                         color = "#227C9D",
+                         weight =  "regular",
+                         margin= "sm",
+                         flex = 9,
+                         action = PostbackAction(
+                             data = f"開團資訊_{row[0]}",  #activity_no
+                             display_text = f"查看 {row[2]} 的詳細資訊"
                              )
-                         ]
-                     )
-                 ]
-             )
+                         )
+                     ]
+                 )
+             ]
+         )
 
-            group_lst.append(activity)
+        group_lst.append(activity)
 
-            if len(group_lst) > 7:
-                break
-            
-        index = BubbleContainer(
-            size = "kilo",
-            direction = "ltr",
-            header = BoxComponent(
+        if len(group_lst) > 7:
+            break
+        
+    index = BubbleContainer(
+        size = "kilo",
+        direction = "ltr",
+        header = BoxComponent(
+        layout = "horizontal",
+        contents = [
+            TextComponent(
+                text =  f"我的開團列表 ({type})",
+                size =  "lg",
+                weight =  "bold",
+                color =  "#AAAAAA"
+            )
+        ]
+        ),
+        body = BoxComponent(
+            layout = "vertical",
+            spacing =  "md",
+            contents = group_lst
+        ),
+        footer = BoxComponent(
             layout = "horizontal",
             contents = [
-                TextComponent(
-                    text =  f"我的開團列表 ({type})",
-                    size =  "lg",
-                    weight =  "bold",
-                    color =  "#AAAAAA"
+                ButtonComponent(
+                    action = PostbackAction(
+                        label =  "上一頁",
+                        data =  "backward"
+                    ),
+                    height = "sm",
+                    style = "primary",
+                    color = "#A7D5E1",
+                    gravity = "bottom"
+                ),
+                SeparatorComponent(
+                    margin = "sm",
+                    color = "#FFFFFF"
+                ),
+                ButtonComponent(
+                    action = PostbackAction(
+                    label = "下一頁",
+                    data =  "forward"
+                    ),
+                    height = "sm",
+                    style = "primary",
+                    color = "#A7D5E1",
+                    gravity = "bottom"
                 )
             ]
-            ),
-            body = BoxComponent(
-                layout = "vertical",
-                spacing =  "md",
-                contents = group_lst
-            ),
-            footer = BoxComponent(
-                layout = "horizontal",
-                contents = [
-                    ButtonComponent(
-                        action = PostbackAction(
-                            label =  "上一頁",
-                            data =  "backward"
-                        ),
-                        height = "sm",
-                        style = "primary",
-                        color = "#A7D5E1",
-                        gravity = "bottom"
-                    ),
-                    SeparatorComponent(
-                        margin = "sm",
-                        color = "#FFFFFF"
-                    ),
-                    ButtonComponent(
-                        action = PostbackAction(
-                        label = "下一頁",
-                        data =  "forward"
-                        ),
-                        height = "sm",
-                        style = "primary",
-                        color = "#A7D5E1",
-                        gravity = "bottom"
-                    )
-                ]
-            )
         )
+    )
 
-    msg = FlexSendMessage(
-        alt_text = "我的開團",
-        contents = index
-        )
-    return msg
+msg = FlexSendMessage(
+    alt_text = "我的開團",
+    contents = index
+    )
+return msg
     
 
 def MyGroupInfo(data):

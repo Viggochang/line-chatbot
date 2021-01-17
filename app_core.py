@@ -601,7 +601,30 @@ def gathering(event):
 ## 我的報名
 ## ================
     elif "rlist" in postback_data:
-        pass
+        type = postback_data.split("_")[1]
+        
+        if type == "已結束":
+            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}';"""
+ 
+        elif type == "進行中":
+            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}';"""
+            
+        cursor.execute(postgres_select_query)
+        rg_data = cursor.fetchall()
+        print(f"rg_data:{rg_data}")
+        
+        act_no = []
+        
+#        if len(rg_data) == 0:
+#            msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
+#        else:
+#            msg = flexmsg_rlist.rlist(registration_data, type)
+#
+#        line_bot_api.reply_message(
+#        event.reply_token,
+#        msg
+#        )
+
 
 ## ================
 ## 我要開團
