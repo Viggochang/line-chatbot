@@ -610,7 +610,7 @@ def summary(data):
                                 gravity = "top",
                                 weight = "bold",
                                 action = MessageAction(
-                                    text = "location"
+                                    text = "location_tittle"
                                 )
                             )
                         ]
