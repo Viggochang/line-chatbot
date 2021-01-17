@@ -513,6 +513,14 @@ def gathering(event):
 ## ================
 
     elif "glist" in postback_data:
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        
         type = postback_data.split("_")[1]
         
         if type == "已結束":
@@ -601,6 +609,14 @@ def gathering(event):
 ## 我的報名
 ## ================
     elif "rlist" in postback_data:
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+    
         type = postback_data.split("_")[1]
         
         if type == "已結束":
