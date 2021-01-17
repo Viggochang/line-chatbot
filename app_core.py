@@ -620,22 +620,16 @@ def gathering(event):
         type = postback_data.split("_")[1]
         
         if type == "已結束":
-            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
  
         elif type == "進行中":
-            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
         cursor.execute(postgres_select_query)
-        rg_data = cursor.fetchall()
+        rg_data = list(set(cursor.fetchall()))
         print(f"rg_data:{rg_data}")
-        act_no = [data[0] for data in rg_data]
-        print(f"act_no:{act_no}")
-        
-        if len(act_no) == 0:
-            msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
-#        else:
-#            msg = flexmsg_rlist.rlist(registration_data, type)
-#
+
+        msg = flexmsg_rlist.rlist(rg_data, type)
         line_bot_api.reply_message(
         event.reply_token,
         msg

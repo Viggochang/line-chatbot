@@ -22,6 +22,130 @@ list_type = TextSendMessage(
                 )
             ]))
 
+#我的報名列表
+def rlist(data, type):
+    if data:
+        main = []
+        for row in data:
+            temp = BoxComponent(
+                layout = "horizontal",
+                contents = [
+                    BoxComponent(
+                        layout = "horizontal",
+                        flex = 1,
+                        contents = [
+                            BoxComponent(
+                                layout =  "baseline",
+                                flex =  1,
+                                contents = [
+                                    IconComponent(
+                                        url =  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+                                        size =  "md"
+                                    )
+                                ]
+                            )
+                        ]
+                    ),
+                    BoxComponent(
+                        layout = "horizontal",
+                        flex =  9,
+                        contents = [
+                            TextComponent(
+                                text =  f"{row[1]}",
+                                align =  "start",
+                                size = "md",
+                                color = "#227C9D",
+                                weight =  "regular",
+                                margin= "sm",
+                                action = PostbackAction(
+                                    label = f"{row[1]}_查報名",
+                                    data = f"{row[0]}_查報名",
+                                    display_text = f"row[1] 活動資訊與報名資訊" 
+                                )
+                            )
+                        ]
+                    )
+                ]
+            )
+            main.append(temp)
+            if len(main)> 7:
+                break
+
+        bubble = BubbleContainer(
+            size = "kilo",
+            direction = "ltr",
+            header = BoxComponent(
+            layout = "horizontal",
+            contents = [
+                TextComponent(
+                    text = f"我的報名列表({type})",
+                    size = "lg",
+                    weight = "bold",
+                    color = "#AAAAAA"
+                )
+            ]
+            ),
+            body = BoxComponent(
+                layout = "vertical",
+                spacing = "md",
+                contents = temp
+            ),
+            footer = BoxComponent(
+                layout = "horizontal",
+                contents = [
+                    ButtonComponent(
+                        action = PostbackAction(
+                            label =  "上一頁",
+                            data =  "backward"
+                        ),
+                        height = "sm",
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
+                    ),
+                    SeparatorComponent(
+                        margin = "sm",
+                        color = "#FFFFFF"
+                    ),
+                    ButtonComponent(
+                        action = PostbackAction(
+                        label = "下一頁",
+                        data =  "forward"
+                        ),
+                        height = "sm",
+                        style = "primary",
+                        color = "#A7D5E1",
+                        gravity = "bottom"
+                    )
+                ]
+            )
+        )
+
+    else:
+        bubble = BubbleContainer(
+            direction = "ltr",
+            body = BoxComponent(
+                size = "xs",
+                layout = "vertical",
+                spacing =  "md",
+                contents = [
+                    TextComponent(
+                        text =  f"目前無{type}的報名資料",
+                        size =  "lg",
+                        weight =  "bold",
+                        color =  "#AAAAAA"
+                    )
+                ]
+            )
+        )
+
+    msg = FlexSendMessage(
+        alt_text = "報名列表",
+        contents = bubble
+    )
+
+    return msg
+    
 
 # 給開團者用的
 def flex(i, data, progress):
