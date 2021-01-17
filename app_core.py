@@ -168,47 +168,43 @@ def app_core(event):
             progress_target = progress_list_halfgroupdata
             
             if None in data_g:
-                i = data_g.index(None)
-                print(f"i={i}")
-                
-                if False:
-                    pass
-                else:
-                    record = event.message.text
-                    #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
-                    try:
-                        #輸入資料
-                        postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                        cursor.execute(postgres_update_query)
-                        conn.commit()
-                        
-                    except:
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            TextSendMessage(text = "請重新輸入")
-                        )
+                record = event.message.text
+                #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
+                try:
+                    #輸入資料
+                    postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                    cursor.execute(postgres_update_query)
+                    conn.commit()
                     
-                    #如果還沒輸入到最後一格, 則繼續詢問下一題
-                    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                    cursor.execute(postgres_select_query)
-                    data_g = cursor.fetchone()
-                    print(f"輸入資料後 data_g:{data_g}")
+                except:
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text = "請重新輸入")
+                    )
+                
+                #如果還沒輸入到最後一格, 則繼續詢問下一題
+                postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                cursor.execute(postgres_select_query)
+                data_g = cursor.fetchone()
+                print(f"輸入資料後 data_g:{data_g}")
 
-                    if None in data_g:
-                        i = data_g.index(None)
-                        msg = flexmsg_g.flex(i, data_g, progress_target)
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg)
-                        print("問下一題")
-                            
-                    elif None not in data_g:
+                if None in data_g:
+                    i = data_g.index(None)
+                    print(f"i={i}")
+                                    
+                    msg = flexmsg_g.flex(i, data_g, progress_target)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        msg)
+                    print("問下一題")
+                        
+                elif None not in data_g:
 
-                        msg = flexmsg_g.summary(data_g)
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg
-                        )
+                    msg = flexmsg_g.summary(data_g)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        msg
+                    )
                         
             else:
                 if event.message.text == '確認開團':
