@@ -722,7 +722,7 @@ def gathering(event):
                 )
             
         # [我的報名] 報名列表的下一頁
-                
+        elif record[1] == "rlist":
                 
 ## ================
 ## 我要開團

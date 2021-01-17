@@ -40,7 +40,7 @@ def rlist(data, type, i = 0):
                         flex = 1,
                         contents = [
                             BoxComponent(
-                                layout =  "baseline",
+                                layout = "baseline",
                                 flex =  1,
                                 contents = [
                                     IconComponent(
@@ -56,11 +56,11 @@ def rlist(data, type, i = 0):
                         flex =  9,
                         contents = [
                             TextComponent(
-                                text =  f"{row[1]}",
-                                align =  "start",
+                                text = f"{row[1]}",
+                                align = "start",
                                 size = "md",
                                 color = "#227C9D",
-                                weight =  "regular",
+                                weight = "regular",
                                 margin= "sm",
                                 action = PostbackAction(
                                     data = f"{row[0]}_查報名",
@@ -101,7 +101,7 @@ def rlist(data, type, i = 0):
                     ButtonComponent(
                         action = PostbackAction(
                             label =  "上一頁",
-                            data = f"backward_glist_{type}_{i-8}",
+                            data = f"backward_rlist_{type}_{i-8}",
                             display_text = "上一頁"
                         ),
                         height = "sm",
@@ -116,7 +116,7 @@ def rlist(data, type, i = 0):
                     ButtonComponent(
                         action = PostbackAction(
                             label = "下一頁",
-                            data = f"forward_glist_{type}_{i+8}",
+                            data = f"forward_rlist_{type}_{i+8}",
                             display_text = "下一頁"
                         ),
                         height = "sm",
@@ -134,13 +134,13 @@ def rlist(data, type, i = 0):
             body = BoxComponent(
                 size = "xs",
                 layout = "vertical",
-                spacing =  "md",
+                spacing = "md",
                 contents = [
                     TextComponent(
-                        text =  f"目前沒有{type}的開團資料",
-                        size =  "lg",
-                        weight =  "bold",
-                        color =  "#AAAAAA"
+                        text = f"目前沒有{type}的開團資料",
+                        size = "lg",
+                        weight = "bold",
+                        color = "#AAAAAA"
                     )
                 ]
             )
