@@ -694,7 +694,7 @@ def gathering(event):
            
             cursor.execute(postgres_select_query)
             data = list(set(cursor.fetchall()))
-            print(f"data"{data})
+            print(f"data:{data}")
             msg = flexmsg_r.carousel(data, type, i)
             
         # [我的開團] 開團列表的下一頁
@@ -707,7 +707,7 @@ def gathering(event):
            
             cursor.execute(postgres_select_query)
             data = list(set(cursor.fetchall()))
-            print(f"data"{data})
+            print(f"data:{data}")
             msg = flexmsg_rlist.glist(data, type, i)
 
 
@@ -721,7 +721,7 @@ def gathering(event):
             
             cursor.execute(postgres_select_query)
             data = list(set(cursor.fetchall()))
-            print(f"data"{data})
+            print(f"data:{data}")
             msg = flexmsg_rlist.rlist(data, type, i)
         
         line_bot_api.reply_message(
