@@ -27,7 +27,7 @@ def rlist(data, type, i = 0):
     if data:
         if i < 0:
             i = 0
-        elif i > len(data):
+        elif i >= len(data):
             i -= 8
             
         registration_lst = []
