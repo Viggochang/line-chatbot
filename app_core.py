@@ -648,7 +648,7 @@ def gathering(event):
         cursor.execute(postgres_select_query)
         registration_info = cursor.fetchall()
         
-        msg = flexmsg.carousel_registration(group_info, registration_info)
+        msg = flexmsg_r.carousel_registration(group_info, registration_info)
         line_bot_api.reply_message(
             event.reply_token,
             msg
