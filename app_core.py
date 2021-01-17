@@ -405,14 +405,14 @@ def gathering(event):
         #審核電話
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
         cursor.execute(postgres_select_query)
-        phone_registration = cursor.fetchall()
+        phone_registration = [data[0] for data in cursor.fetchall()]
 
         print(f"phone_registration:{phone_registration}")
             
         name = data_for_basicinfo[0]
         phone = data_for_basicinfo[1]
         
-        if name != None and phone != None and phone not in phone_registration[0]:
+        if name != None and phone != None and phone not in phone_registration:
             # 已有報名紀錄則直接帶入先前資料
             postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
             cursor.execute(postgres_update_query)
