@@ -23,7 +23,6 @@ list_type = TextSendMessage(
             ]))
 
 
-
 # 給開團者用的
 def flex(i, data, progress):
     if i == 2 or i == "activity_name":

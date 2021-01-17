@@ -613,7 +613,7 @@ def gathering(event):
         rg_data = cursor.fetchall()
         print(f"rg_data:{rg_data}")
         
-        act_no = []
+        act_no = [int() data[0] in rg_data]
         
 #        if len(rg_data) == 0:
 #            msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
