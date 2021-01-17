@@ -397,7 +397,7 @@ def gathering(event):
         conn.commit()
 
         #撈報團者的資料
-        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' AND condition != 'closed' ORDER BY record_no DESC;'''
+        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' ORDER BY record_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ", data_for_basicinfo)
@@ -604,27 +604,25 @@ def gathering(event):
         type = postback_data.split("_")[1]
         
         if type == "已結束":
-            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}';"""
+            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
  
         elif type == "進行中":
-            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}';"""
+            postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
         cursor.execute(postgres_select_query)
         rg_data = cursor.fetchall()
-        print(f"rg_data:{rg_data}")
-        
         act_no = [data[0] for data in rg_data]
         print(f"act_no:{act_no}")
         
-#        if len(rg_data) == 0:
-#            msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
-#        else:
-#            msg = flexmsg_rlist.rlist(registration_data, type)
-#
-#        line_bot_api.reply_message(
-#        event.reply_token,
-#        msg
-#        )
+        if len(act_no) == 0:
+            msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
+        else:
+            msg = flexmsg_rlist.rlist(registration_data, type)
+
+        line_bot_api.reply_message(
+        event.reply_token,
+        msg
+        )
 
 
 ## ================
