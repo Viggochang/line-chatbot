@@ -29,12 +29,17 @@ activity_type_for_attendee = TextSendMessage(
             ]))
 
 
-def carousel(act_type, data):
+def carousel(act_type, data, i = 0):
 
     if data:
-        temp = []
-        for row in data:
-            te = BoxComponent(
+        if i < 0:
+            i = 0
+        elif i > len(data):
+            i -= 8
+        
+        act_lst = []
+        for row in data[i:]:
+            temp = BoxComponent(
                 layout = "horizontal",
                 contents = [
                     BoxComponent(
@@ -70,8 +75,8 @@ def carousel(act_type, data):
                     )
                 ]
             )
-            temp.append(te)
-            if len(temp) > 8:
+            act_lst.append(temp)
+            if len(act_lst) >= 8:
                 break
                 
         index = BubbleContainer(
@@ -91,15 +96,15 @@ def carousel(act_type, data):
             body = BoxComponent(
                 layout = "vertical",
                 spacing =  "md",
-                contents = temp
+                contents = act_lst
             ),
-            footer=BoxComponent(
+            footer = BoxComponent(
                 layout = "horizontal",
                 contents = [
                     ButtonComponent(
                         action = PostbackAction(
-                            label =  "上一頁",
-                            data =  "backward"
+                            label = "上一頁",
+                            data = f"backward_activity_{act_type}_{i-8}"
                         ),
                         color = "#A7D5E1",
                         gravity = "bottom",
@@ -111,7 +116,7 @@ def carousel(act_type, data):
                     ButtonComponent(
                         action = PostbackAction(
                         label = "下一頁",
-                        data =  "forward"
+                        data =  f"forward_activity_{act_type}_{i+8}"
                         ),
                         color = "#A7D5E1",
                         gravity = "bottom",
@@ -122,7 +127,8 @@ def carousel(act_type, data):
             )
         )
         bubbles = [index]
-        for row in data:
+        
+        for row in data[i:]:
             
             if "https://i.imgur.com/" not in row[12]:
                 link = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
@@ -130,7 +136,7 @@ def carousel(act_type, data):
                 link = f"{row[12]}"
                 
             print("row[12] = ", row[12], "link = ",link)
-            temp = BubbleContainer(
+            main = BubbleContainer(
                         size = "kilo",
                         direction = "ltr",
                         hero = ImageComponent(
@@ -211,22 +217,22 @@ def carousel(act_type, data):
                                 ]
                             )
                         )
-            bubbles.append(temp)
-            if len(bubbles) > 9:
+            bubbles.append(main)
+            if len(bubbles) >= 9:
                 break
     else:
-        bubbles=[BubbleContainer(
+        bubbles = [BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
                 size = "xs",
                 layout = "vertical",
-                spacing =  "md",
+                spacing = "md",
                 contents = [
                     TextComponent(
-                        text =  "目前無資料",
-                        size =  "lg",
-                        weight =  "bold",
-                        color =  "#AAAAAA"
+                        text = "目前無資料",
+                        size = "lg",
+                        weight = "bold",
+                        color = "#AAAAAA"
                     )
                 ]
             )
