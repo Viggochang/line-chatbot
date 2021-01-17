@@ -531,12 +531,8 @@ def gathering(event):
         cursor.execute(postgres_select_query)
         group_data = cursor.fetchall()
         print(f"group_data:{group_data}")
-        
-        if len(group_data) == 0:
-            msg =  TextSendMessage(text = f"找不到{type}的開團紀錄！")
-        else:
-            msg = flexmsg_glist.glist(group_data, type)
-            
+
+        msg = flexmsg_glist.glist(group_data, type)
         line_bot_api.reply_message(
         event.reply_token,
         msg
@@ -608,7 +604,7 @@ def gathering(event):
 ## ================
 ## 我的報名
 ## ================
-    elif "rlist" in postback_data:
+    elif "報名紀錄" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
         postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
         cursor.execute(postgres_delete_query)

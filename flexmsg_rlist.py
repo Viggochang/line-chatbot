@@ -15,18 +15,23 @@ list_type = TextSendMessage(
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "歷史報名紀錄", data = "rlist_已結束", display_text = "查詢[歷史報名紀錄]")
+                action = PostbackAction(label = "歷史報名紀錄", data = "報名紀錄_已結束", display_text = "查詢[歷史報名紀錄]")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "我報名的團", data = "rlist_進行中", display_text = "查詢[我報名的團]")
+                action = PostbackAction(label = "我報名的團", data = "報名紀錄_進行中", display_text = "查詢[我報名的團]")
                 )
             ]))
 
 #我的報名列表
-def rlist(data, type):
+def rlist(data, type, i = 0):
     if data:
-        main = []
-        for row in data:
+        if i < 0:
+            i = 0
+        elif i > len(data):
+            i -= 8
+            
+        registration_lst = []
+        for row in data[i:]:
             temp = BoxComponent(
                 layout = "horizontal",
                 contents = [
@@ -66,8 +71,9 @@ def rlist(data, type):
                     )
                 ]
             )
-            main.append(temp)
-            if len(main)> 7:
+            
+            registration_lst.append(temp)
+            if len(registration_lst) >= 7:
                 break
 
         bubble = BubbleContainer(
@@ -87,7 +93,7 @@ def rlist(data, type):
             body = BoxComponent(
                 layout = "vertical",
                 spacing = "md",
-                contents = main
+                contents = registration_lst
             ),
             footer = BoxComponent(
                 layout = "horizontal",
@@ -95,7 +101,7 @@ def rlist(data, type):
                     ButtonComponent(
                         action = PostbackAction(
                             label =  "上一頁",
-                            data =  "backward_",
+                            data = f"backward_glist_{type}_{i-8}",
                             display_text = "上一頁"
                         ),
                         height = "sm",
@@ -110,7 +116,7 @@ def rlist(data, type):
                     ButtonComponent(
                         action = PostbackAction(
                             label = "下一頁",
-                            data = "forward",
+                            data = f"forward_glist_{type}_{i+8}",
                             display_text = "下一頁"
                         ),
                         height = "sm",
@@ -131,7 +137,7 @@ def rlist(data, type):
                 spacing =  "md",
                 contents = [
                     TextComponent(
-                        text =  f"目前無{type}的報名資料",
+                        text =  f"目前沒有{type}的開團資料",
                         size =  "lg",
                         weight =  "bold",
                         color =  "#AAAAAA"
