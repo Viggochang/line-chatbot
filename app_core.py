@@ -681,7 +681,7 @@ def gathering(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "取消成功!")
+            TextSendMessage(text = "取消成功！")
         )
 
 ## ================
