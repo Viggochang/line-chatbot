@@ -708,7 +708,7 @@ def gathering(event):
             cursor.execute(postgres_select_query)
             data = list(set(cursor.fetchall()))
             print(f"data:{data}")
-            msg = flexmsg_rlist.glist(data, type, i)
+            msg = flexmsg_glist.glist(data, type, i)
 
 
         # [我的報名] 報名列表的下一頁
