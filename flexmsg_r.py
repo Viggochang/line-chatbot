@@ -65,7 +65,10 @@ def carousel(data, act_type, i = 0):
                             TextComponent(
                                 text = f"{row[2]}",
                                 align = "start",
-                                weight = "bold",
+                                size = "md",
+                                color = "#227C9D",
+                                weight = "regular",
+                                margin= "sm",
                                 action = PostbackAction(
                                         display_text = f"我想知道 {row[2]} 的詳細資訊",
                                         data = f"{row[0]}_詳細資訊"
