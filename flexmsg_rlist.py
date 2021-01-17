@@ -146,11 +146,11 @@ def rlist(data, type):
     return msg
     
  #活動資訊與報名資訊carousel
-def carousel_registration(g_data,r_data):
-    if "https://i.imgur.com/" not in data[12]:
+def carousel_registration(data_g, data_r):
+    if "https://i.imgur.com/" not in data_g[12]:
         link = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
     else:
-        link=f"{data[12]}"
+        link = f"{data_g[12]}"
         
     group_info = BubbleContainer(
         size = "kilo",
@@ -171,7 +171,7 @@ def carousel_registration(g_data,r_data):
                     wrap = True
                 ),
                 TextComponent(
-                    text = f"{g_data[2]}", #activity_name
+                    text = f"{data_g[2]}", #activity_name
                     weight = "bold",
                     size = "md",
                     wrap = True
@@ -184,25 +184,25 @@ def carousel_registration(g_data,r_data):
                             spacing = "sm",
                             contents = [
                                 TextComponent(
-                                    text = f"地點 {data[5]}",
+                                    text = f"地點 {data_g[5]}",
                                     wrap = True,
                                     size = "sm",
                                     flex = 5
                                 ),
                                 TextComponent(
-                                    text = f"時間 {data[3]} {str(data[4])[:5]}",
+                                    text = f"時間 {data_g[3]} {str(data_g[4])[:5]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"費用 {data[9]}",
+                                    text = f"費用 {data_g[9]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"主揪 {data[13]}",
+                                    text = f"主揪 {data_g[13]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"主揪電話 {data[14]}",
+                                    text = f"主揪電話 {data_g[14]}",
                                     size = "sm"
                                 )
                             ]
@@ -217,7 +217,7 @@ def carousel_registration(g_data,r_data):
 
     bubbles = [group_info]
 
-    for row in r_data:
+    for row in data_r:
         registrtion_info = BubbleContainer(
             size = "kilo",
             direction = "ltr",
