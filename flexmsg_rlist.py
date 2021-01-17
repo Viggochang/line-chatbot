@@ -58,9 +58,8 @@ def rlist(data, type):
                                 weight =  "regular",
                                 margin= "sm",
                                 action = PostbackAction(
-                                    label = f"{row[1]}_查報名",
                                     data = f"{row[0]}_查報名",
-                                    display_text = f"row[1] 活動資訊與報名資訊"
+                                    display_text = f"{row[1]} 活動資訊與報名資訊"
                                 )
                             )
                         ]
