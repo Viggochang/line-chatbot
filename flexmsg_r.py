@@ -116,6 +116,8 @@ def carousel(data, act_type, i = 0):
                         gravity = "bottom"
                     ),
                     SeparatorComponent(
+                        margin = "sm",
+                        color = "#FFFFFF"
                     ),
                     ButtonComponent(
                         action = PostbackAction(
