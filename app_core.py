@@ -696,7 +696,7 @@ def gathering(event):
 
             #record[2] = activity_type, record[3] = i
             act_type = record[2]
-            i = record[3]
+            i = int(record[3])
             
             postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
             cursor.execute(postgres_select_query)
