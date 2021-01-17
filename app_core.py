@@ -704,7 +704,6 @@ def gathering(event):
                 )
         # [我的開團] 開團列表的下一頁
         elif record[1] == "glist":
-        
             #record[2] = 進行中或已結束, record[3] = i
             if type == "已結束":
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
@@ -723,7 +722,21 @@ def gathering(event):
             
         # [我的報名] 報名列表的下一頁
         elif record[1] == "rlist":
-            pass
+            #record[2] = 進行中或已結束, record[3] = i
+            if type == "已結束":
+                postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            elif type == "進行中":
+                postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            
+        cursor.execute(postgres_select_query)
+        rg_data = list(set(cursor.fetchall()))
+        print(f"rg_data:{rg_data}")
+
+        msg = flexmsg_rlist.rlist(rg_data, type, i)
+            line_bot_api.reply_message(
+            event.reply_token,
+            msg
+            )
 ## ================
 ## 我要開團
 ## ================
