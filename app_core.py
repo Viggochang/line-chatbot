@@ -355,12 +355,13 @@ def gathering(event):
 ## ================
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
+        type = postback_data
 
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{postback_data}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
 
-        msg = flexmsg_r.carousel(postback_data, data_carousel)
+        msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
             event.reply_token,
             msg
@@ -697,7 +698,7 @@ def gathering(event):
             cursor.execute(postgres_select_query)
             data = cursor.fetchall()
             
-            msg = flexmsg_r.carousel(record[2], data, i)
+            msg = flexmsg_r.carousel(data, type, i)
             line_bot_api.reply_message(
                 event.reply_token,
                 msg

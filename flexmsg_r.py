@@ -29,7 +29,7 @@ activity_type_for_attendee = TextSendMessage(
             ]))
 
 
-def carousel(act_type, data, i = 0):
+def carousel(data, act_type, i = 0):
 
     if data:
         if i < 0:
@@ -47,7 +47,7 @@ def carousel(act_type, data, i = 0):
                         flex =  1,
                         contents = [
                             BoxComponent(
-                                layout =  "baseline",
+                                layout = "baseline",
                                 flex =  1,
                                 contents = [
                                     IconComponent(
@@ -63,9 +63,9 @@ def carousel(act_type, data, i = 0):
                         flex =  9,
                         contents = [
                             TextComponent(
-                                text =  f"{row[2]}",
-                                align =  "start",
-                                weight =  "bold",
+                                text = f"{row[2]}",
+                                align = "start",
+                                weight = "bold",
                                 action = PostbackAction(
                                         display_text = f"我想知道 {row[2]} 的詳細資訊",
                                         data = f"{row[0]}_詳細資訊"
@@ -95,7 +95,7 @@ def carousel(act_type, data, i = 0):
             ),
             body = BoxComponent(
                 layout = "vertical",
-                spacing =  "md",
+                spacing = "md",
                 contents = act_lst
             ),
             footer = BoxComponent(
@@ -117,7 +117,7 @@ def carousel(act_type, data, i = 0):
                     ButtonComponent(
                         action = PostbackAction(
                             label = "下一頁",
-                            data =  f"forward_activity_{act_type}_{i+8}",
+                            data = f"forward_activity_{act_type}_{i+8}",
                             display_text = "下一頁"
                         ),
                         color = "#A7D5E1",
