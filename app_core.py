@@ -690,8 +690,8 @@ def gathering(event):
     elif "forward" in postback_data:
         
         record = postback_data.split("_") #record[0] = forward, reocord[1] = command
-            type = record[2]
-            i = int(record[3])
+        type = record[2]
+        i = int(record[3])
 
         # [我要報名] 活動列表的下一頁
         if record[1] == "activity":
@@ -720,7 +720,6 @@ def gathering(event):
             print(f"group_data:{group_data}")
         
             msg = flexmsg_glist.glist(group_data, type, i)
-            
             line_bot_api.reply_message(
             event.reply_token,
             msg
