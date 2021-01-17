@@ -728,15 +728,15 @@ def gathering(event):
             elif type == "進行中":
                 postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
-        cursor.execute(postgres_select_query)
-        rg_data = list(set(cursor.fetchall()))
-        print(f"rg_data:{rg_data}")
+            cursor.execute(postgres_select_query)
+            rg_data = list(set(cursor.fetchall()))
+            print(f"rg_data:{rg_data}")
 
-        msg = flexmsg_rlist.rlist(rg_data, type, i)
+            msg = flexmsg_rlist.rlist(rg_data, type, i)
             line_bot_api.reply_message(
-            event.reply_token,
-            msg
-            )
+                event.reply_token,
+                msg
+                )
 ## ================
 ## 我要開團
 ## ================
