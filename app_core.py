@@ -691,6 +691,11 @@ def gathering(event):
         if record[1] == "activity":
             #record[2] = activity_type, record[3] = i
             postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
+           
+            cursor.execute(postgres_select_query)
+            data = list(set(cursor.fetchall()))
+            print(f"data"{data})
+            msg = flexmsg_r.carousel(data, type, i)
             
         # [我的開團] 開團列表的下一頁
         elif record[1] == "glist":
@@ -699,6 +704,12 @@ def gathering(event):
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
             elif type == "進行中":
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
+           
+            cursor.execute(postgres_select_query)
+            data = list(set(cursor.fetchall()))
+            print(f"data"{data})
+            msg = flexmsg_rlist.glist(data, type, i)
+
 
         # [我的報名] 報名列表的下一頁
         elif record[1] == "rlist":
@@ -708,9 +719,10 @@ def gathering(event):
             elif type == "進行中":
                 postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
-        cursor.execute(postgres_select_query)
-        data = list(set(cursor.fetchall()))
-        msg = flexmsg_rlist.rlist(data, type, i)
+            cursor.execute(postgres_select_query)
+            data = list(set(cursor.fetchall()))
+            print(f"data"{data})
+            msg = flexmsg_rlist.rlist(data, type, i)
         
         line_bot_api.reply_message(
             event.reply_token,
