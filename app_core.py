@@ -653,6 +653,36 @@ def gathering(event):
             event.reply_token,
             msg
         )
+        
+    elif "取消報名" in postback_data: #按下取消報名按鈕將回傳(record_activity_取消報名)
+        registration_no = postback_data.split('_')[0]
+        activity_no = postback_data.split('_')[1]
+
+        # 刪除報名
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE record_no = {record_no} AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+
+        #找報該團現在的報名人數attendee並更新(-1)
+        postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no};"""
+        cursor.execute(postgres_select_query)
+        attendee = cursor.fetchone()[0]
+        attendee -= 1
+
+        #將更新的報名人數attendent記錄到報名表單group_data裡
+        postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+
+        #更新該活動的condition(=pending)
+        postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE activity_no = {activity_no};"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "取消成功!")
+        )
 
 ## ================
 ## 我要開團
