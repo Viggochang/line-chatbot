@@ -616,13 +616,13 @@ def gathering(event):
         
         if len(act_no) == 0:
             msg =  TextSendMessage(text = f"找不到{type}的報名紀錄！")
-        else:
-            msg = flexmsg_rlist.rlist(registration_data, type)
-
-        line_bot_api.reply_message(
-        event.reply_token,
-        msg
-        )
+#        else:
+#            msg = flexmsg_rlist.rlist(registration_data, type)
+#
+#        line_bot_api.reply_message(
+#        event.reply_token,
+#        msg
+#        )
 
 
 ## ================
