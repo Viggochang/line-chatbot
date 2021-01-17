@@ -707,6 +707,9 @@ def gathering(event):
                 event.reply_token,
                 msg
                 )
+        # [我的開團] 開團列表的下一頁
+        
+        # [我的報名] 報名列表的下一頁
                 
                 
 ## ================

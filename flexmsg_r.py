@@ -67,7 +67,7 @@ def carousel(act_type, data, i = 0):
                                 align =  "start",
                                 weight =  "bold",
                                 action = PostbackAction(
-                                        displat_text = "詳細資訊",
+                                        display_text = f"我想知道 {row[2]} 的詳細資訊",
                                         data = f"{row[0]}_詳細資訊"
                                         )
                             )
@@ -104,7 +104,8 @@ def carousel(act_type, data, i = 0):
                     ButtonComponent(
                         action = PostbackAction(
                             label = "上一頁",
-                            data = f"backward_activity_{act_type}_{i-8}"
+                            data = f"backward_activity_{act_type}_{i-8}",
+                            display_text = "上一頁"
                         ),
                         color = "#A7D5E1",
                         gravity = "bottom",
@@ -115,8 +116,9 @@ def carousel(act_type, data, i = 0):
                     ),
                     ButtonComponent(
                         action = PostbackAction(
-                        label = "下一頁",
-                        data =  f"forward_activity_{act_type}_{i+8}"
+                            label = "下一頁",
+                            data =  f"forward_activity_{act_type}_{i+8}",
+                            display_text = "下一頁"
                         ),
                         color = "#A7D5E1",
                         gravity = "bottom",
