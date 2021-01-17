@@ -611,6 +611,7 @@ def gathering(event):
             
         cursor.execute(postgres_select_query)
         rg_data = cursor.fetchall()
+        print(f"rg_data:{rg_data}")
         act_no = [data[0] for data in rg_data]
         print(f"act_no:{act_no}")
         
