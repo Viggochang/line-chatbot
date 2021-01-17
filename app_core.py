@@ -613,7 +613,7 @@ def gathering(event):
         rg_data = cursor.fetchall()
         print(f"rg_data:{rg_data}")
         
-        act_no = [int() data[0] in rg_data]
+        act_no = [data[0] for data in rg_data]
         print(f"act_no:{act_no}")
         
 #        if len(rg_data) == 0:
