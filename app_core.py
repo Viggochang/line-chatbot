@@ -720,7 +720,7 @@ def gathering(event):
                 postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
             cursor.execute(postgres_select_query)
-            data = list(set(cursor.fetchall())).sort(key = lambda x: x[2])
+            data = list(set(cursor.fetchall()))#.sort(key = lambda x: x[2])
             print(f"data:{data}")
             msg = flexmsg_rlist.rlist(data, type, i)
         
