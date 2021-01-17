@@ -156,7 +156,7 @@ def app_core(event):
         #準備寫入報名資料的那一列
         data_r = cursor.fetchone()
         print(f"data_r:{data_r}")
-        column_all_registration = ['record_no', 'activity_no',
+        column_all_registration = ['registration_no', 'activity_no',
                                    'activity_name', 'attendee_name', 'phone',
                                    'mail', 'condition', 'user_id']
         
@@ -397,7 +397,7 @@ def gathering(event):
         conn.commit()
 
         #撈報團者的資料
-        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY record_no DESC;'''
+        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY registration_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ", data_for_basicinfo)
@@ -659,7 +659,7 @@ def gathering(event):
         activity_no = postback_data.split('_')[1]
 
         # 刪除報名
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE record_no = {registration_no} AND user_id = '{event.source.user_id}';"""
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE registration_no = {registration_no} AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_delete_query)
         conn.commit()
 
