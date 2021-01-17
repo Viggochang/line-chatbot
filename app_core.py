@@ -228,18 +228,7 @@ def app_core(event):
                 else:
                     # 在summary點選修改後
                     column = event.message.text
-                     # 處理location 因為location 跟資料庫的名字不一樣
-                    if column == "location":
-                        postgres_update_query = f"""UPDATE group_data SET location_tittle = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                        cursor.execute(postgres_update_query)
-                        conn.commit()
-                        progress_target=[7, 6, 6, 6, 6, 6, 6, 6]
-                        msg = flexmsg_g.flex(column, data_g, progress_target)
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg
-                        )
-                    elif column in column_all:
+                    if column in column_all:
                         postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                         cursor.execute(postgres_update_query)
                         conn.commit()
@@ -315,6 +304,8 @@ def app_core(event):
                         event.reply_token,
                         msg
                     )
+                    print("問下一題")
+                    
                 #出現summary
                 elif None not in data_r:
                     msg = flexmsg_r.summary_for_attend(data_r)
