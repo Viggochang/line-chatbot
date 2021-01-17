@@ -114,11 +114,11 @@ def glist(data, type):
         )
     )
 
-msg = FlexSendMessage(
-    alt_text = "我的開團",
-    contents = index
-    )
-return msg
+    msg = FlexSendMessage(
+        alt_text = "我的開團",
+        contents = index
+        )
+    return msg
     
 
 def MyGroupInfo(data):
