@@ -38,7 +38,7 @@ def callback():
     return 'OK'
 
 # 學你說話
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
@@ -57,7 +57,6 @@ def app_core(event):
 
     if event.message.text == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
-        
         
 
     elif event.message.text == "我要開團":
@@ -342,8 +341,6 @@ def gathering(event):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
-    
-    
     
     postback_data = event.postback.data
     
@@ -684,7 +681,7 @@ def gathering(event):
 ## ================
 ## 上下頁
 ## ================
-    elif "forward" in postback_data:
+    elif "forward" in postback_data or "backward" in postback_data:
         
         record = postback_data.split("_") #record[0] = forward, reocord[1] = command
         type = record[2]
@@ -692,17 +689,9 @@ def gathering(event):
 
         # [我要報名] 活動列表的下一頁
         if record[1] == "activity":
-
             #record[2] = activity_type, record[3] = i
             postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
-            cursor.execute(postgres_select_query)
-            data = cursor.fetchall()
             
-            msg = flexmsg_r.carousel(data, type, i)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-                )
         # [我的開團] 開團列表的下一頁
         elif record[1] == "glist":
             #record[2] = 進行中或已結束, record[3] = i
@@ -710,17 +699,7 @@ def gathering(event):
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
             elif type == "進行中":
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
-            
-            cursor.execute(postgres_select_query)
-            group_data = cursor.fetchall()
-            print(f"group_data:{group_data}")
-        
-            msg = flexmsg_glist.glist(group_data, type, i)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-                )
-            
+
         # [我的報名] 報名列表的下一頁
         elif record[1] == "rlist":
             #record[2] = 進行中或已結束, record[3] = i
@@ -729,15 +708,15 @@ def gathering(event):
             elif type == "進行中":
                 postgres_select_query = f"""SELECT activity_no, activity_name FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
-            cursor.execute(postgres_select_query)
-            rg_data = list(set(cursor.fetchall()))
-            print(f"rg_data:{rg_data}")
-
-            msg = flexmsg_rlist.rlist(rg_data, type, i)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-                )
+        cursor.execute(postgres_select_query)
+        data = list(set(cursor.fetchall()))
+        msg = flexmsg_rlist.rlist(data, type, i)
+        
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+            )
+                
 ## ================
 ## 我要開團
 ## ================
