@@ -619,10 +619,10 @@ def gathering(event):
 #        else:
 #            msg = flexmsg_rlist.rlist(registration_data, type)
 #
-#        line_bot_api.reply_message(
-#        event.reply_token,
-#        msg
-#        )
+        line_bot_api.reply_message(
+        event.reply_token,
+        msg
+        )
 
 
 ## ================
