@@ -512,7 +512,7 @@ def gathering(event):
 ## 我的開團
 ## ================
 
-    elif "glist" in postback_data:
+    elif "開團紀錄" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
         postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
         cursor.execute(postgres_delete_query)
@@ -721,9 +721,9 @@ def gathering(event):
         
             msg = flexmsg_glist.glist(group_data, type, i)
             line_bot_api.reply_message(
-            event.reply_token,
-            msg
-            )
+                event.reply_token,
+                msg
+                )
             
         # [我的報名] 報名列表的下一頁
                 
