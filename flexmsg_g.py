@@ -11,23 +11,23 @@ import datetime as dt
 import json
 
 activity_type = TextSendMessage(
-    text = "請選擇您的活動類型",
+    text = "請選擇活動類型",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = MessageAction(label = "登山踏青", text = "登山踏青")
+                action = PostbackAction(label = "登山踏青", data = "開團活動類型_登山踏青",  display_text = "登山踏青")
                 ),
             QuickReplyButton(
-                action = MessageAction(label = "桌遊麻將", text = "桌遊麻將")
+                action = PostbackAction(label = "桌遊麻將", data = "開團活動類型_桌遊麻將", display_text = "桌遊麻將")
                 ),
             QuickReplyButton(
-                action = MessageAction(label = "吃吃喝喝", text = "吃吃喝喝")
+                action = PostbackAction(label = "吃吃喝喝", data = "開團活動類型_吃吃喝喝", display_text = "吃吃喝喝")
                 ),
             QuickReplyButton(
-                action = MessageAction(label = "唱歌跳舞", text = "唱歌跳舞")
+                action = PostbackAction(label = "唱歌跳舞", data = "開團活動類型_唱歌跳舞", display_text = "唱歌跳舞")
                 )
             ]))
-
+            
 # 給開團者用的
 def flex(i, data, progress):
     if i == 2 or i == "activity_name":

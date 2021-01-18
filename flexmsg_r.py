@@ -15,16 +15,16 @@ activity_type_for_attendee = TextSendMessage(
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "登山踏青", data = "登山踏青",  display_text = "登山踏青")
+                action = PostbackAction(label = "登山踏青", data = "報名活動類型_登山踏青",  display_text = "登山踏青")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "桌遊麻將", data = "桌遊麻將", display_text = "桌遊麻將")
+                action = PostbackAction(label = "桌遊麻將", data = "報名活動類型_桌遊麻將", display_text = "桌遊麻將")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "吃吃喝喝", data = "吃吃喝喝", display_text = "吃吃喝喝")
+                action = PostbackAction(label = "吃吃喝喝", data = "報名活動類型_吃吃喝喝", display_text = "吃吃喝喝")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "唱歌跳舞", data = "唱歌跳舞", display_text = "唱歌跳舞")
+                action = PostbackAction(label = "唱歌跳舞", data = "報名活動類型_唱歌跳舞", display_text = "唱歌跳舞")
                 )
             ]))
 

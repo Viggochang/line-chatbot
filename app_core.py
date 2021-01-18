@@ -74,23 +74,6 @@ def app_core(event):
         cursor.execute(postgres_delete_query)
         conn.commit()
 
-        #創建一列(condition = initial)
-        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{event.source.user_id}', '1', '無', '無');"""
-        cursor.execute(postgres_insert_query)
-        conn.commit()
-        #撈主揪的資料
-        postgres_select_query=f'''SELECT name,phone FROM group_data WHERE user_id = '{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
-        cursor.execute(postgres_select_query)
-        data_for_basicinfo = cursor.fetchone()
-
-        if data_for_basicinfo:
-            postgres_update_query = f"""UPDATE group_data SET name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
-
-        cursor.close()
-        conn.close()
-        
     elif event.message.text == "我要報名":
         line_bot_api.reply_message(
             event.reply_token,
@@ -189,7 +172,7 @@ def app_core(event):
                 data_g = cursor.fetchone()
                 print(f"輸入資料後 data_g:{data_g}")
 
-                if None in data_g:
+                if None in data_g: # 問下一題
                     i = data_g.index(None)
                     print(f"i={i}")
                                     
@@ -199,7 +182,7 @@ def app_core(event):
                         msg)
                     print("問下一題")
                         
-                elif None not in data_g:
+                elif None not in data_g: # summarys
 
                     msg = flexmsg_g.summary(data_g)
                     line_bot_api.reply_message(
@@ -336,11 +319,51 @@ def gathering(event):
         cancel.cancel(line_bot_api, cursor, conn, event)
         
 ## ================
+## 我要開團
+## ================
+    elif "開團活動類型" in postback_data:
+        #把只創建卻沒有寫入資料的列刪除
+        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        postgres_delete_query = f"""DELETE FROM registration_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+        cursor.execute(postgres_delete_query)
+        conn.commit()
+        
+        type = postback_data.split("_")[1]
+        print(f"type:{type}")
+
+        #創建一列(condition = initial)
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, activity_type, attendee, photo, description) VALUES ('initial', '{event.source.user_id}', '{type}', '1', '無', '無');"""
+        cursor.execute(postgres_insert_query)
+        conn.commit()
+        
+        #撈主揪的資料
+        postgres_select_query = f'''SELECT name,phone FROM group_data WHERE user_id='{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
+        cursor.execute(postgres_select_query)
+        data_for_basicinfo = cursor.fetchone()
+
+        if data_for_basicinfo:
+            postgres_update_query = f"""UPDATE group_data SET name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
+
+        cursor.close()
+        conn.close()
+        
+        msg = flexmsg_g.flex(2, data=None, progress=progress_target)
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
+        
+        
+## ================
 ## 我要報名
 ## ================
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
-    elif postback_data in activity_type: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
-        type = postback_data
+    elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
+        type = postback_data.split("_")[1]
 
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type='{postback_data}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
