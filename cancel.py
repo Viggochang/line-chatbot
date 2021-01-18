@@ -41,5 +41,3 @@ def reset(cursor, conn, event):
     cursor.execute(postgres_delete_query)
     conn.commit()
 
-    cursor.close()
-    conn.close()
