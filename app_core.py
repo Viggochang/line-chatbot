@@ -748,16 +748,12 @@ def gathering(event):
     
     i = data_g.index(None)
     print("i =",i)
-    column_all = ['acrivity_no', 'activity_type', 'activity_name',
-                  'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
-                  'due_date', 'description', 'photo', 'name',
-                  'phone', 'mail', 'attendee', 'condition', 'user_id']
 
     record = [event.message.title, event.message.latitude, event.message.longitude]
     if record[0] == None:
         record[0] = event.message.address[:50]
     # 寫入資料(更新位置資訊)
-    postgres_update_query = f"""UPDATE group_data SET ({column_all[i]}, {column_all[i+1]}, {column_all[i+2]}) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+    postgres_update_query = f"""UPDATE group_data SET (location_tittle, lat, long) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_update_query)
     conn.commit()
     
@@ -771,7 +767,7 @@ def gathering(event):
             event.reply_token,
             msg)
     elif None not in data_g:
-        msg=flexmsg_g.summary(data_g)
+        msg = flexmsg_g.summary(data_g)
         line_bot_api.reply_message(
             event.reply_token,
             msg
@@ -792,14 +788,11 @@ def pic(event):
         i = data_g.index(None)
         print("i =",i)
         if i == 12:
-            column_all = ['acrivity_no', 'activity_type', 'activity_name',
-                          'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
-                          'due_date', 'description', 'photo', 'name',
-                          'phone', 'mail', 'attendee', 'condition', 'user_id']
+
             #把圖片存下來並傳上去
             ext = 'jpg'
             message_content = line_bot_api.get_message_content(event.message.id)
-            with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+            with tempfile.NamedTemporaryFile(dir = static_tmp_path, prefix = ext + '-', delete = False) as tf:
                 for chunk in message_content.iter_content():
                     tf.write(chunk)
                 tempfile_path = tf.name
@@ -819,17 +812,17 @@ def pic(event):
                     'description': f'{event.source.user_id}_{data_g[3]}'
                 }
                 path = os.path.join('static', 'tmp', dist_name)
-                image=client.upload_from_path(path, config=con, anon=False)
+                image = client.upload_from_path(path, config=con, anon=False)
                 print("path = ",path)
                 os.remove(path)
                 print("image = ",image)
                 #把圖片網址存進資料庫
-                postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_update_query)
                 conn.commit()
                 
                 msg=[TextSendMessage(text='上傳成功'),
-                     ImageSendMessage(original_content_url=image['link'], preview_image_url=image['link']),
+                     ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
                      TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
                 
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
