@@ -205,24 +205,7 @@ def app_core(event):
                     cursor.close()
                     conn.close()
                     
-                else:
-                    # 在summary點選修改後
-                    column = event.message.text
-                    if column in column_all:
-                        postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                        cursor.execute(postgres_update_query)
-                        conn.commit()
-                        progress_target=[7, 6, 6, 6, 6, 6, 6, 6 ]
-                        msg = flexmsg_g.flex(column, data_g, progress_target)
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            msg
-                        )
-                    else :
-                        line_bot_api.reply_message(
-                            event.reply_token,
-                            TextSendMessage(text= "請輸入想修改的欄位名稱")
-                        )
+
 ## ================
 ## 我要報名
 ## ================
@@ -357,6 +340,21 @@ def gathering(event):
             msg
         )
         
+    elif "修改開團" in postback_data:
+        # 在summary點選修改後
+        column = postback_data.split("_", 1)[1]
+
+        postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+        
+        progress_target = [7, 6, 6, 6, 6, 6, 6, 6]
+        msg = flexmsg_g.flex(column, data_g, progress_target)
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
+
         
 ## ================
 ## 我要報名
@@ -752,7 +750,7 @@ def gathering(event):
                       'due_date', 'description', 'photo', 'name',
                       'phone', 'mail', 'attendee', 'condition', 'user_id']
         #處理activity date and time
-        if event.postback.data == "Activity_time" :
+        if event.postback.data == "activity_time" :
 
             record = event.postback.params['datetime']
             record = record.split("T")
@@ -764,7 +762,7 @@ def gathering(event):
             conn.commit()
 
             #處理due date
-        elif event.postback.data == "Due_time":
+        elif event.postback.data == "due_time":
 
             record = event.postback.params['date']
             # 寫入資料(更新截止時間)

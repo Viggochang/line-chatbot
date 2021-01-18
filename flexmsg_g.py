@@ -34,8 +34,8 @@ def flex(i, data, progress):
         msg = activity_name(progress)
     elif i == 3 or i == "activity_date":
         msg = activity_time(progress)
-    elif i == 5 or i == "location":
-        msg=location(progress)
+    elif i == 5 or i == "location_tittle":
+        msg = location(progress)
     elif i == 8 or i == "people":
         msg = people(progress)
     elif i == 9 or i == "cost":
@@ -141,7 +141,7 @@ def activity_time(progress):
                                      ButtonComponent(
                                          DatetimePickerAction(
                                              label = "點我選時間",
-                                             data = "Activity_time",
+                                             data = "activity_time",
                                              mode = "datetime"
                                          ),
                                          height = "sm",
@@ -259,6 +259,7 @@ def people(progress):
         )
     )
     return people
+    
 def cost(progress):
     cost = FlexSendMessage(
         alt_text = "請填寫預計支出",
@@ -322,7 +323,7 @@ def due_time(data):
                 contents = [ButtonComponent(
                     DatetimePickerAction(
                         label = "點我選時間",
-                        data = "Due_time",
+                        data = "due_time",
                         mode = "date",
                         max = str(data[3])
                     ),
@@ -522,8 +523,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "activity_type"
+                                action = PostbackAction(
+                                    label = "修改活動類型",
+                                    data = "修改開團_activity_type",
+                                    display_text = "修改活動類型"
                                 )
                             )
                         ]
@@ -551,8 +554,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "activity_name"
+                                action = PostbackAction(
+                                    label = "修改活動名稱",
+                                    data = "修改開團_activity_name",
+                                    display_text = "修改活動名稱"
                                 )
                             )
                         ]
@@ -579,8 +584,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "activity_date"
+                                action = PostbackAction(
+                                    label = "修改活動時間",
+                                    data = "修改開團_activity_date",
+                                    display_text = "修改活動時間"
                                 )
                             )
                         ]
@@ -609,10 +616,11 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "location_tittle"
-                                )
-                            )
+                                action = PostbackAction(
+                                    label = "修改活動地點",
+                                    data = "修改開團_location_tittle",
+                                    display_text = "修改活動地點"
+                                )                            )
                         ]
                     ),
                     BoxComponent(
@@ -638,8 +646,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "people"
+                                action = PostbackAction(
+                                    label = "修改活動人數",
+                                    data = "修改開團_people",
+                                    display_text = "修改活動人數"
                                 )
                             )
                         ]
@@ -667,8 +677,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "cost"
+                                action = PostbackAction(
+                                    label = "修改活動費用",
+                                    data = "修改開團_cost",
+                                    display_text = "修改活動費用"
                                 )
                             )
                         ]
@@ -696,8 +708,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "due_date"
+                                action = PostbackAction(
+                                    label = "修改報名截止日",
+                                    data = "修改開團_due_date",
+                                    display_text = "修改報名截止日"
                                 )
                             )
                         ]
@@ -725,8 +739,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "description"
+                                action = PostbackAction(
+                                    label = "修改活動敘述",
+                                    data = "修改開團_description",
+                                    display_text = "修改活動敘述"
                                 )
                             )
                         ]
@@ -757,8 +773,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "photo"
+                                action = PostbackAction(
+                                    label = "修改活動照片",
+                                    data = "修改開團_photo",
+                                    display_text = "修改活動照片"
                                 )
                             )
                         ]
@@ -786,8 +804,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "name"
+                                action = PostbackAction(
+                                    label = "修改主揪姓名",
+                                    data = "修改開團_name",
+                                    display_text = "修改主揪姓名"
                                 )
                             )
                         ]
@@ -815,8 +835,10 @@ def summary(data):
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
-                                action = MessageAction(
-                                    text = "phone"
+                                action = PostbackAction(
+                                    label = "修改主揪電話",
+                                    data = "修改開團_phone",
+                                    display_text = "修改主揪電話"
                                 )
                             )
                         ]
@@ -832,9 +854,10 @@ def summary(data):
                         margin = "none",
                         color = "#229C8F",
                         gravity = "bottom",
-                        action = MessageAction(
+                        action = PostbackAction(
                             label = "確認開團",
-                            text = "確認開團"
+                            data = "確認開團",
+                            display_text = "確認開團"
                         )
                     ),
                     SeparatorComponent(),
