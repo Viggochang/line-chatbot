@@ -62,65 +62,42 @@ def app_core(event):
     elif event.message.text == "我要開團":
         line_bot_api.reply_message(
             event.reply_token,
-            flexmsg_g.activity_type)
-
+            flexmsg_g.activity_type
+        )
         print("準備開團")
 
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
 
     elif event.message.text == "我要報名":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_r.activity_type_for_attendee
         )
-        
         print("準備可報名團資訊")
         
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
         
     elif event.message.text == "我的開團":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_glist.list_type
         )
-        
         print("查詢開團紀錄")
                 
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
         
     elif event.message.text == "我的報名":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_rlist.list_type
         )
-        
         print("查詢報名紀錄")
                 
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
         
     # 開始回答問題流程
     else:
@@ -288,12 +265,7 @@ def gathering(event):
 ## ================
     elif "開團活動類型" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
         
         type = postback_data.split("_")[1]
         print(f"type:{type}")
@@ -387,12 +359,7 @@ def gathering(event):
         #record[0]:立即報名 record[1]：活動代號 record[2]:活動名稱
 
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
 
         #創建一列
         postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}');"""
@@ -517,12 +484,7 @@ def gathering(event):
 
     elif "開團紀錄" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
         
         type = postback_data.split("_")[1]
         
@@ -609,12 +571,7 @@ def gathering(event):
 ## ================
     elif "報名紀錄" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
-        postgres_delete_query = f"""DELETE FROM group_data WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        cancel.reset(cursor, conn, event)
     
         type = postback_data.split("_")[1]
         
