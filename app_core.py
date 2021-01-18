@@ -352,10 +352,10 @@ def gathering(event):
         conn.close()
         
         msg = flexmsg_g.flex(2, data=None, progress=progress_target)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-            )
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
         
         
 ## ================
