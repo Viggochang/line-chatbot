@@ -142,8 +142,6 @@ def app_core(event):
                                    'activity_name', 'attendee_name', 'phone',
                                    'mail', 'condition', 'user_id']
         
-        activity_type = ['登山踏青', '桌遊麻將', '吃吃喝喝', '唱歌跳舞']
-        
 ## ================
 ## 我要開團
 ## ================
@@ -190,21 +188,6 @@ def app_core(event):
                         msg
                     )
                         
-            else:
-                if event.message.text == '確認開團':
-
-                    postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                    cursor.execute(postgres_update_query)
-                    conn.commit()
-
-                    line_bot_api.reply_message(
-                        event.reply_token,
-                        TextSendMessage(text = "開團成功！")
-                    )
-
-                    cursor.close()
-                    conn.close()
-                    
 
 ## ================
 ## 我要報名
@@ -280,12 +263,11 @@ def app_core(event):
 #處理postback 事件，例如datetime picker
 @handler.add(PostbackEvent)
 def gathering(event):
-    progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
+    progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
     progress_target = progress_list_halfgroupdata
     progress_list_fullregistrationdata=[2, 0, 0, 0, 0, 0, 1, 2]
 
-    activity_type = ['登山踏青', '桌遊麻將', '吃吃喝喝', '唱歌跳舞']
     print(f"postback_event:{event}")
     
     DATABASE_URL = os.environ['DATABASE_URL']
@@ -354,6 +336,20 @@ def gathering(event):
             event.reply_token,
             msg
         )
+        
+    elif "確認開團" in postback_data:
+
+        postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text = "開團成功！")
+        )
+
+        cursor.close()
+        conn.close()
 
         
 ## ================
@@ -755,7 +751,7 @@ def gathering(event):
             record = event.postback.params['datetime']
             record = record.split("T")
             print(record)
-            temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1)
+            temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1) #due_date
             # 寫入資料(更新活動日期、時間，預填截止時間）
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
