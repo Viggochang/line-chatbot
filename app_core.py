@@ -85,9 +85,6 @@ def app_core(event):
             flexmsg_glist.list_type
         )
         print("查詢開團紀錄")
-                
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
         
     elif event.message.text == "我的報名":
         line_bot_api.reply_message(
@@ -95,10 +92,7 @@ def app_core(event):
             flexmsg_rlist.list_type
         )
         print("查詢報名紀錄")
-                
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
-        
+
     # 開始回答問題流程
     else:
         postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
@@ -483,15 +477,13 @@ def gathering(event):
 ## ================
 
     elif "開團紀錄" in postback_data:
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
         
         type = postback_data.split("_")[1]
         
         if type == "已結束":
-            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
+            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
         elif type == "進行中":
-            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
+            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
             
         cursor.execute(postgres_select_query)
         group_data = cursor.fetchall()
@@ -570,16 +562,14 @@ def gathering(event):
 ## 我的報名
 ## ================
     elif "報名紀錄" in postback_data:
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
     
         type = postback_data.split("_")[1]
         
         if type == "已結束":
-            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
  
         elif type == "進行中":
-            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
+            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
             
         cursor.execute(postgres_select_query)
         rg_data = sorted(list(set(cursor.fetchall())), key = lambda x: x[2])
