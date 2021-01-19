@@ -222,7 +222,7 @@ def gathering(event):
 ## ================
 ## 我要開團
 ## ================
-    elif event.message.text == "我要開團":
+    elif postback_data == "我要開團":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_g.activity_type
@@ -296,7 +296,7 @@ def gathering(event):
 ## ================
 ## 我要報名
 ## ================
-    elif event.message.text == "我要報名":
+    elif postback_data == "我要報名":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_r.activity_type_for_attendee
@@ -460,7 +460,7 @@ def gathering(event):
 ## ================
 ## 我的開團
 ## ================
-    elif event.message.text == "我的開團":
+    elif postback_data == "我的開團":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_glist.list_type
@@ -552,7 +552,7 @@ def gathering(event):
 ## ================
 ## 我的報名
 ## ================
-    elif event.message.text == "我的報名":
+    elif postback_data == "我的報名":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_rlist.list_type
