@@ -11,7 +11,7 @@ import datetime as dt
 import json
 
 activity_type_for_attendee = TextSendMessage(
-    text = "請選擇活動類型",
+    text = "請選擇報名活動類型",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(

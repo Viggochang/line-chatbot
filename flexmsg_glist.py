@@ -15,7 +15,7 @@ list_type = TextSendMessage(
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "已結束的活動", data = "開團紀錄_已結束", display_text = "查詢[已結束的活動]")
+                action = PostbackAction(label = "歷史開團紀錄", data = "開團紀錄_已結束", display_text = "查詢[已結束的活動]")
                 ),
             QuickReplyButton(
                 action = PostbackAction(label = "即將來臨的活動", data = "開團紀錄_進行中", display_text = "查詢[即將來臨的活動]")
