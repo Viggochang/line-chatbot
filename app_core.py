@@ -57,41 +57,6 @@ def app_core(event):
 
     if event.message.text == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
-        
-
-    elif event.message.text == "我要開團":
-        line_bot_api.reply_message(
-            event.reply_token,
-            flexmsg_g.activity_type
-        )
-        print("準備開團")
-
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
-
-    elif event.message.text == "我要報名":
-        line_bot_api.reply_message(
-            event.reply_token,
-            flexmsg_r.activity_type_for_attendee
-        )
-        print("準備可報名團資訊")
-        
-        #把只創建卻沒有寫入資料的列刪除
-        cancel.reset(cursor, conn, event)
-        
-    elif event.message.text == "我的開團":
-        line_bot_api.reply_message(
-            event.reply_token,
-            flexmsg_glist.list_type
-        )
-        print("查詢開團紀錄")
-        
-    elif event.message.text == "我的報名":
-        line_bot_api.reply_message(
-            event.reply_token,
-            flexmsg_rlist.list_type
-        )
-        print("查詢報名紀錄")
 
     # 開始回答問題流程
     else:
@@ -257,6 +222,16 @@ def gathering(event):
 ## ================
 ## 我要開團
 ## ================
+    elif event.message.text == "我要開團":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_g.activity_type
+        )
+        print("準備開團")
+
+        #把只創建卻沒有寫入資料的列刪除
+        cancel.reset(cursor, conn, event)
+        
     elif "開團活動類型" in postback_data:
         #把只創建卻沒有寫入資料的列刪除
         cancel.reset(cursor, conn, event)
@@ -321,6 +296,16 @@ def gathering(event):
 ## ================
 ## 我要報名
 ## ================
+    elif event.message.text == "我要報名":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_r.activity_type_for_attendee
+        )
+        print("準備可報名團資訊")
+        
+        #把只創建卻沒有寫入資料的列刪除
+        cancel.reset(cursor, conn, event)
+        
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
         type = postback_data.split("_")[1]
@@ -475,7 +460,13 @@ def gathering(event):
 ## ================
 ## 我的開團
 ## ================
-
+    elif event.message.text == "我的開團":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_glist.list_type
+        )
+        print("查詢開團紀錄")
+        
     elif "開團紀錄" in postback_data:
         
         type = postback_data.split("_")[1]
@@ -561,6 +552,13 @@ def gathering(event):
 ## ================
 ## 我的報名
 ## ================
+    elif event.message.text == "我的報名":
+        line_bot_api.reply_message(
+            event.reply_token,
+            flexmsg_rlist.list_type
+        )
+        print("查詢報名紀錄")
+        
     elif "報名紀錄" in postback_data:
     
         type = postback_data.split("_")[1]
@@ -682,7 +680,7 @@ def gathering(event):
             )
                 
 ## ================
-## 我要開團
+## 開團回傳時間
 ## ================
     else:
         # 開團時,填寫時間資料
