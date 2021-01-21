@@ -9,6 +9,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 
 import psycopg2
 import datetime as dt
+import tempfile
+
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
 
