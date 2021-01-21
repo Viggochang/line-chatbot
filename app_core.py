@@ -1,15 +1,14 @@
 from __future__ import unicode_literals
 import os
 import configparser
+import psycopg2
+import datetime as dt
+import tempfile
 
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, PostbackEvent, LocationMessage, ImageMessage
-
-import psycopg2
-import datetime as dt
-import tempfile
 
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
@@ -775,11 +774,11 @@ def gathering(event):
     cursor.close()
     conn.close()
     
-'''
+
 @handler.add(MessageEvent, message=ImageMessage)
 def pic(event):
     DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = psycopg2.connect(DATABASE_URL, sslmode = 'require')
     cursor = conn.cursor()
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
@@ -825,17 +824,13 @@ def pic(event):
                      ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
                      TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
                 
-                postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' ORDER BY activity_no DESC;"""
-                cursor.execute(postgres_select_query)
-                data_g = cursor.fetchone()
-                
-                if None not in data_g:
-                    msg.append(flexmsg_g.summary(data_g))
+                msg.append(flexmsg_g.summary(data_g))
                     
-                    line_bot_api.reply_message(
-                        event.reply_token,
-                        msg
-                    )
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    msg
+                )
+                
             except:
                 line_bot_api.reply_message(
                     event.reply_token,
@@ -847,7 +842,7 @@ def pic(event):
             TextSendMessage(text = "現在不用傳圖片給我")
         )
     return 0
-'''
+
 
 if __name__ == "__main__":
     app.run()

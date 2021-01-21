@@ -358,7 +358,7 @@ description = FlexSendMessage(
 )
 
 photo = FlexSendMessage(
-    alt_text = "請提供照片網址",
+    alt_text = "請傳送一張照片",
     contents = BubbleContainer(
         direction = "ltr",
         body = BoxComponent(
