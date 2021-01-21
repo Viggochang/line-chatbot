@@ -791,6 +791,7 @@ def pic(event):
             #把圖片存下來並傳上去
             ext = 'jpg'
             print(f"messege_id : {event.message.id}")
+            print(event)
             message_content = line_bot_api.get_message_content(event.message.id)
             with tempfile.NamedTemporaryFile(dir = static_tmp_path, prefix = ext + '-', delete = False) as tf:
                 for chunk in message_content.iter_content():
