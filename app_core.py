@@ -10,7 +10,6 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
-from linebot.LineBotApi import get_message_content
 # from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, PostbackEvent, LocationMessage, ImageMessage
 
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
