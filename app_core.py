@@ -783,12 +783,12 @@ def handle_message(event):
     if isinstance(event.message, ImageMessage):
 #         ext = 'jpg'
         print(event)
-        print(event.message.id)
+        print(event.message.id, type(event.message.id))
         
 #        config = configparser.ConfigParser()
 #        config.read('config.ini')
 #        line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
-        message_content = line_bot_api.get_message_content(event.message.id)
+        message_content = line_bot_api.get_message_content(event.message.id.decode("utf-8"))
         
         with tempfile.NamedTemporaryFile(dir = static_tmp_path, prefix=ext + '-', delete=False) as tf:
             for chunk in message_content.iter_content():
