@@ -774,32 +774,63 @@ def gathering(event):
     cursor.close()
     conn.close()
     
+@handler.add(MessageEvent, message=(ImageMessage, TextMessage))
+def handle_message(event):
+    if isinstance(event.message, ImageMessage):
+        ext = 'jpg'
+        message_content = line_bot_api.get_message_content(event.message.id)
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
 
-@handler.add(MessageEvent, message = ImageMessage)
-def pic(event):
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode = 'require')
-    cursor = conn.cursor()
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_select_query)
-    data_g = cursor.fetchone()
-    
-    ext = 'jpg'
-    print(f"messege_id : {event.message.id}")
-    print(event)
-    message_content = line_bot_api.get_message_content(event.message.id)
+        dist_path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
+        os.rename(tempfile_path, dist_path)
+        try:
+            config = configparser.ConfigParser()
+            config.read('config.ini')
+            client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
+            con = {
+                'album': config.get('imgur', 'album_id'),
+                'name': f'{event.source.user_id}_{data_g[3]}',
+                'title': f'{event.source.user_id}_{data_g[3]}',
+                'description': f'{event.source.user_id}_{data_g[3]}'
+            }
             
-    if data_g:
-        i = data_g.index(None)
-        print("i =",i)
-        if i == 12:
+            path = os.path.join('static', 'tmp', dist_name)
+            client.upload_from_path(path, config=con, anon=False)
+            os.remove(path)
+            print(path)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='上傳成功'))
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='上傳失敗'))
+        return 0
 
-            #把圖片存下來並傳上去
-            ext = 'jpg'
-            print(f"messege_id : {event.message.id}")
-            print(event)
-            message_content = line_bot_api.get_message_content(event.message.id)
-            
+
+#@handler.add(MessageEvent, message = ImageMessage)
+#def pic(event):
+#    DATABASE_URL = os.environ['DATABASE_URL']
+#    conn = psycopg2.connect(DATABASE_URL, sslmode = 'require')
+#    cursor = conn.cursor()
+#    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#    cursor.execute(postgres_select_query)
+#    data_g = cursor.fetchone()
+#    if data_g:
+#        i = data_g.index(None)
+#        print("i =",i)
+#        if i == 12:
+#
+#            #把圖片存下來並傳上去
+#            ext = 'jpg'
+#            print(f"messege_id : {event.message.id}")
+#            print(event)
+#            message_content = line_bot_api.get_message_content(event.message.id)
+#
 #            with tempfile.NamedTemporaryFile(dir = static_tmp_path, prefix = ext + '-', delete = False) as tf:
 #                for chunk in message_content.iter_content():
 #                    tf.write(chunk)
