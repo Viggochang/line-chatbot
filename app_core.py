@@ -782,7 +782,7 @@ def gathering(event):
 def handle_message(event):
     if isinstance(event.message, ImageMessage):
 #         ext = 'jpg'
-        print(event)
+#        print(event)
         
 #        config = configparser.ConfigParser()
 #        config.read('config.ini')
