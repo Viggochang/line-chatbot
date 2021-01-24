@@ -42,4 +42,5 @@ def reset(cursor, conn, event):
     postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_delete_query)
     conn.commit()
+    print("刪除未成功資料")
 

@@ -778,7 +778,7 @@ def gathering(event):
     cursor.close()
     conn.close()
     
-@handler.add(MessageEvent, message=(ImageMessage, TextMessage))
+@handler.add(MessageEvent, message = ImageMessage)
 def handle_message(event):
     if isinstance(event.message, ImageMessage):
         ext = 'jpg'
