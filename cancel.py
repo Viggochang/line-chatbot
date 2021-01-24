@@ -25,11 +25,13 @@ def cancel(line_bot_api, cursor, conn, event):
             event.reply_token,
             TextSendMessage(text = "取消成功")
         )
+        print("取消成功")
     else:
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "無可取消的開團/報名資料")
         )
+        print("無可取消的開團/報名資料")
 
 
 def reset(cursor, conn, event):
