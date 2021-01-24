@@ -4,11 +4,13 @@ import configparser
 import psycopg2
 import datetime as dt
 import tempfile
+from imgurpython import ImgurClient
 
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, PostbackEvent, LocationMessage, ImageMessage
+from linebot.models import *
+# from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, PostbackEvent, LocationMessage, ImageMessage
 
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
