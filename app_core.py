@@ -22,6 +22,8 @@ config.read('config.ini')
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 
+static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
