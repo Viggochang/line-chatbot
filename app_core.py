@@ -783,6 +783,12 @@ def pic(event):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
+    
+    ext = 'jpg'
+    print(f"messege_id : {event.message.id}")
+    print(event)
+    message_content = line_bot_api.get_message_content(event.message.id)
+            
     if data_g:
         i = data_g.index(None)
         print("i =",i)
