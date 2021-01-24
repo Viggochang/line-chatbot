@@ -788,7 +788,7 @@ def handle_message(event):
 #        config = configparser.ConfigParser()
 #        config.read('config.ini')
 #        line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
-        message_content = line_bot_api.get_message_content(str(event.message.id))
+        message_content = line_bot_api.get_message_content("{}")
         
         with tempfile.NamedTemporaryFile(dir = static_tmp_path, prefix=ext + '-', delete=False) as tf:
             for chunk in message_content.iter_content():
