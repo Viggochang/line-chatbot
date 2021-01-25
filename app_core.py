@@ -206,7 +206,7 @@ def app_core(event):
 def gathering(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
-    progress_target = progress_list_halfgroupdata
+    progress_target = progress_list_fullgroupdata
     progress_list_fullregistrationdata=[2, 0, 0, 0, 0, 0, 1, 2]
 
     print(f"postback_event:{event}")
@@ -258,7 +258,7 @@ def gathering(event):
             postgres_update_query = f"""UPDATE group_data SET name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
             cursor.execute(postgres_update_query)
             conn.commit()
-            progress_target = progress_list_fullgroupdata
+            progress_target = progress_list_halfgroupdata
 
         cursor.close()
         conn.close()
