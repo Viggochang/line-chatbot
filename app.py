@@ -16,8 +16,8 @@ from config import client_id, client_secret, album_id, access_token, refresh_tok
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi(line_channel_access_token)
-handler = WebhookHandler(line_channel_secret)
+line_bot_api = LineBotApi('NpTtgG2aENN8PGBvJQgq986lUDiFeCd5zr2/woya4ELt8J7MefsdLv+VOc+Cja39aV8ii3Hd8+jR8lQHYHlIcDtVKpTbKjPTnl4kQPxuOHZp1pkq2khE8XIhF1XuPKrF3naNuJftXI5cNp6HIvvXUQdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('0acda87e7e1ca62222c044dbcad7bd31')
 
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
