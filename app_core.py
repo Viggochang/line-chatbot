@@ -366,9 +366,12 @@ def gathering(event):
         phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
 
         print(f"phone_registration:{phone_registration}")
-            
-        name = data_for_basicinfo[0]
-        phone = data_for_basicinfo[1]
+        
+        if data_for_basicinfo:
+            name = data_for_basicinfo[0]
+            phone = data_for_basicinfo[1]
+        else:
+            name, phone = None, None
         
         if name != None and phone != None and phone not in phone_registration:
             # 已有報名紀錄則直接帶入先前資料
