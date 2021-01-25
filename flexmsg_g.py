@@ -40,17 +40,17 @@ def flex(i, data, progress):
         msg = people(progress)
     elif i == 9 or i == "cost":
         msg = cost(progress)
-    elif i == "due_date":
+    elif i == 10 or i == "due_date":
         msg = due_time(data)
-    elif i == "description":
+    elif i == 11 or i == "description":
         msg = description
-    elif i == "photo":
+    elif i == 12 or i == "photo":
         msg = photo
     elif i == 13 or i == "name":
         msg = name(progress)
     elif i == 14 or i == "phone":
         msg = phone(progress)
-    elif i == "activity_type":
+    elif i == 1 or i == "activity_type":
         msg = activity_type
     else:
         msg = TextSendMessage(text = "FlexMessage Bug 爆發中...")
