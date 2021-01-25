@@ -396,7 +396,7 @@ def name(progress):
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
-                contents = [TextComponent(text = f"{progress[4]} / {progress[0]} ", weight = "bold", size = "md"),
+                contents = [TextComponent(text = f"{progress[5]} / {progress[0]} ", weight = "bold", size = "md"),
                             BoxComponent(layout = "vertical",
                                          margin = "md",
                                          contents = [
@@ -443,7 +443,7 @@ def phone(progress):
                                                           contents = [FillerComponent()]
                                                          )
                                          ],
-                                         width = f"{int(progress[4] / progress[0] * 100 + 0.5 )}%",
+                                         width = f"{int(progress[6] / progress[0] * 100 + 0.5 )}%",
                                          background_color = "#3DE1D0",
                                          height = "6px"
                                         )
