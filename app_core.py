@@ -87,7 +87,7 @@ def app_core(event):
 ## 我要開團
 ## ================
         if data_g:
-            progress_target = progress_list_halfgroupdata
+            progress_target = progress_list_fullgroupdata
             i = data_g.index(None) # 寫入資料的那一格
             
             if None in data_g:
@@ -110,6 +110,9 @@ def app_core(event):
                 cursor.execute(postgres_select_query)
                 data_g = cursor.fetchone()
                 print(f"輸入資料後 data_g:{data_g}")
+                
+                if data_g[14]:
+                    progress_target = progress_list_halfgroupdata
 
                 if None in data_g: # 問下一題
                     i = data_g.index(None)
@@ -741,7 +744,7 @@ def gathering(event):
 def gathering(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
-    progress_target = progress_list_halfgroupdata
+    progress_target = progress_list_fullgroupdata
     
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
@@ -763,6 +766,9 @@ def gathering(event):
     
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
+    
+    if data_g[14]:
+        progress_target = progress_list_halfgroupdata
     
     if None in data_g:
         i = data_g.index(None)
