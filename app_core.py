@@ -258,6 +258,7 @@ def gathering(event):
             postgres_update_query = f"""UPDATE group_data SET name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
             cursor.execute(postgres_update_query)
             conn.commit()
+            progress_target = progress_list_fullgroupdata
 
         cursor.close()
         conn.close()
