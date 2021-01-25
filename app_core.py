@@ -726,7 +726,10 @@ def gathering(event):
         #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
-
+        
+        if data_g[14]:
+            progress_target = progress_list_halfgroupdata
+            
         if None in data_g:
             i = data_g.index(None)
             msg = flexmsg_g.flex(i, data_g, progress_target)
