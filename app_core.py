@@ -875,7 +875,7 @@ def pic(event):
             }
 
             image = client.upload_from_path(dist_path, config = con, anon = False)
-            os.remove(path)
+            os.remove(dist_path)
             print("image = ",image)
             #把圖片網址存進資料庫
             postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
