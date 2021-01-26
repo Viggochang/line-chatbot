@@ -875,7 +875,7 @@ def pic(event):
                 'title': f'{event.source.user_id}_{data_g[3]}',
                 'description': f'{event.source.user_id}_{data_g[3]}'
             }
-            path = os.path.join('tmp', dist_name)
+            path = dist_path
             print(path)
             image = client.upload_from_path(path, config=con, anon=False)
             print("path = ",path)
