@@ -885,10 +885,11 @@ def pic(event):
             postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
-
-            msg=[TextSendMessage(text='上傳成功'),
-                 ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
-                 TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
+            
+            print(image['link'])
+            msg=[TextSendMessage(text='上傳成功')]
+#                 ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
+#                 TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
 
             msg.append(flexmsg_g.summary(data_g))
 
