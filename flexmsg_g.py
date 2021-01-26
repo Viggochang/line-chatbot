@@ -1,34 +1,26 @@
-from linebot.models import (
-    TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,CarouselContainer
-)
+from linebot.models import *
 import datetime as dt
 import json
 
 activity_type = TextSendMessage(
-    text = "è«‹é¸æ“‡é–‹åœ˜æ´»å‹•é¡å‹",
+    text = "½Ğ¿ï¾Ü¶}¹Î¬¡°ÊÃş«¬",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "ç™»å±±è¸é’", data = "é–‹åœ˜æ´»å‹•é¡å‹_ç™»å±±è¸é’",  display_text = "ç™»å±±è¸é’")
+                action = PostbackAction(label = "µn¤s½ñ«C", data = "¶}¹Î¬¡°ÊÃş«¬_µn¤s½ñ«C",  display_text = "µn¤s½ñ«C")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "æ¡ŒéŠéº»å°‡", data = "é–‹åœ˜æ´»å‹•é¡å‹_æ¡ŒéŠéº»å°‡", display_text = "æ¡ŒéŠéº»å°‡")
+                action = PostbackAction(label = "®à¹C³Â±N", data = "¶}¹Î¬¡°ÊÃş«¬_®à¹C³Â±N", display_text = "®à¹C³Â±N")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "åƒåƒå–å–", data = "é–‹åœ˜æ´»å‹•é¡å‹_åƒåƒå–å–", display_text = "åƒåƒå–å–")
+                action = PostbackAction(label = "¦Y¦Y³Ü³Ü", data = "¶}¹Î¬¡°ÊÃş«¬_¦Y¦Y³Ü³Ü", display_text = "¦Y¦Y³Ü³Ü")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "å”±æ­Œè·³èˆ", data = "é–‹åœ˜æ´»å‹•é¡å‹_å”±æ­Œè·³èˆ", display_text = "å”±æ­Œè·³èˆ")
+                action = PostbackAction(label = "°Ûºq¸õ»R", data = "¶}¹Î¬¡°ÊÃş«¬_°Ûºq¸õ»R", display_text = "°Ûºq¸õ»R")
                 )
             ]))
             
-# çµ¦é–‹åœ˜è€…ç”¨çš„
+# µ¹¶}¹ÎªÌ¥Îªº
 def flex(i, data, progress):
     if i == 2 or i == "activity_name":
         msg = activity_name(progress)
@@ -53,22 +45,22 @@ def flex(i, data, progress):
     elif i == 1 or i == "activity_type":
         msg = activity_type
     else:
-        msg = TextSendMessage(text = "FlexMessage Bug çˆ†ç™¼ä¸­...")
+        msg = TextSendMessage(text = "FlexMessage Bug Ãzµo¤¤...")
     return msg
 
 def activity_name(progress):
     activity_name = FlexSendMessage(
-        alt_text = "è«‹å¡«å¯«æ´»å‹•åç¨±",
+        alt_text = "½Ğ¶ñ¼g¬¡°Ê¦WºÙ",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
                 layout = "vertical",
                 contents = [
-                    TextComponent(text = "æ´»å‹•åç¨±", weight = "bold", size = "lg", align = "center"),
+                    TextComponent(text = "¬¡°Ê¦WºÙ", weight = "bold", size = "lg", align = "center"),
                     BoxComponent(layout = "baseline",
                                  margin = "lg",
                                  contents = [
-                                     TextComponent(text = "è«‹å•æ‚¨çš„æ´»å‹•åç¨±è¦å«ä»€éº¼å‘¢ï¼Ÿ",
+                                     TextComponent(text = "½Ğ°İ±zªº¬¡°Ê¦WºÙ­n¥s¤°»ò©O¡H",
                                                    size = "md",
                                                    flex = 0,
                                                    color = "#666666")
@@ -76,7 +68,7 @@ def activity_name(progress):
                                 )
                 ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -94,21 +86,21 @@ def activity_name(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return activity_name
 
 def activity_time(progress):
     activity_time = FlexSendMessage(
-        alt_text = "è«‹æŒ‘é¸æ´»å‹•æ™‚é–“",
+        alt_text = "½Ğ¬D¿ï¬¡°Ê®É¶¡",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
                 layout = "vertical",
                 contents =[
                     TextComponent(
-                        text = "è«‹é¸æ“‡æ´»å‹•æ™‚é–“",
+                        text = "½Ğ¿ï¾Ü¬¡°Ê®É¶¡",
                         size = "lg",
                         align = "center",
                         weight = "bold"
@@ -140,7 +132,7 @@ def activity_time(progress):
                                  contents = [
                                      ButtonComponent(
                                          DatetimePickerAction(
-                                             label = "é»æˆ‘é¸æ™‚é–“",
+                                             label = "ÂI§Ú¿ï®É¶¡",
                                              data = "activity_time",
                                              mode = "datetime"
                                          ),
@@ -160,21 +152,21 @@ def activity_time(progress):
 
 def location(progress):
     location = FlexSendMessage(
-        alt_text = "è«‹æŒ‘é¸æ´»å‹•åœ°é»",
+        alt_text = "½Ğ¬D¿ï¬¡°Ê¦aÂI",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹é¸æ“‡æ´»å‹•åœ°é»",
+                  text = "½Ğ¿ï¾Ü¬¡°Ê¦aÂI",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer = BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -197,14 +189,14 @@ def location(progress):
 
                                             ]
                               ),
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
             BoxComponent(
               layout = "horizontal",
                 margin = "md",
               contents = [
                 ButtonComponent(
                     URIAction(
-                        label = "é»æˆ‘é¸åœ°é»",
+                        label = "ÂI§Ú¿ï¦aÂI",
                         uri = "https://line.me/R/nv/location"
                     ),
                     height = "sm",
@@ -223,21 +215,21 @@ def location(progress):
 
 def people(progress):
     people = FlexSendMessage(
-        alt_text = "è«‹å¡«å¯«äººæ•¸",
+        alt_text = "½Ğ¶ñ¼g¤H¼Æ",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents =[
               TextComponent(
-                  text = "è«‹å¡«å¯«æ´»å‹•åƒåŠ äººæ•¸",
+                  text = "½Ğ¶ñ¼g¬¡°Ê°Ñ¥[¤H¼Æ",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -255,28 +247,28 @@ def people(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return people
     
 def cost(progress):
     cost = FlexSendMessage(
-        alt_text = "è«‹å¡«å¯«é è¨ˆæ”¯å‡º",
+        alt_text = "½Ğ¶ñ¼g¹w­p¤ä¥X",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹å¡«å¯«é è¨ˆæ”¯å‡º",
+                  text = "½Ğ¶ñ¼g¹w­p¤ä¥X",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -294,35 +286,35 @@ def cost(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return cost
 
 def due_time(data):
     due = FlexSendMessage(
-        alt_text = "è«‹æŒ‘é¸æˆªæ­¢æ—¥æœŸ",
+        alt_text = "½Ğ¬D¿ïºI¤î¤é´Á",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹é¸æ“‡å ±åæˆªæ­¢æ—¥æœŸ",
+                  text = "½Ğ¿ï¾Ü³ø¦WºI¤î¤é´Á",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
         footer=
-        #é€²åº¦æ¢çš„æœ¬é«”/
+        #¶i«×±øªº¥»Åé/
             BoxComponent(
                 layout = "horizontal",
                 contents = [ButtonComponent(
                     DatetimePickerAction(
-                        label = "é»æˆ‘é¸æ™‚é–“",
+                        label = "ÂI§Ú¿ï®É¶¡",
                         data = "due_time",
                         mode = "date",
                         max = str(data[3])
@@ -340,14 +332,14 @@ def due_time(data):
     return due
 
 description = FlexSendMessage(
-    alt_text = "è«‹å¡«å¯«æ´»å‹•å…§å®¹",
+    alt_text = "½Ğ¶ñ¼g¬¡°Ê¤º®e",
     contents = BubbleContainer(
         direction = "ltr",
         body = BoxComponent(
           layout = "vertical",
           contents = [
           TextComponent(
-              text = "è«‹å¡«å¯«è©³ç´°æ´»å‹•å…§å®¹",
+              text = "½Ğ¶ñ¼g¸Ô²Ó¬¡°Ê¤º®e",
               size = "lg",
               align = "center",
               weight = "bold"
@@ -358,14 +350,14 @@ description = FlexSendMessage(
 )
 
 photo = FlexSendMessage(
-    alt_text = "è«‹å‚³é€ä¸€å¼µç…§ç‰‡",
+    alt_text = "½Ğ¶Ç°e¤@±i·Ó¤ù",
     contents = BubbleContainer(
         direction = "ltr",
         body = BoxComponent(
           layout = "vertical",
           contents = [
           TextComponent(
-              text = "è«‹å‚³é€ä¸€å¼µç…§ç‰‡",
+              text = "½Ğ¶Ç°e¤@±i·Ó¤ù",
               size = "md",
               wrap = True,
               align = "center",
@@ -377,14 +369,14 @@ photo = FlexSendMessage(
 )
 def name(progress):
     name = FlexSendMessage(
-        alt_text = "è«‹æä¾›åç¨±",
+        alt_text = "½Ğ´£¨Ñ¦WºÙ",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹æä¾›æ‚¨çš„å§“åæˆ–æ˜¯å¯ä»¥è¾¨è­˜ä¹‹æš±ç¨±",
+                  text = "½Ğ´£¨Ñ±zªº©m¦W©Î¬O¥i¥H¿ëÃÑ¤§¼ÊºÙ",
                   size = "md",
                   wrap = True,
                   align = "center",
@@ -392,7 +384,7 @@ def name(progress):
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -410,28 +402,28 @@ def name(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return name
 
 def phone(progress):
     phone = FlexSendMessage(
-        alt_text = "è«‹æä¾›é›»è©±",
+        alt_text = "½Ğ´£¨Ñ¹q¸Ü",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹æä¾›å¯ä»¥è¯çµ¡æ‚¨çš„é›»è©±è™Ÿç¢¼",
+                  text = "½Ğ´£¨Ñ¥i¥HÁpµ¸±zªº¹q¸Ü¸¹½X",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer = BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -449,20 +441,20 @@ def phone(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return phone
 
 #mail = FlexSendMessage(
-#    alt_text = "è«‹æä¾›ä¿¡ç®±",
+#    alt_text = "½Ğ´£¨Ñ«H½c",
 #    contents = BubbleContainer(
 #        direction = "ltr",
 #        body = BoxComponent(
 #          layout = "vertical",
 #          contents = [
 #          TextComponent(
-#              text = "è«‹æä¾›å¯ä»¥è¯çµ¡æ‚¨çš„é›»å­ä¿¡ç®±",
+#              text = "½Ğ´£¨Ñ¥i¥HÁpµ¸±zªº¹q¤l«H½c",
 #              size = "lg",
 #              align = "center",
 #              weight = "bold"
@@ -474,7 +466,7 @@ def phone(progress):
 
 
 def summary(data):
-    if data[12] == 'ç„¡':
+    if data[12] == 'µL':
         act = None
         col = "#141414"
     else:
@@ -482,14 +474,14 @@ def summary(data):
         col = "#229C8F"
         
     sum = FlexSendMessage(
-        alt_text = "è«‹ç¢ºèªé–‹åœ˜è³‡è¨Š",
+        alt_text = "½Ğ½T»{¶}¹Î¸ê°T",
         contents = BubbleContainer(
             direction = "ltr",
             header = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹ç¢ºèªé–‹åœ˜è³‡è¨Šï¼š",
+                  text = "½Ğ½T»{¶}¹Î¸ê°T¡G",
                   weight = "bold",
                   size = "md",
                   align = "start",
@@ -504,7 +496,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•é¡å‹ï¼š{data[1]}",
+                                text = f"¬¡°ÊÃş«¬¡G{data[1]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -518,15 +510,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•é¡å‹",
-                                    data = "ä¿®æ”¹é–‹åœ˜_activity_type",
-                                    display_text = "ä¿®æ”¹æ´»å‹•é¡å‹"
+                                    label = "­×§ï¬¡°ÊÃş«¬",
+                                    data = "­×§ï¶}¹Î_activity_type",
+                                    display_text = "­×§ï¬¡°ÊÃş«¬"
                                 )
                             )
                         ]
@@ -535,7 +527,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•åç¨±ï¼š{data[2]}",
+                                text = f"¬¡°Ê¦WºÙ¡G{data[2]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -549,15 +541,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•åç¨±",
-                                    data = "ä¿®æ”¹é–‹åœ˜_activity_name",
-                                    display_text = "ä¿®æ”¹æ´»å‹•åç¨±"
+                                    label = "­×§ï¬¡°Ê¦WºÙ",
+                                    data = "­×§ï¶}¹Î_activity_name",
+                                    display_text = "­×§ï¬¡°Ê¦WºÙ"
                                 )
                             )
                         ]
@@ -566,7 +558,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•æ™‚é–“ï¼š{data[3]} {str(data[4])[:5]}",
+                                text = f"¬¡°Ê®É¶¡¡G{data[3]} {str(data[4])[:5]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -579,15 +571,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•æ™‚é–“",
-                                    data = "ä¿®æ”¹é–‹åœ˜_activity_date",
-                                    display_text = "ä¿®æ”¹æ´»å‹•æ™‚é–“"
+                                    label = "­×§ï¬¡°Ê®É¶¡",
+                                    data = "­×§ï¶}¹Î_activity_date",
+                                    display_text = "­×§ï¬¡°Ê®É¶¡"
                                 )
                             )
                         ]
@@ -596,7 +588,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•åœ°é»ï¼š{data[5]}",
+                                text = f"¬¡°Ê¦aÂI¡G{data[5]}",
                                 size = "md",
                                 flex = 10,
                                 wrap = True,
@@ -611,15 +603,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•åœ°é»",
-                                    data = "ä¿®æ”¹é–‹åœ˜_location_tittle",
-                                    display_text = "ä¿®æ”¹æ´»å‹•åœ°é»"
+                                    label = "­×§ï¬¡°Ê¦aÂI",
+                                    data = "­×§ï¶}¹Î_location_tittle",
+                                    display_text = "­×§ï¬¡°Ê¦aÂI"
                                 )                            )
                         ]
                     ),
@@ -627,7 +619,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•äººæ•¸ï¼š{data[8]}",
+                                text = f"¬¡°Ê¤H¼Æ¡G{data[8]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -641,15 +633,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•äººæ•¸",
-                                    data = "ä¿®æ”¹é–‹åœ˜_people",
-                                    display_text = "ä¿®æ”¹æ´»å‹•äººæ•¸"
+                                    label = "­×§ï¬¡°Ê¤H¼Æ",
+                                    data = "­×§ï¶}¹Î_people",
+                                    display_text = "­×§ï¬¡°Ê¤H¼Æ"
                                 )
                             )
                         ]
@@ -658,7 +650,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•è²»ç”¨ï¼š{data[9]}",
+                                text = f"¬¡°Ê¶O¥Î¡G{data[9]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -672,15 +664,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•è²»ç”¨",
-                                    data = "ä¿®æ”¹é–‹åœ˜_cost",
-                                    display_text = "ä¿®æ”¹æ´»å‹•è²»ç”¨"
+                                    label = "­×§ï¬¡°Ê¶O¥Î",
+                                    data = "­×§ï¶}¹Î_cost",
+                                    display_text = "­×§ï¬¡°Ê¶O¥Î"
                                 )
                             )
                         ]
@@ -689,7 +681,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"å ±åæˆªæ­¢æ—¥ï¼š{data[10]}",
+                                text = f"³ø¦WºI¤î¤é¡G{data[10]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -703,15 +695,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹å ±åæˆªæ­¢æ—¥",
-                                    data = "ä¿®æ”¹é–‹åœ˜_due_date",
-                                    display_text = "ä¿®æ”¹å ±åæˆªæ­¢æ—¥"
+                                    label = "­×§ï³ø¦WºI¤î¤é",
+                                    data = "­×§ï¶}¹Î_due_date",
+                                    display_text = "­×§ï³ø¦WºI¤î¤é"
                                 )
                             )
                         ]
@@ -720,7 +712,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•æ•˜è¿°ï¼š{data[11]}",
+                                text = f"¬¡°Ê±Ô­z¡G{data[11]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -734,15 +726,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•æ•˜è¿°",
-                                    data = "ä¿®æ”¹é–‹åœ˜_description",
-                                    display_text = "ä¿®æ”¹æ´»å‹•æ•˜è¿°"
+                                    label = "­×§ï¬¡°Ê±Ô­z",
+                                    data = "­×§ï¶}¹Î_description",
+                                    display_text = "­×§ï¬¡°Ê±Ô­z"
                                 )
                             )
                         ]
@@ -751,7 +743,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•ç…§ç‰‡ï¼š{data[12]}",
+                                text = f"¬¡°Ê·Ó¤ù¡G{data[12]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start",
@@ -768,15 +760,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹æ´»å‹•ç…§ç‰‡",
-                                    data = "ä¿®æ”¹é–‹åœ˜_photo",
-                                    display_text = "ä¿®æ”¹æ´»å‹•ç…§ç‰‡"
+                                    label = "­×§ï¬¡°Ê·Ó¤ù",
+                                    data = "­×§ï¶}¹Î_photo",
+                                    display_text = "­×§ï¬¡°Ê·Ó¤ù"
                                 )
                             )
                         ]
@@ -785,7 +777,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"ä¸»æªå§“åï¼š{data[13]}",
+                                text = f"¥D´ª©m¦W¡G{data[13]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -799,15 +791,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹ä¸»æªå§“å",
-                                    data = "ä¿®æ”¹é–‹åœ˜_name",
-                                    display_text = "ä¿®æ”¹ä¸»æªå§“å"
+                                    label = "­×§ï¥D´ª©m¦W",
+                                    data = "­×§ï¶}¹Î_name",
+                                    display_text = "­×§ï¥D´ª©m¦W"
                                 )
                             )
                         ]
@@ -816,7 +808,7 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"ä¸»æªé›»è©±ï¼š{data[14]}",
+                                text = f"¥D´ª¹q¸Ü¡G{data[14]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -830,15 +822,15 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹ä¸»æªé›»è©±",
-                                    data = "ä¿®æ”¹é–‹åœ˜_phone",
-                                    display_text = "ä¿®æ”¹ä¸»æªé›»è©±"
+                                    label = "­×§ï¥D´ª¹q¸Ü",
+                                    data = "­×§ï¶}¹Î_phone",
+                                    display_text = "­×§ï¥D´ª¹q¸Ü"
                                 )
                             )
                         ]
@@ -855,9 +847,9 @@ def summary(data):
                         color = "#229C8F",
                         gravity = "bottom",
                         action = PostbackAction(
-                            label = "ç¢ºèªé–‹åœ˜",
-                            data = "ç¢ºèªé–‹åœ˜",
-                            display_text = "ç¢ºèªé–‹åœ˜"
+                            label = "½T»{¶}¹Î",
+                            data = "½T»{¶}¹Î",
+                            display_text = "½T»{¶}¹Î"
                         )
                     ),
                     SeparatorComponent(),
@@ -868,9 +860,9 @@ def summary(data):
                         color = "#229C8F",
                         gravity = "bottom",
                         action = PostbackAction(
-                            label = "å–æ¶ˆé–‹åœ˜",
+                            label = "¨ú®ø¶}¹Î",
                             data = "~cancel",
-                            display_text = "å–æ¶ˆé–‹åœ˜"
+                            display_text = "¨ú®ø¶}¹Î"
                         )
                     )
                 ]

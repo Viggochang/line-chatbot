@@ -1,30 +1,22 @@
-from linebot.models import (
-    TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,CarouselContainer
-)
+from linebot.models import *
 import datetime as dt
 import json
 
 activity_type_for_attendee = TextSendMessage(
-    text = "è«‹é¸æ“‡å ±åæ´»å‹•é¡å‹",
+    text = "½Ğ¿ï¾Ü³ø¦W¬¡°ÊÃş«¬",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "ç™»å±±è¸é’", data = "å ±åæ´»å‹•é¡å‹_ç™»å±±è¸é’",  display_text = "ç™»å±±è¸é’")
+                action = PostbackAction(label = "µn¤s½ñ«C", data = "³ø¦W¬¡°ÊÃş«¬_µn¤s½ñ«C",  display_text = "µn¤s½ñ«C")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "æ¡ŒéŠéº»å°‡", data = "å ±åæ´»å‹•é¡å‹_æ¡ŒéŠéº»å°‡", display_text = "æ¡ŒéŠéº»å°‡")
+                action = PostbackAction(label = "®à¹C³Â±N", data = "³ø¦W¬¡°ÊÃş«¬_®à¹C³Â±N", display_text = "®à¹C³Â±N")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "åƒåƒå–å–", data = "å ±åæ´»å‹•é¡å‹_åƒåƒå–å–", display_text = "åƒåƒå–å–")
+                action = PostbackAction(label = "¦Y¦Y³Ü³Ü", data = "³ø¦W¬¡°ÊÃş«¬_¦Y¦Y³Ü³Ü", display_text = "¦Y¦Y³Ü³Ü")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "å”±æ­Œè·³èˆ", data = "å ±åæ´»å‹•é¡å‹_å”±æ­Œè·³èˆ", display_text = "å”±æ­Œè·³èˆ")
+                action = PostbackAction(label = "°Ûºq¸õ»R", data = "³ø¦W¬¡°ÊÃş«¬_°Ûºq¸õ»R", display_text = "°Ûºq¸õ»R")
                 )
             ]))
 
@@ -70,8 +62,8 @@ def carousel(data, act_type, i = 0):
                                 weight = "regular",
                                 margin= "sm",
                                 action = PostbackAction(
-                                        display_text = f"æˆ‘æƒ³çŸ¥é“ {row[2]} çš„è©³ç´°è³‡è¨Š",
-                                        data = f"{row[0]}_è©³ç´°è³‡è¨Š"
+                                        display_text = f"§Ú·Qª¾¹D {row[2]} ªº¸Ô²Ó¸ê°T",
+                                        data = f"{row[0]}_¸Ô²Ó¸ê°T"
                                         )
                             )
                         ]
@@ -89,7 +81,7 @@ def carousel(data, act_type, i = 0):
             layout = "horizontal",
             contents = [
                 TextComponent(
-                    text = f"{act_type}-æªåœ˜åˆ—è¡¨",
+                    text = f"{act_type}-´ª¹Î¦Cªí",
                     size = "lg",
                     weight = "bold",
                     color = "#AAAAAA"
@@ -106,9 +98,9 @@ def carousel(data, act_type, i = 0):
                 contents = [
                     ButtonComponent(
                         action = PostbackAction(
-                            label = "ä¸Šä¸€é ",
+                            label = "¤W¤@­¶",
                             data = f"backward_activity_{act_type}_{i-8}",
-                            display_text = "ä¸Šä¸€é "
+                            display_text = "¤W¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -121,9 +113,9 @@ def carousel(data, act_type, i = 0):
                     ),
                     ButtonComponent(
                         action = PostbackAction(
-                            label = "ä¸‹ä¸€é ",
+                            label = "¤U¤@­¶",
                             data = f"forward_activity_{act_type}_{i+8}",
-                            display_text = "ä¸‹ä¸€é "
+                            display_text = "¤U¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -142,7 +134,7 @@ def carousel(data, act_type, i = 0):
             else:
                 link = f"{row[12]}"
                 
-            print("ç›¸ç‰‡é€£çµrow[12] = ", row[12], "link = ",link)
+            print("¬Û¤ù³sµ²row[12] = ", row[12], "link = ",link)
             main = BubbleContainer(
                         size = "kilo",
                         direction = "ltr",
@@ -169,19 +161,19 @@ def carousel(data, act_type, i = 0):
                                             spacing = "sm",
                                             contents = [
                                                 TextComponent(
-                                                    text = f"åœ°é»: {row[5]}",
+                                                    text = f"¦aÂI: {row[5]}",
                                                     wrap = True,
                                                     color = "#8c8c8c",
                                                     size = "xs",
                                                     flex = 5,
                                                     ),
                                                 TextComponent(
-                                                    text = f"æ™‚é–“: {row[3]} {str(row[4])[:5]}",
+                                                    text = f"®É¶¡: {row[3]} {str(row[4])[:5]}",
                                                     color = "#8c8c8c",
                                                     size = "xs",
                                                     ),
                                                 TextComponent(
-                                                    text = f"è²»ç”¨: {row[9]}",
+                                                    text = f"¶O¥Î: {row[9]}",
                                                     color = "#8c8c8c",
                                                     size = "xs",
                                                     ),
@@ -199,9 +191,9 @@ def carousel(data, act_type, i = 0):
                                 ButtonComponent(
                                     style = "link",
                                     action = PostbackAction(
-                                        label = "ç«‹å³å ±å",
-                                        data = f"ç«‹å³å ±å_{row[0]}_{row[2]}_{row[3]}",
-                                        display_text = f"æˆ‘è¦å ±å {row[2]}ï¼"
+                                        label = "¥ß§Y³ø¦W",
+                                        data = f"¥ß§Y³ø¦W_{row[0]}_{row[2]}_{row[3]}",
+                                        display_text = f"§Ú­n³ø¦W {row[2]}¡I"
                                     ),
                                     height = "sm",
                                     margin = "none",
@@ -212,9 +204,9 @@ def carousel(data, act_type, i = 0):
                                 ButtonComponent(
                                     style = "link",
                                     action = PostbackAction(
-                                        label = "è©³ç´°è³‡è¨Š",
-                                        data = f"{row[0]}_è©³ç´°è³‡è¨Š",
-                                        display_text = f"æˆ‘æƒ³çŸ¥é“ {row[2]} çš„è©³ç´°è³‡è¨Šï¼"
+                                        label = "¸Ô²Ó¸ê°T",
+                                        data = f"{row[0]}_¸Ô²Ó¸ê°T",
+                                        display_text = f"§Ú·Qª¾¹D {row[2]} ªº¸Ô²Ó¸ê°T¡I"
                                         ),
                                     height = "sm",
                                     margin = "none",
@@ -236,7 +228,7 @@ def carousel(data, act_type, i = 0):
                 spacing = "md",
                 contents = [
                     TextComponent(
-                        text = "ç›®å‰ç„¡è³‡æ–™",
+                        text = "¥Ø«eµL¸ê®Æ",
                         size = "lg",
                         weight = "bold",
                         color = "#AAAAAA"
@@ -246,7 +238,7 @@ def carousel(data, act_type, i = 0):
         )]
 
     msg_carousel = FlexSendMessage(
-        alt_text = "å¯å ±åæ´»å‹•",
+        alt_text = "¥i³ø¦W¬¡°Ê",
         contents = CarouselContainer(
             contents = bubbles
             )
@@ -261,14 +253,14 @@ def MoreInfoSummary(data):
         act=URIAction(uri = f"{data[12]}")
         col = "#229C8F"
     summary = FlexSendMessage(
-        alt_text = "è©³ç´°æ´»å‹•è³‡è¨Š",
+        alt_text = "¸Ô²Ó¬¡°Ê¸ê°T",
         contents = BubbleContainer(
             direction = "ltr",
             header = BoxComponent(
                 layout = "vertical",
                 contents = [
                     TextComponent(
-                        text = f"{data[2]}\næ´»å‹•è³‡è¨Šå¦‚ä¸‹ï¼š",
+                        text = f"{data[2]}\n¬¡°Ê¸ê°T¦p¤U¡G",
                         weight = "bold",
                         size = "lg",
                         align = "start",
@@ -283,7 +275,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•åç¨±ï¼š{data[2]}",
+                                  text = f"¬¡°Ê¦WºÙ¡G{data[2]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -294,7 +286,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•æ™‚é–“ï¼š{data[3]} {str(data[4])[:5]}",
+                                  text = f"¬¡°Ê®É¶¡¡G{data[3]} {str(data[4])[:5]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -305,7 +297,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•åœ°é»ï¼š{data[5]}",
+                                  text = f"¬¡°Ê¦aÂI¡G{data[5]}",
                                   size = "md",
                                   flex = 10,
                                   wrap = True,
@@ -317,7 +309,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•äººæ•¸ï¼š{data[8]}",
+                                  text = f"¬¡°Ê¤H¼Æ¡G{data[8]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -328,7 +320,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•è²»ç”¨ï¼š{data[9]}",
+                                  text = f"¬¡°Ê¶O¥Î¡G{data[9]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -339,7 +331,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"å ±åæˆªæ­¢æ—¥ï¼š{data[10]}",
+                                  text = f"³ø¦WºI¤î¤é¡G{data[10]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -350,7 +342,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"æ´»å‹•æ•˜è¿°ï¼š{data[11]}",
+                                  text = f"¬¡°Ê±Ô­z¡G{data[11]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -361,7 +353,7 @@ def MoreInfoSummary(data):
                           layout = "horizontal",
                           contents = [
                               TextComponent(
-                                  text = f"ä¸»æªå§“åï¼š{data[13]}",
+                                  text = f"¥D´ª©m¦W¡G{data[13]}",
                                   size = "md",
                                   flex = 10,
                                   align = "start"
@@ -380,9 +372,9 @@ def MoreInfoSummary(data):
                           color = "#229C8F",
                           gravity = "bottom",
                           action = PostbackAction(
-                              label = "ç«‹å³å ±å",
-                              data = f"ç«‹å³å ±å_{data[0]}_{data[2]}_{data[3]}",
-                              display_text = f"æˆ‘è¦å ±å {data[2]}"
+                              label = "¥ß§Y³ø¦W",
+                              data = f"¥ß§Y³ø¦W_{data[0]}_{data[2]}_{data[3]}",
+                              display_text = f"§Ú­n³ø¦W {data[2]}"
                           )
                       )
                   ]
@@ -402,14 +394,14 @@ def flex(i, progress):
 
 def name(progress):
     name = FlexSendMessage(
-        alt_text = "è«‹æä¾›å§“åæˆ–æš±ç¨±",
+        alt_text = "½Ğ´£¨Ñ©m¦W©Î¼ÊºÙ",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹æä¾›æ‚¨çš„å§“åæˆ–æ˜¯å¯ä»¥è¾¨è­˜ä¹‹æš±ç¨±",
+                  text = "½Ğ´£¨Ñ±zªº©m¦W©Î¬O¥i¥H¿ëÃÑ¤§¼ÊºÙ",
                   size = "md",
                   wrap = True,
                   align = "center",
@@ -417,7 +409,7 @@ def name(progress):
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer=BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -435,28 +427,28 @@ def name(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return name
 
 def phone(progress):
     phone = FlexSendMessage(
-        alt_text = "è«‹æä¾›é›»è©±",
+        alt_text = "½Ğ´£¨Ñ¹q¸Ü",
         contents = BubbleContainer(
             direction = "ltr",
             body = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹æä¾›å¯ä»¥è¯çµ¡æ‚¨çš„é›»è©±è™Ÿç¢¼",
+                  text = "½Ğ´£¨Ñ¥i¥HÁpµ¸±zªº¹q¸Ü¸¹½X",
                   size = "lg",
                   align = "center",
                   weight = "bold"
                   )
               ]
             ),
-            #é€²åº¦æ¢çš„æœ¬é«”
+            #¶i«×±øªº¥»Åé
             footer = BoxComponent(
                 layout = "vertical",
                 margin = "md",
@@ -474,21 +466,21 @@ def phone(progress):
                                         )
                            ]
             )
-            #é€²åº¦æ¢çš„æœ¬é«”/
+            #¶i«×±øªº¥»Åé/
         )
     )
     return phone
 
 def summary_for_attend(data):
     summary = FlexSendMessage(
-        alt_text = "è«‹ç¢ºèªå ±åè³‡è¨Š",
+        alt_text = "½Ğ½T»{³ø¦W¸ê°T",
         contents = BubbleContainer(
             direction = "ltr",
             header = BoxComponent(
               layout = "vertical",
               contents = [
               TextComponent(
-                  text = "è«‹ç¢ºèªå ±åè³‡è¨Šï¼š",
+                  text = "½Ğ½T»{³ø¦W¸ê°T¡G",
                   weight = "bold",
                   size = "lg",
                   align = "start",
@@ -503,7 +495,7 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•åºè™Ÿï¼š{data[1]}",
+                                text = f"¬¡°Ê§Ç¸¹¡G{data[1]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -517,7 +509,7 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"æ´»å‹•åç¨±ï¼š{data[2]}",
+                                text = f"¬¡°Ê¦WºÙ¡G{data[2]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -531,7 +523,7 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"å§“åï¼š{data[3]}",
+                                text = f"©m¦W¡G{data[3]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -545,15 +537,15 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹å§“å",
-                                    data = "ä¿®æ”¹å ±å_attendee_name",
-                                    display_text = "ä¿®æ”¹å§“å"
+                                    label = "­×§ï©m¦W",
+                                    data = "­×§ï³ø¦W_attendee_name",
+                                    display_text = "­×§ï©m¦W"
                                 )
                             )
                         ]
@@ -562,7 +554,7 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"é›»è©±ï¼š{data[4]}",
+                                text = f"¹q¸Ü¡G{data[4]}",
                                 size = "md",
                                 flex = 10,
                                 align = "start"
@@ -576,15 +568,15 @@ def summary_for_attend(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = "ä¿®æ”¹",
+                                text = "­×§ï",
                                 size = "md",
                                 align = "end",
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "ä¿®æ”¹é›»è©±",
-                                    data = "ä¿®æ”¹å ±å_phone",
-                                    display_text = "ä¿®æ”¹é›»è©±"
+                                    label = "­×§ï¹q¸Ü",
+                                    data = "­×§ï³ø¦W_phone",
+                                    display_text = "­×§ï¹q¸Ü"
                                 )
                             )
                         ]
@@ -601,9 +593,9 @@ def summary_for_attend(data):
                         color = "#229C8F",
                         gravity = "bottom",
                         action = PostbackAction(
-                            label = "ç¢ºèªå ±å",
-                            data = "ç¢ºèªå ±å",
-                            display_text = "ç¢ºèªå ±å"
+                            label = "½T»{³ø¦W",
+                            data = "½T»{³ø¦W",
+                            display_text = "½T»{³ø¦W"
                         )
                     ),
                     SeparatorComponent(),
@@ -614,9 +606,9 @@ def summary_for_attend(data):
                         color = "#229C8F",
                         gravity = "bottom",
                         action = PostbackAction(
-                            label = "å–æ¶ˆå ±å",
+                            label = "¨ú®ø³ø¦W",
                             data = "~cancel",
-                            display_text = "å–æ¶ˆå ±å"
+                            display_text = "¨ú®ø³ø¦W"
                         )
                     )
                 ]

@@ -1,24 +1,16 @@
-from linebot.models import (
-    TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,CarouselContainer
-)
+from linebot.models import *
 import datetime as dt
 import json
 
 list_type = TextSendMessage(
-    text = "è«‹é¸æ“‡æŸ¥è©¢ [å·²çµæŸçš„æ´»å‹•] æˆ– [å³å°‡ä¾†è‡¨çš„æ´»å‹•]",
+    text = "½Ğ¿ï¾Ü¬d¸ß [¤wµ²§ôªº¬¡°Ê] ©Î [§Y±N¨ÓÁ{ªº¬¡°Ê]",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "æ­·å²é–‹åœ˜ç´€éŒ„", data = "é–‹åœ˜ç´€éŒ„_å·²çµæŸ", display_text = "æŸ¥è©¢[å·²çµæŸçš„æ´»å‹•]")
+                action = PostbackAction(label = "¾ú¥v¶}¹Î¬ö¿ı", data = "¶}¹Î¬ö¿ı_¤wµ²§ô", display_text = "¬d¸ß[¤wµ²§ôªº¬¡°Ê]")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "å³å°‡ä¾†è‡¨çš„æ´»å‹•", data = "é–‹åœ˜ç´€éŒ„_é€²è¡Œä¸­", display_text = "æŸ¥è©¢[å³å°‡ä¾†è‡¨çš„æ´»å‹•]")
+                action = PostbackAction(label = "§Y±N¨ÓÁ{ªº¬¡°Ê", data = "¶}¹Î¬ö¿ı_¶i¦æ¤¤", display_text = "¬d¸ß[§Y±N¨ÓÁ{ªº¬¡°Ê]")
                 )
             ]))
 
@@ -64,8 +56,8 @@ def glist(data, type, i = 0):
                                  weight = "regular",
                                  margin= "sm",
                                  action = PostbackAction(
-                                     data = f"é–‹åœ˜è³‡è¨Š_{row[0]}",  #activity_no
-                                     display_text = f"æŸ¥çœ‹ {row[2]} çš„è©³ç´°è³‡è¨Š"
+                                     data = f"¶}¹Î¸ê°T_{row[0]}",  #activity_no
+                                     display_text = f"¬d¬İ {row[2]} ªº¸Ô²Ó¸ê°T"
                                      )
                              )
                          ]
@@ -84,7 +76,7 @@ def glist(data, type, i = 0):
             layout = "horizontal",
             contents = [
                 TextComponent(
-                    text = f"æˆ‘çš„é–‹åœ˜åˆ—è¡¨ ({type})",
+                    text = f"§Úªº¶}¹Î¦Cªí ({type})",
                     size = "lg",
                     weight = "bold",
                     color = "#AAAAAA"
@@ -101,9 +93,9 @@ def glist(data, type, i = 0):
                 contents = [
                     ButtonComponent(
                         action = PostbackAction(
-                            label = "ä¸Šä¸€é ",
+                            label = "¤W¤@­¶",
                             data = f"backward_glist_{type}_{i-8}",
-                            display_text = "ä¸Šä¸€é "
+                            display_text = "¤W¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -116,9 +108,9 @@ def glist(data, type, i = 0):
                     ),
                     ButtonComponent(
                         action = PostbackAction(
-                            label = "ä¸‹ä¸€é ",
+                            label = "¤U¤@­¶",
                             data = f"forward_glist_{type}_{i+8}",
-                            display_text = "ä¸‹ä¸€é "
+                            display_text = "¤U¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -138,7 +130,7 @@ def glist(data, type, i = 0):
                 spacing = "md",
                 contents = [
                     TextComponent(
-                        text = f"ç›®å‰æ²’æœ‰{type}çš„å ±åè³‡æ–™ï¼",
+                        text = f"¥Ø«e¨S¦³{type}ªº³ø¦W¸ê®Æ¡I",
                         size = "lg",
                         weight = "bold",
                         color = "#AAAAAA"
@@ -148,7 +140,7 @@ def glist(data, type, i = 0):
         )
 
     msg = FlexSendMessage(
-        alt_text = "æˆ‘çš„é–‹åœ˜",
+        alt_text = "§Úªº¶}¹Î",
         contents = bubble
         )
         
@@ -187,25 +179,25 @@ def MyGroupInfo(data):
                             spacing = "sm",
                             contents = [
                                 TextComponent(
-                                    text = f"åœ°é» {data[5]}",
+                                    text = f"¦aÂI {data[5]}",
                                     wrap = True,
                                     size = "sm",
                                     flex = 5,
                                     ),
                                 TextComponent(
-                                    text = f"æ™‚é–“ {data[3]} {str(data[4])[:5]}",
+                                    text = f"®É¶¡ {data[3]} {str(data[4])[:5]}",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"è²»ç”¨ {data[9]}",
+                                    text = f"¶O¥Î {data[9]}",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"å·²å ±åäººæ•¸ {data[15]}/{data[8]}",
+                                    text = f"¤w³ø¦W¤H¼Æ {data[15]}/{data[8]}",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"ç‹€æ…‹ {data[16]}",
+                                    text = f"ª¬ºA {data[16]}",
                                     size = "sm",
                                     )
                                 ]
@@ -222,9 +214,9 @@ def MyGroupInfo(data):
                 ButtonComponent(
                     style = "primary",
                     action = PostbackAction(
-                        label = "å ±åè€…è³‡è¨Š",
-                        data = f"å ±åè€…è³‡è¨Š_{data[0]}",  #activity_no
-                        display_text = "æŸ¥çœ‹å ±åè€…è³‡è¨Š"
+                        label = "³ø¦WªÌ¸ê°T",
+                        data = f"³ø¦WªÌ¸ê°T_{data[0]}",  #activity_no
+                        display_text = "¬d¬İ³ø¦WªÌ¸ê°T"
                         ),
                     height = "sm",
                     margin = "none",
@@ -238,9 +230,9 @@ def MyGroupInfo(data):
                 ButtonComponent(
                     style = "primary",
                     action = PostbackAction(
-                        label = "çµæŸå ±å",
-                        data = f"çµæŸå ±å_{data[0]}",  #activity_no
-                        display_text = "çµæŸå ±å"
+                        label = "µ²§ô³ø¦W",
+                        data = f"µ²§ô³ø¦W_{data[0]}",  #activity_no
+                        display_text = "µ²§ô³ø¦W"
                         ),
                     height = "sm",
                     margin = "none",
@@ -252,7 +244,7 @@ def MyGroupInfo(data):
             )
     
     msg = FlexSendMessage(
-        alt_text = "æˆ‘çš„é–‹åœ˜è³‡è¨Š",
+        alt_text = "§Úªº¶}¹Î¸ê°T",
         contents = bubble
             )
     return msg

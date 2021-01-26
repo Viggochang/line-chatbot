@@ -1,28 +1,20 @@
-from linebot.models import (
-    TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,CarouselContainer
-)
+from linebot.models import *
 import datetime as dt
 import json
 
 list_type = TextSendMessage(
-    text = "è«‹é¸æ“‡æŸ¥è©¢ [æ­·å²å ±åç´€éŒ„] æˆ– [æˆ‘å ±åçš„åœ˜]",
+    text = "½Ğ¿ï¾Ü¬d¸ß [¾ú¥v³ø¦W¬ö¿ı] ©Î [§Ú³ø¦Wªº¹Î]",
     quick_reply = QuickReply(
         items = [
             QuickReplyButton(
-                action = PostbackAction(label = "æ­·å²å ±åç´€éŒ„", data = "å ±åç´€éŒ„_å·²çµæŸ", display_text = "æŸ¥è©¢[æ­·å²å ±åç´€éŒ„]")
+                action = PostbackAction(label = "¾ú¥v³ø¦W¬ö¿ı", data = "³ø¦W¬ö¿ı_¤wµ²§ô", display_text = "¬d¸ß[¾ú¥v³ø¦W¬ö¿ı]")
                 ),
             QuickReplyButton(
-                action = PostbackAction(label = "æˆ‘å ±åçš„åœ˜", data = "å ±åç´€éŒ„_é€²è¡Œä¸­", display_text = "æŸ¥è©¢[æˆ‘å ±åçš„åœ˜]")
+                action = PostbackAction(label = "§Ú³ø¦Wªº¹Î", data = "³ø¦W¬ö¿ı_¶i¦æ¤¤", display_text = "¬d¸ß[§Ú³ø¦Wªº¹Î]")
                 )
             ]))
 
-#æˆ‘çš„å ±ååˆ—è¡¨
+#§Úªº³ø¦W¦Cªí
 def rlist(data, type, i = 0):
     if data:
         if i < 0:
@@ -63,8 +55,8 @@ def rlist(data, type, i = 0):
                                 weight = "regular",
                                 margin= "sm",
                                 action = PostbackAction(
-                                    data = f"{row[0]}_æŸ¥å ±å",
-                                    display_text = f"{row[1]} æ´»å‹•è³‡è¨Šèˆ‡å ±åè³‡è¨Š"
+                                    data = f"{row[0]}_¬d³ø¦W",
+                                    display_text = f"{row[1]} ¬¡°Ê¸ê°T»P³ø¦W¸ê°T"
                                 )
                             )
                         ]
@@ -83,7 +75,7 @@ def rlist(data, type, i = 0):
             layout = "horizontal",
             contents = [
                 TextComponent(
-                    text = f"æˆ‘çš„å ±ååˆ—è¡¨({type})",
+                    text = f"§Úªº³ø¦W¦Cªí({type})",
                     size = "lg",
                     weight = "bold",
                     color = "#AAAAAA"
@@ -100,9 +92,9 @@ def rlist(data, type, i = 0):
                 contents = [
                     ButtonComponent(
                         action = PostbackAction(
-                            label =  "ä¸Šä¸€é ",
+                            label =  "¤W¤@­¶",
                             data = f"backward_rlist_{type}_{i-8}",
-                            display_text = "ä¸Šä¸€é "
+                            display_text = "¤W¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -115,9 +107,9 @@ def rlist(data, type, i = 0):
                     ),
                     ButtonComponent(
                         action = PostbackAction(
-                            label = "ä¸‹ä¸€é ",
+                            label = "¤U¤@­¶",
                             data = f"forward_rlist_{type}_{i+8}",
-                            display_text = "ä¸‹ä¸€é "
+                            display_text = "¤U¤@­¶"
                         ),
                         height = "sm",
                         style = "primary",
@@ -137,7 +129,7 @@ def rlist(data, type, i = 0):
                 spacing = "md",
                 contents = [
                     TextComponent(
-                        text = f"ç›®å‰æ²’æœ‰{type}çš„å ±åè³‡æ–™",
+                        text = f"¥Ø«e¨S¦³{type}ªº³ø¦W¸ê®Æ",
                         size = "lg",
                         weight = "bold",
                         color = "#AAAAAA"
@@ -147,13 +139,13 @@ def rlist(data, type, i = 0):
         )
 
     msg = FlexSendMessage(
-        alt_text = "å ±ååˆ—è¡¨",
+        alt_text = "³ø¦W¦Cªí",
         contents = bubble
     )
 
     return msg
     
- #æ´»å‹•è³‡è¨Šèˆ‡å ±åè³‡è¨Šcarousel
+ #¬¡°Ê¸ê°T»P³ø¦W¸ê°Tcarousel
 def carousel_registration(data_g, data_r):
     if "https://i.imgur.com/" not in data_g[12]:
         link = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
@@ -173,7 +165,7 @@ def carousel_registration(data_g, data_r):
             layout = "vertical",
             contents = [
                 TextComponent(
-                    text = f"æ´»å‹•è©³ç´°è³‡è¨Š",
+                    text = f"¬¡°Ê¸Ô²Ó¸ê°T",
                     weight = "bold",
                     size = "md",
                     wrap = True
@@ -192,25 +184,25 @@ def carousel_registration(data_g, data_r):
                             spacing = "sm",
                             contents = [
                                 TextComponent(
-                                    text = f"åœ°é» {data_g[5]}",
+                                    text = f"¦aÂI {data_g[5]}",
                                     wrap = True,
                                     size = "sm",
                                     flex = 5
                                 ),
                                 TextComponent(
-                                    text = f"æ™‚é–“ {data_g[3]} {str(data_g[4])[:5]}",
+                                    text = f"®É¶¡ {data_g[3]} {str(data_g[4])[:5]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"è²»ç”¨ {data_g[9]}",
+                                    text = f"¶O¥Î {data_g[9]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"ä¸»æª {data_g[13]}",
+                                    text = f"¥D´ª {data_g[13]}",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"ä¸»æªé›»è©± {data_g[14]}",
+                                    text = f"¥D´ª¹q¸Ü {data_g[14]}",
                                     size = "sm"
                                 )
                             ]
@@ -233,7 +225,7 @@ def carousel_registration(data_g, data_r):
                 layout = "vertical",
                 contents = [
                     TextComponent(
-                        text = "å ±åè³‡è¨Š",
+                        text = "³ø¦W¸ê°T",
                         weight = "bold",
                         size = "md",
                         align = "start",
@@ -252,15 +244,15 @@ def carousel_registration(data_g, data_r):
                                 spacing = "sm",
                                 contents = [
                                     TextComponent(
-                                        text = f"æ´»å‹•åç¨±ï¼š{row[2]}",
+                                        text = f"¬¡°Ê¦WºÙ¡G{row[2]}",
                                         size = "sm"
                                     ),
                                     TextComponent(
-                                        text = f"å§“åï¼š{row[3]}",
+                                        text = f"©m¦W¡G{row[3]}",
                                         size = "sm"
                                     ),
                                     TextComponent(
-                                        text = f"é›»è©±ï¼š{row[4]}",
+                                        text = f"¹q¸Ü¡G{row[4]}",
                                         size = "sm"
                                     )
                                 ]
@@ -274,9 +266,9 @@ def carousel_registration(data_g, data_r):
                 contents = [
                     ButtonComponent(
                         action = PostbackAction(
-                            label = 'å–æ¶ˆå ±å',
-                            display_text = "å–æ¶ˆå ±å",
-                            data = f"{row[0]}_{row[1]}_å–æ¶ˆå ±å"
+                            label = '¨ú®ø³ø¦W',
+                            display_text = "¨ú®ø³ø¦W",
+                            data = f"{row[0]}_{row[1]}_¨ú®ø³ø¦W"
                             #row[0] registration_no    #row[1] activity_no
                         ),
                         height = "sm",
@@ -290,7 +282,7 @@ def carousel_registration(data_g, data_r):
         bubbles.append(registrtion_info)
 
     info_carousel = FlexSendMessage(
-        alt_text = "æ´»å‹•è³‡è¨Šèˆ‡å ±åè³‡è¨Š",
+        alt_text = "¬¡°Ê¸ê°T»P³ø¦W¸ê°T",
         contents = CarouselContainer(
             contents = bubbles
         )
