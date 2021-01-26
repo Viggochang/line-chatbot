@@ -855,7 +855,7 @@ def pic(event):
             print(event)
             message_content = line_bot_api.get_message_content(event.message.id)
 
-            with tempfile.NamedTemporaryFile(delete = False) as tf:
+            with tempfile.NamedTemporaryFile(dir = static_tmp_path, delete = False) as tf:
                 for chunk in message_content.iter_content():
                     tf.write(chunk)
                 tempfile_path = tf.name
@@ -864,41 +864,41 @@ def pic(event):
             dist_name = os.path.basename(dist_path)
             os.rename(tempfile_path, dist_path)
 
-            try:
-                config = configparser.ConfigParser()
-                config.read('config.ini')
-                client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
-                con = {
-                    'album': config.get('imgur', 'album_id'),
-                    'name': f'{event.source.user_id}_{data_g[3]}',
-                    'title': f'{event.source.user_id}_{data_g[3]}',
-                    'description': f'{event.source.user_id}_{data_g[3]}'
-                }
-                path = os.path.join('static', 'tmp', dist_name)
-                image = client.upload_from_path(path, config=con, anon=False)
-                print("path = ",path)
-                os.remove(path)
-                print("image = ",image)
-                #把圖片網址存進資料庫
-                postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_update_query)
-                conn.commit()
+            #try:
+            config = configparser.ConfigParser()
+            config.read('config.ini')
+            client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
+            con = {
+                'album': config.get('imgur', 'album_id'),
+                'name': f'{event.source.user_id}_{data_g[3]}',
+                'title': f'{event.source.user_id}_{data_g[3]}',
+                'description': f'{event.source.user_id}_{data_g[3]}'
+            }
+            path = os.path.join('static', 'tmp', dist_name)
+            image = client.upload_from_path(path, config=con, anon=False)
+            print("path = ",path)
+            os.remove(path)
+            print("image = ",image)
+            #把圖片網址存進資料庫
+            postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
 
-                msg=[TextSendMessage(text='上傳成功'),
-                     ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
-                     TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
+            msg=[TextSendMessage(text='上傳成功'),
+                 ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
+                 TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
 
-                msg.append(flexmsg_g.summary(data_g))
+            msg.append(flexmsg_g.summary(data_g))
 
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    msg
-                )
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
 
-            except:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text='上傳失敗'))
+#            except:
+#                line_bot_api.reply_message(
+#                    event.reply_token,
+#                    TextSendMessage(text='上傳失敗'))
 
     else:
         line_bot_api.reply_message(
