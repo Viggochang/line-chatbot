@@ -858,12 +858,10 @@ def pic(event):
                 for chunk in message_content.iter_content():
                     tf.write(chunk)
                 tempfile_path = tf.name
-            print(tempfile_path)
             
             dist_path = tempfile_path
             dist_name = os.path.basename(dist_path)
-            os.rename(tempfile_path, dist_path)
-            print(dist_path, "\n", dist_name)
+            print(f"dist_path={dist_path}", "\n", f"dist_name={dist_name}")
 
             #try:
             config = configparser.ConfigParser()
@@ -875,10 +873,8 @@ def pic(event):
                 'title': f'{event.source.user_id}_{data_g[3]}',
                 'description': f'{event.source.user_id}_{data_g[3]}'
             }
-            path = dist_path
-            print(path)
-            image = client.upload_from_path(path, config=con, anon=False)
-            print("path = ",path)
+
+            image = client.upload_from_path(path, config = con, anon = False)
             os.remove(path)
             print("image = ",image)
             #把圖片網址存進資料庫
@@ -887,15 +883,14 @@ def pic(event):
             conn.commit()
             
             print(image['link'])
-            msg=[TextSendMessage(text='上傳成功')]
-#                 ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
-#                 TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
+            msg = [TextSendMessage(text='上傳成功')]
+
             postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_select_query)
             data_g = cursor.fetchone()
             
             #msg.append(flexmsg_g.summary(data_g))
-            msg = flexmsg_g.summary(data_g)
+            msg = [TextSendMessage(text='上傳成功'), flexmsg_g.summary(data_g)]
 
             line_bot_api.reply_message(
                 event.reply_token,
