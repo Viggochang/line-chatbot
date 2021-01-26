@@ -858,10 +858,12 @@ def pic(event):
                 for chunk in message_content.iter_content():
                     tf.write(chunk)
                 tempfile_path = tf.name
-
+            print(tempfile_path)
+            
             dist_path = tempfile_path
             dist_name = os.path.basename(dist_path)
             os.rename(tempfile_path, dist_path)
+            print(dist_path, "\n", dist_name)
 
             #try:
             config = configparser.ConfigParser()
@@ -873,7 +875,7 @@ def pic(event):
                 'title': f'{event.source.user_id}_{data_g[3]}',
                 'description': f'{event.source.user_id}_{data_g[3]}'
             }
-            path = os.path.join('static', 'tmp', dist_name)
+            path = os.path.join('tmp', dist_name)
             print(path)
             image = client.upload_from_path(path, config=con, anon=False)
             print("path = ",path)
