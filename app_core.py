@@ -862,7 +862,6 @@ def pic(event):
             TextSendMessage(text = "現在不用傳圖片給我")
         )
     return 0
-'''
 
 if __name__ == "__main__":
     app.run()
