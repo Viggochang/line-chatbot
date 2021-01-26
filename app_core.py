@@ -859,7 +859,7 @@ def pic(event):
                     tf.write(chunk)
                 tempfile_path = tf.name
 
-            dist_path = tempfile_path + '.' + ext
+            dist_path = tempfile_path
             dist_name = os.path.basename(dist_path)
             os.rename(tempfile_path, dist_path)
 
@@ -874,6 +874,7 @@ def pic(event):
                 'description': f'{event.source.user_id}_{data_g[3]}'
             }
             path = os.path.join('static', 'tmp', dist_name)
+            print(path)
             image = client.upload_from_path(path, config=con, anon=False)
             print("path = ",path)
             os.remove(path)
