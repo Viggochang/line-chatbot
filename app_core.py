@@ -890,8 +890,12 @@ def pic(event):
             msg=[TextSendMessage(text='上傳成功')]
 #                 ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
 #                 TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
-
-            msg.append(flexmsg_g.summary(data_g))
+            postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+            cursor.execute(postgres_select_query)
+            data_g = cursor.fetchone()
+            
+            #msg.append(flexmsg_g.summary(data_g))
+            msg = flexmsg_g.summary(data_g)
 
             line_bot_api.reply_message(
                 event.reply_token,
