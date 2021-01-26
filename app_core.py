@@ -874,7 +874,7 @@ def pic(event):
                 'description': f'{event.source.user_id}_{data_g[3]}'
             }
 
-            image = client.upload_from_path(path, config = con, anon = False)
+            image = client.upload_from_path(dist_path, config = con, anon = False)
             os.remove(path)
             print("image = ",image)
             #把圖片網址存進資料庫
