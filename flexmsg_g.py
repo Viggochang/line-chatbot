@@ -1,12 +1,6 @@
-from linebot.models import (
-    TextSendMessage, MessageAction, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent, FillerComponent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,CarouselContainer
-)
+# -*- coding: utf-8 -*-
+
+from linebot.models import *
 import datetime as dt
 import json
 

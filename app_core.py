@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 import os
 import configparser
@@ -790,6 +792,7 @@ def gathering(event):
         )
     cursor.close()
     conn.close()
+<<<<<<< HEAD
     
 #@handler.add(MessageEvent, message = ImageMessage)
 #def handle_message(event):
@@ -907,6 +910,54 @@ def pic(event):
         )
     return 0
 
+=======
+
+@handler.add(MessageEvent, message = ImageMessage)
+def handle_message(event):
+    if isinstance(event.message, ImageMessage):
+#         ext = 'jpg'
+        print(event)
+        print(event.message.id)
+        
+#        config = configparser.ConfigParser()
+#        config.read('config.ini')
+#        line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
+        message_content = line_bot_api.get_message_content(event.message.id)
+        
+        with open("D:\chatbot", "wb") as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
+
+        dist_path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
+        os.rename(tempfile_path, dist_path)
+        try:
+            config = configparser.ConfigParser()
+            config.read('config.ini')
+            client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
+            con = {
+                'album': config.get('imgur', 'album_id'),
+                'name': f'{event.source.user_id}_{data_g[3]}',
+                'title': f'{event.source.user_id}_{data_g[3]}',
+                'description': f'{event.source.user_id}_{data_g[3]}'
+            }
+            
+            path = os.path.join('static', 'tmp', dist_name)
+            client.upload_from_path(path, config=con, anon=False)
+            os.remove(path)
+            print(path)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="上傳成功!"))
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='上傳失敗'))
+        return 0
+
+
+>>>>>>> 1b6b0b62d0f72689257df18d872aeef01b8e2137
 
 if __name__ == "__main__":
     app.run()

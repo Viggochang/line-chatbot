@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from linebot.models import TextSendMessage
 
 def cancel(line_bot_api, cursor, conn, event):
