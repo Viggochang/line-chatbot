@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 import os
 import configparser
@@ -17,16 +19,16 @@ import cancel
 
 app = Flask(__name__)
 
-# LINE ²á¤Ñ¾÷¾¹¤Hªº°ò¥»¸ê®Æ
+# LINE èŠå¤©æ©Ÿå™¨äººçš„åŸºæœ¬è³‡æ–™
 config = configparser.ConfigParser()
 config.read('config.ini')
 
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 
-static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp') # ¦s¹Ï¤ù¥Î
+static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp') # å­˜åœ–ç‰‡ç”¨
 
-# ±µ¦¬ LINE ªº¸ê°T
+# æ¥æ”¶ LINE çš„è³‡è¨Š
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -42,7 +44,7 @@ def callback():
 
     return 'OK'
 
-# ¾Ç§A»¡¸Ü
+# å­¸ä½ èªªè©±
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
@@ -58,12 +60,12 @@ def app_core(event):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    print("³s±µ¸ê®Æ®w")
+    print("é€£æ¥è³‡æ–™åº«")
 
     if event.message.text == "~cancel":
         cancel.cancel(line_bot_api, cursor, conn, event)
 
-    # ¶}©l¦^µª°İÃD¬yµ{
+    # é–‹å§‹å›ç­”å•é¡Œæµç¨‹
     else:
         postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
@@ -76,7 +78,7 @@ def app_core(event):
     
         postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
-        #·Ç³Æ¼g¤J³ø¦W¸ê®Æªº¨º¤@¦C
+        #æº–å‚™å¯«å…¥å ±åè³‡æ–™çš„é‚£ä¸€åˆ—
         data_r = cursor.fetchone()
         print(f"data_r:{data_r}")
         column_all_registration = ['registration_no', 'activity_no',
@@ -84,17 +86,17 @@ def app_core(event):
                                    'mail', 'condition', 'user_id']
         
 ## ================
-## §Ú­n¶}¹Î
+## æˆ‘è¦é–‹åœ˜
 ## ================
         if data_g:
             progress_target = progress_list_fullgroupdata
-            i = data_g.index(None) # ¼g¤J¸ê®Æªº¨º¤@®æ
+            i = data_g.index(None) # å¯«å…¥è³‡æ–™çš„é‚£ä¸€æ ¼
             
             if None in data_g:
                 record = event.message.text
-                #¦pªG¨Ï¥ÎªÌ¿é¤Jªº¸ê®Æ¤£²Å¦X¸ê®Æ®wªº¸ê®Æ«¬ºA, «h¦^ÂĞ ½Ğ­«·s¿é¤J
+                #å¦‚æœä½¿ç”¨è€…è¼¸å…¥çš„è³‡æ–™ä¸ç¬¦åˆè³‡æ–™åº«çš„è³‡æ–™å‹æ…‹, å‰‡å›è¦† è«‹é‡æ–°è¼¸å…¥
                 try:
-                    #¿é¤J¸ê®Æ
+                    #è¼¸å…¥è³‡æ–™
                     postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                     cursor.execute(postgres_update_query)
                     conn.commit()
@@ -102,19 +104,19 @@ def app_core(event):
                 except:
                     line_bot_api.reply_message(
                         event.reply_token,
-                        TextSendMessage(text = "½Ğ­«·s¿é¤J")
+                        TextSendMessage(text = "è«‹é‡æ–°è¼¸å…¥")
                     )
                 
-                #¦pªGÁÙ¨S¿é¤J¨ì³Ì«á¤@®æ, «hÄ~Äò¸ß°İ¤U¤@ÃD
+                #å¦‚æœé‚„æ²’è¼¸å…¥åˆ°æœ€å¾Œä¸€æ ¼, å‰‡ç¹¼çºŒè©¢å•ä¸‹ä¸€é¡Œ
                 postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_select_query)
                 data_g = cursor.fetchone()
-                print(f"¿é¤J¸ê®Æ«á data_g:{data_g}")
+                print(f"è¼¸å…¥è³‡æ–™å¾Œ data_g:{data_g}")
                 
                 if data_g[14]:
                     progress_target = progress_list_halfgroupdata
 
-                if None in data_g: # °İ¤U¤@ÃD
+                if None in data_g: # å•ä¸‹ä¸€é¡Œ
                     i = data_g.index(None)
                     print(f"i={i}")
                                     
@@ -122,7 +124,7 @@ def app_core(event):
                     line_bot_api.reply_message(
                         event.reply_token,
                         msg)
-                    print("°İ¤U¤@ÃD")
+                    print("å•ä¸‹ä¸€é¡Œ")
                         
                 elif None not in data_g: # summarys
 
@@ -134,7 +136,7 @@ def app_core(event):
                         
 
 ## ================
-## §Ú­n³ø¦W
+## æˆ‘è¦å ±å
 ## ================
         elif data_r:
         
@@ -145,43 +147,43 @@ def app_core(event):
 
                 postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_select_query)
-                activity_no = cursor.fetchone()[0] #¨ú±o¥¿¦b³ø¦Wªº¬¡°Ê½s¸¹
+                activity_no = cursor.fetchone()[0] #å–å¾—æ­£åœ¨å ±åçš„æ´»å‹•ç·¨è™Ÿ
 
                 postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{activity_no}';"""
                 cursor.execute(postgres_select_query)
-                phone_registration = cursor.fetchall() #¨ú±o³ø¦W¸Ó¹Îªº¹q¸Ü¦Cªí
+                phone_registration = cursor.fetchall() #å–å¾—å ±åè©²åœ˜çš„é›»è©±åˆ—è¡¨
                         
-                    #·í¶i¦æ¨ì¿é¤J¹q¸Ü®É(i_r==4)¡A¶}©lÀËÅç¬O§_­«½Æ
+                    #ç•¶é€²è¡Œåˆ°è¼¸å…¥é›»è©±æ™‚(i_r==4)ï¼Œé–‹å§‹æª¢é©—æ˜¯å¦é‡è¤‡
                 if i_r == 4 and record in phone_registration[0]:
-                    #¦pªG¨Ï¥ÎªÌ¿é¤Jªº¹q¸Ü­«½Æ«h³ø¦W¥¢±Ñ¡A§R±¼­ì¥»³Ğ«Øªº¦C
+                    #å¦‚æœä½¿ç”¨è€…è¼¸å…¥çš„é›»è©±é‡è¤‡å‰‡å ±åå¤±æ•—ï¼Œåˆªæ‰åŸæœ¬å‰µå»ºçš„åˆ—
                     postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                     cursor.execute(postgres_delete_query)
                     conn.commit()
 
                     line_bot_api.reply_message(
                         event.reply_token,
-                        [TextSendMessage(text = "¤£¥i­«½Æ³ø¦W ½Ğ­«·s¿ï¾Ü·Q­n³ø¦Wªº¬¡°ÊÃş«¬"), flexmsg_r.activity_type_for_attendee]
+                        [TextSendMessage(text = "ä¸å¯é‡è¤‡å ±å è«‹é‡æ–°é¸æ“‡æƒ³è¦å ±åçš„æ´»å‹•é¡å‹"), flexmsg_r.activity_type_for_attendee]
                     )
-                    #~~~³oÃä·PÄ±¥i¥H³]­p¤@­Óflex_msg¡A¥X²{[ªğ¦^]«ö¶s¡A­«·s¦^¨ì³ø¦W²Ä¤@¨B(«ö¶s¦^¶Ç~join)
+                    #~~~é€™é‚Šæ„Ÿè¦ºå¯ä»¥è¨­è¨ˆä¸€å€‹flex_msgï¼Œå‡ºç¾[è¿”å›]æŒ‰éˆ•ï¼Œé‡æ–°å›åˆ°å ±åç¬¬ä¸€æ­¥(æŒ‰éˆ•å›å‚³~join)
 
                 else:
                     try:
-                        # ¿é¤J¸ê®Æ«¬ºA¥¿½T«h§ó·s
+                        # è¼¸å…¥è³‡æ–™å‹æ…‹æ­£ç¢ºå‰‡æ›´æ–°
                         postgres_update_query = f"""UPDATE registration_data SET {column_all_registration[i_r]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                         cursor.execute(postgres_update_query)
                         conn.commit()
        
                     except:
-                        # ¿é¤J¸ê®Æ«¬ºA¿ù»~«h¦^À³ "½Ğ­«·s¿é¤J"
+                        # è¼¸å…¥è³‡æ–™å‹æ…‹éŒ¯èª¤å‰‡å›æ‡‰ "è«‹é‡æ–°è¼¸å…¥"
                         line_bot_api.reply_message(
                             event.reply_token,
-                            TextSendMessage(text = "½Ğ­«·s¿é¤J")
+                            TextSendMessage(text = "è«‹é‡æ–°è¼¸å…¥")
                         )
 
-                # ÀË¬d¬O§_§¹¦¨©Ò¦³°İÃD
+                # æª¢æŸ¥æ˜¯å¦å®Œæˆæ‰€æœ‰å•é¡Œ
                 postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_select_query)
-                data_r = cursor.fetchone() #·Ç³Æ¼g¤J³ø¦W¸ê®Æªº¨º¤@¦C
+                data_r = cursor.fetchone() #æº–å‚™å¯«å…¥å ±åè³‡æ–™çš„é‚£ä¸€åˆ—
                 print("i_r = ",i_r)
                 print("data_r = ",data_r)
 
@@ -189,14 +191,14 @@ def app_core(event):
                 if None in data_r:
                 
                     i_r = data_r.index(None)
-                    msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg»İ­n·s¼W³ø¦W±¡¹Ò
+                    msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsgéœ€è¦æ–°å¢å ±åæƒ…å¢ƒ
                     line_bot_api.reply_message(
                         event.reply_token,
                         msg
                     )
-                    print("°İ¤U¤@ÃD")
+                    print("å•ä¸‹ä¸€é¡Œ")
                     
-                #¥X²{summary
+                #å‡ºç¾summary
                 elif None not in data_r:
                     msg = flexmsg_r.summary_for_attend(data_r)
                     line_bot_api.reply_message(
@@ -204,7 +206,7 @@ def app_core(event):
                         msg
                     )
     
-#³B²zpostback ¨Æ¥ó¡A¨Ò¦pdatetime picker
+#è™•ç†postback äº‹ä»¶ï¼Œä¾‹å¦‚datetime picker
 @handler.add(PostbackEvent)
 def gathering(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7]
@@ -228,31 +230,31 @@ def gathering(event):
         cancel.cancel(line_bot_api, cursor, conn, event)
         
 ## ================
-## §Ú­n¶}¹Î
+## æˆ‘è¦é–‹åœ˜
 ## ================
-    elif postback_data == "§Ú­n¶}¹Î":
+    elif postback_data == "æˆ‘è¦é–‹åœ˜":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_g.activity_type
         )
-        print("·Ç³Æ¶}¹Î")
+        print("æº–å‚™é–‹åœ˜")
 
-        #§â¥u³Ğ«Ø«o¨S¦³¼g¤J¸ê®Æªº¦C§R°£
+        #æŠŠåªå‰µå»ºå»æ²’æœ‰å¯«å…¥è³‡æ–™çš„åˆ—åˆªé™¤
         cancel.reset(cursor, conn, event)
         
-    elif "¶}¹Î¬¡°ÊÃş«¬" in postback_data:
-        #§â¥u³Ğ«Ø«o¨S¦³¼g¤J¸ê®Æªº¦C§R°£
+    elif "é–‹åœ˜æ´»å‹•é¡å‹" in postback_data:
+        #æŠŠåªå‰µå»ºå»æ²’æœ‰å¯«å…¥è³‡æ–™çš„åˆ—åˆªé™¤
         cancel.reset(cursor, conn, event)
         
         type = postback_data.split("_")[1]
         print(f"type:{type}")
 
-        #³Ğ«Ø¤@¦C(condition = initial)
-        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, activity_type, attendee, photo, description) VALUES ('initial', '{event.source.user_id}', '{type}', '1', 'µL', 'µL');"""
+        #å‰µå»ºä¸€åˆ—(condition = initial)
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, activity_type, attendee, photo, description) VALUES ('initial', '{event.source.user_id}', '{type}', '1', 'ç„¡', 'ç„¡');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        #¼´¥D´ªªº¸ê®Æ
+        #æ’ˆä¸»æªçš„è³‡æ–™
         postgres_select_query = f'''SELECT name,phone FROM group_data WHERE user_id='{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
@@ -272,8 +274,8 @@ def gathering(event):
             msg
         )
         
-    elif "­×§ï¶}¹Î" in postback_data:
-        # ¦bsummaryÂI¿ï­×§ï«á
+    elif "ä¿®æ”¹é–‹åœ˜" in postback_data:
+        # åœ¨summaryé»é¸ä¿®æ”¹å¾Œ
         column = postback_data.split("_", 1)[1]
 
         postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
@@ -287,7 +289,7 @@ def gathering(event):
             msg
         )
         
-    elif "½T»{¶}¹Î" in postback_data:
+    elif "ç¢ºèªé–‹åœ˜" in postback_data:
 
         postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_update_query)
@@ -295,7 +297,7 @@ def gathering(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "¶}¹Î¦¨¥\¡I")
+            TextSendMessage(text = "é–‹åœ˜æˆåŠŸï¼")
         )
 
         cursor.close()
@@ -303,20 +305,20 @@ def gathering(event):
 
         
 ## ================
-## §Ú­n³ø¦W
+## æˆ‘è¦å ±å
 ## ================
-    elif postback_data == "§Ú­n³ø¦W":
+    elif postback_data == "æˆ‘è¦å ±å":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_r.activity_type_for_attendee
         )
-        print("·Ç³Æ¥i³ø¦W¹Î¸ê°T")
+        print("æº–å‚™å¯å ±ååœ˜è³‡è¨Š")
         
-        #§â¥u³Ğ«Ø«o¨S¦³¼g¤J¸ê®Æªº¦C§R°£
+        #æŠŠåªå‰µå»ºå»æ²’æœ‰å¯«å…¥è³‡æ–™çš„åˆ—åˆªé™¤
         cancel.reset(cursor, conn, event)
         
-    # «ö¤Urich menu¤¤"§Ú­n³ø¦W" ¿ï¾Ü¨ä¤¤¤@ºØ¬¡°ÊÃş«¬«á
-    elif "³ø¦W¬¡°ÊÃş«¬" in postback_data: #³o¸Ìªºevent.message.text·|¬O¤W­±quick reply¦^¶Çªº°T®§(¥|ºØtype¨ä¤¤¤@ºØ)
+    # æŒ‰ä¸‹rich menuä¸­"æˆ‘è¦å ±å" é¸æ“‡å…¶ä¸­ä¸€ç¨®æ´»å‹•é¡å‹å¾Œ
+    elif "å ±åæ´»å‹•é¡å‹" in postback_data: #é€™è£¡çš„event.message.textæœƒæ˜¯ä¸Šé¢quick replyå›å‚³çš„è¨Šæ¯(å››ç¨®typeå…¶ä¸­ä¸€ç¨®)
         type = postback_data.split("_")[1]
 
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}'  and people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
@@ -329,7 +331,7 @@ def gathering(event):
             msg
         )
 
-    elif "¸Ô²Ó¸ê°T" in postback_data :
+    elif "è©³ç´°è³‡è¨Š" in postback_data :
         record = postback_data.split("_")
         
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
@@ -342,25 +344,25 @@ def gathering(event):
             msg
         )
 
-    elif "¥ß§Y³ø¦W" in postback_data: #ÂI¤F"¥ß§Y³ø¦W«á§Y¦^¶Çactivity_no©Mactivity_name"
+    elif "ç«‹å³å ±å" in postback_data: #é»äº†"ç«‹å³å ±åå¾Œå³å›å‚³activity_noå’Œactivity_name"
         record = postback_data.split("_")
-        #record[0]:¥ß§Y³ø¦W record[1]¡G¬¡°Ê¥N¸¹ record[2]:¬¡°Ê¦WºÙ
+        #record[0]:ç«‹å³å ±å record[1]ï¼šæ´»å‹•ä»£è™Ÿ record[2]:æ´»å‹•åç¨±
 
-        #§â¥u³Ğ«Ø«o¨S¦³¼g¤J¸ê®Æªº¦C§R°£
+        #æŠŠåªå‰µå»ºå»æ²’æœ‰å¯«å…¥è³‡æ–™çš„åˆ—åˆªé™¤
         cancel.reset(cursor, conn, event)
 
-        #³Ğ«Ø¤@¦C
+        #å‰µå»ºä¸€åˆ—
         postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
 
-        #¼´³ø¹ÎªÌªº¸ê®Æ
+        #æ’ˆå ±åœ˜è€…çš„è³‡æ–™
         postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY registration_no DESC;'''
         cursor.execute(postgres_select_query)
         data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ", data_for_basicinfo)
 
-        #¼f®Ö¹q¸Ü
+        #å¯©æ ¸é›»è©±
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
         cursor.execute(postgres_select_query)
         phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
@@ -374,7 +376,7 @@ def gathering(event):
             name, phone = None, None
         
         if name != None and phone != None and phone not in phone_registration:
-            # ¤w¦³³ø¦W¬ö¿ı«hª½±µ±a¤J¥ı«e¸ê®Æ
+            # å·²æœ‰å ±åç´€éŒ„å‰‡ç›´æ¥å¸¶å…¥å…ˆå‰è³‡æ–™
             postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
             cursor.execute(postgres_update_query)
             conn.commit()
@@ -389,7 +391,7 @@ def gathering(event):
             )
     
         else:
-            # ­«·s¶ñ¼g³ø¦W¸ê®Æ
+            # é‡æ–°å¡«å¯«å ±åè³‡æ–™
             postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_select_query)
             
@@ -398,14 +400,14 @@ def gathering(event):
             print(f"count none in data_r = {data_r.count(None)}")
             print(f"i_r = {i_r}")
         
-            msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg»İ­n·s¼W³ø¦W±¡¹Ò
+            msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsgéœ€è¦æ–°å¢å ±åæƒ…å¢ƒ
             line_bot_api.reply_message(
                 event.reply_token,
                 msg
             )
             
-    elif "­×§ï³ø¦W" in postback_data:
-        column = postback_data.split("_", 1)[1]  # attendee_name ©Î phone
+    elif "ä¿®æ”¹å ±å" in postback_data:
+        column = postback_data.split("_", 1)[1]  # attendee_name æˆ– phone
 
         postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_update_query)
@@ -418,13 +420,13 @@ def gathering(event):
         )
 
         
-    elif "½T»{³ø¦W" in postback_data:
-        #§ä¨ì¥L³øªº¹Îªº½s¸¹activity_no
+    elif "ç¢ºèªå ±å" in postback_data:
+        #æ‰¾åˆ°ä»–å ±çš„åœ˜çš„ç·¨è™Ÿactivity_no
         postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         activity_no = cursor.fetchone()[0]
 
-        #§ä³ø¸Ó¹Î²{¦bªº³ø¦W¤H¼Æattendee¨Ã§ó·s(+1)
+        #æ‰¾å ±è©²åœ˜ç¾åœ¨çš„å ±åäººæ•¸attendeeä¸¦æ›´æ–°(+1)
         postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
         cursor.execute(postgres_select_query)
         temp = cursor.fetchone()
@@ -433,18 +435,18 @@ def gathering(event):
         if condition == "closed":
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text = "³ø¦W¥¢±Ñ")
+                TextSendMessage(text = "å ±åå¤±æ•—")
             )
             
         else:
             attendee += 1
 
-            #±N§ó·sªº³ø¦W¤H¼Æattendee°O¿ı¨ì³ø¦Wªí³ægroup_data¸Ì
+            #å°‡æ›´æ–°çš„å ±åäººæ•¸attendeeè¨˜éŒ„åˆ°å ±åè¡¨å–®group_dataè£¡
             postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
             cursor.execute(postgres_update_query)
             conn.commit()
 
-            #ÀË¬d³ø¦W¤H¼Æattendee¬O§_¹F¤W­­people
+            #æª¢æŸ¥å ±åäººæ•¸attendeeæ˜¯å¦é”ä¸Šé™people
             postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
             cursor.execute(postgres_select_query)
             people = cursor.fetchone()[0]
@@ -455,14 +457,14 @@ def gathering(event):
                 conn.commit()
 
 
-            #±N³ø¦Wªí³æªºcondition§ï¦¨closed
+            #å°‡å ±åè¡¨å–®çš„conditionæ”¹æˆclosed
             postgres_update_query = f"""UPDATE registration_data SET condition = 'closed' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
 
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text = "³ø¦W¦¨¥\¡I")
+                TextSendMessage(text = "å ±åæˆåŠŸï¼")
             )
 
             cursor.close()
@@ -470,22 +472,22 @@ def gathering(event):
 
 
 ## ================
-## §Úªº¶}¹Î
+## æˆ‘çš„é–‹åœ˜
 ## ================
-    elif postback_data == "§Úªº¶}¹Î":
+    elif postback_data == "æˆ‘çš„é–‹åœ˜":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_glist.list_type
         )
-        print("¬d¸ß¶}¹Î¬ö¿ı")
+        print("æŸ¥è©¢é–‹åœ˜ç´€éŒ„")
         
-    elif "¶}¹Î¬ö¿ı" in postback_data:
+    elif "é–‹åœ˜ç´€éŒ„" in postback_data:
         
         type = postback_data.split("_")[1]
         
-        if type == "¤wµ²§ô":
+        if type == "å·²çµæŸ":
             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
-        elif type == "¶i¦æ¤¤":
+        elif type == "é€²è¡Œä¸­":
             postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
             
         cursor.execute(postgres_select_query)
@@ -498,7 +500,7 @@ def gathering(event):
         msg
         )
         
-    elif "¶}¹Î¸ê°T" in postback_data:
+    elif "é–‹åœ˜è³‡è¨Š" in postback_data:
         activity_no = postback_data.split("_")[1]
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
         cursor.execute(postgres_select_query)
@@ -511,8 +513,8 @@ def gathering(event):
             msg
             )
             
-    #¥D´ª¬d¬İ³ø¦WªÌ¸ê°T(³ø¦WªÌ¼ÊºÙ¡B¹q¸Ü)
-    elif "³ø¦WªÌ¸ê°T" in postback_data:
+    #ä¸»æªæŸ¥çœ‹å ±åè€…è³‡è¨Š(å ±åè€…æš±ç¨±ã€é›»è©±)
+    elif "å ±åè€…è³‡è¨Š" in postback_data:
         activity_no = postback_data.split("_")[1]
 
         postgres_select_query = f"""SELECT activity_name FROM registration_data WHERE activity_no = '{activity_no}';"""
@@ -533,11 +535,11 @@ def gathering(event):
             for row in attendee_data:
                 attendee_lst.append(" ".join(row))
 
-            msg = f"{activity_name}"+"\n³ø¦WªÌ¸ê°T¡G"
+            msg = f"{activity_name}"+"\nå ±åè€…è³‡è¨Šï¼š"
             for attendee in attendee_lst:
                 msg += f"\n{attendee}"
     #         except:
-    #             msg = "¥»¬¡°Ê¥Ø«eµL¤H³ø¦W"
+    #             msg = "æœ¬æ´»å‹•ç›®å‰ç„¡äººå ±å"
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -546,10 +548,10 @@ def gathering(event):
         else:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text = '¥Ø«eµL¤H³ø¦W')
+                TextSendMessage(text = 'ç›®å‰ç„¡äººå ±å')
                 )
-    #¥D´ª´£¦­Ãö¹Î
-    elif "µ²§ô³ø¦W" in postback_data:
+    #ä¸»æªææ—©é—œåœ˜
+    elif "çµæŸå ±å" in postback_data:
         activity_no = postback_data.split("_")[1]
         
         postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = '{activity_no}';"""
@@ -558,27 +560,27 @@ def gathering(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "¦¨¥\µ²§ô³ø¦W¡I")
+            TextSendMessage(text = "æˆåŠŸçµæŸå ±åï¼")
             )
        
 ## ================
-## §Úªº³ø¦W
+## æˆ‘çš„å ±å
 ## ================
-    elif postback_data == "§Úªº³ø¦W":
+    elif postback_data == "æˆ‘çš„å ±å":
         line_bot_api.reply_message(
             event.reply_token,
             flexmsg_rlist.list_type
         )
-        print("¬d¸ß³ø¦W¬ö¿ı")
+        print("æŸ¥è©¢å ±åç´€éŒ„")
         
-    elif "³ø¦W¬ö¿ı" in postback_data:
+    elif "å ±åç´€éŒ„" in postback_data:
     
         type = postback_data.split("_")[1]
         
-        if type == "¤wµ²§ô":
+        if type == "å·²çµæŸ":
             postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
  
-        elif type == "¶i¦æ¤¤":
+        elif type == "é€²è¡Œä¸­":
             postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
             
         cursor.execute(postgres_select_query)
@@ -591,15 +593,15 @@ def gathering(event):
         msg
         )
     
-    # ¦b³ø¦W¦CªíÂI¿ï¬¡°Ê
-    elif "¬d³ø¦W" in postback_data:
+    # åœ¨å ±ååˆ—è¡¨é»é¸æ´»å‹•
+    elif "æŸ¥å ±å" in postback_data:
         activity_no = postback_data.split('_')[0]
         
-        #®Ú¾Ú¦^¶Çªºactivity_no¡A±qgroup_data¸Ì§ä¨ì¬¡°Ê¸ê°T
+        #æ ¹æ“šå›å‚³çš„activity_noï¼Œå¾group_dataè£¡æ‰¾åˆ°æ´»å‹•è³‡è¨Š
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
         cursor.execute(postgres_select_query)
         group_info = cursor.fetchone()
-        #®Ú¾Ú¦^¶Çªºactivity_no©Muser_id§ä¨ì³ø¦W¸ê°T(¥i¯à¤£¥u¤@¦C)
+        #æ ¹æ“šå›å‚³çš„activity_noå’Œuser_idæ‰¾åˆ°å ±åè³‡è¨Š(å¯èƒ½ä¸åªä¸€åˆ—)
         postgres_select_query = f"""SELECT * FROM registration_data WHERE activity_no = {activity_no} AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         registration_info = cursor.fetchall()
@@ -610,38 +612,38 @@ def gathering(event):
             msg
         )
         
-    elif "¨ú®ø³ø¦W" in postback_data: #«ö¤U¨ú®ø³ø¦W«ö¶s±N¦^¶Ç(record_activity_¨ú®ø³ø¦W)
+    elif "å–æ¶ˆå ±å" in postback_data: #æŒ‰ä¸‹å–æ¶ˆå ±åæŒ‰éˆ•å°‡å›å‚³(record_activity_å–æ¶ˆå ±å)
         registration_no = postback_data.split('_')[0]
         activity_no = postback_data.split('_')[1]
 
-        # §R°£³ø¦W
+        # åˆªé™¤å ±å
         postgres_delete_query = f"""DELETE FROM registration_data WHERE registration_no = {registration_no} AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_delete_query)
         conn.commit()
 
-        #§ä³ø¸Ó¹Î²{¦bªº³ø¦W¤H¼Æattendee¨Ã§ó·s(-1)
+        #æ‰¾å ±è©²åœ˜ç¾åœ¨çš„å ±åäººæ•¸attendeeä¸¦æ›´æ–°(-1)
         postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no};"""
         cursor.execute(postgres_select_query)
         attendee = cursor.fetchone()[0]
         attendee -= 1
 
-        #±N§ó·sªº³ø¦W¤H¼Æattendent°O¿ı¨ì³ø¦Wªí³ægroup_data¸Ì
+        #å°‡æ›´æ–°çš„å ±åäººæ•¸attendentè¨˜éŒ„åˆ°å ±åè¡¨å–®group_dataè£¡
         postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
         cursor.execute(postgres_update_query)
         conn.commit()
 
-        #§ó·s¸Ó¬¡°Êªºcondition(=pending)
+        #æ›´æ–°è©²æ´»å‹•çš„condition(=pending)
         postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE activity_no = {activity_no};"""
         cursor.execute(postgres_update_query)
         conn.commit()
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "¨ú®ø¦¨¥\¡I")
+            TextSendMessage(text = "å–æ¶ˆæˆåŠŸï¼")
         )
 
 ## ================
-## ¤W¤U­¶
+## ä¸Šä¸‹é 
 ## ================
     elif "forward" in postback_data or "backward" in postback_data:
         
@@ -649,7 +651,7 @@ def gathering(event):
         type = record[2]
         i = int(record[3])
 
-        # [§Ú­n³ø¦W] ¬¡°Ê¦Cªíªº¤U¤@­¶
+        # [æˆ‘è¦å ±å] æ´»å‹•åˆ—è¡¨çš„ä¸‹ä¸€é 
         if record[1] == "activity":
             #record[2] = activity_type, record[3] = i
             postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
@@ -659,12 +661,12 @@ def gathering(event):
             print(f"data:{data}")
             msg = flexmsg_r.carousel(data, type, i)
             
-        # [§Úªº¶}¹Î] ¶}¹Î¦Cªíªº¤U¤@­¶
+        # [æˆ‘çš„é–‹åœ˜] é–‹åœ˜åˆ—è¡¨çš„ä¸‹ä¸€é 
         elif record[1] == "glist":
-            #record[2] = ¶i¦æ¤¤©Î¤wµ²§ô, record[3] = i
-            if type == "¤wµ²§ô":
+            #record[2] = é€²è¡Œä¸­æˆ–å·²çµæŸ, record[3] = i
+            if type == "å·²çµæŸ":
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
-            elif type == "¶i¦æ¤¤":
+            elif type == "é€²è¡Œä¸­":
                 postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
            
             cursor.execute(postgres_select_query)
@@ -673,12 +675,12 @@ def gathering(event):
             msg = flexmsg_glist.glist(data, type, i)
 
 
-        # [§Úªº³ø¦W] ³ø¦W¦Cªíªº¤U¤@­¶
+        # [æˆ‘çš„å ±å] å ±ååˆ—è¡¨çš„ä¸‹ä¸€é 
         elif record[1] == "rlist":
-            #record[2] = ¶i¦æ¤¤©Î¤wµ²§ô, record[3] = i
-            if type == "¤wµ²§ô":
+            #record[2] = é€²è¡Œä¸­æˆ–å·²çµæŸ, record[3] = i
+            if type == "å·²çµæŸ":
                 postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
-            elif type == "¶i¦æ¤¤":
+            elif type == "é€²è¡Œä¸­":
                 postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             
             cursor.execute(postgres_select_query)
@@ -692,33 +694,33 @@ def gathering(event):
             )
                 
 ## ================
-## ¶}¹Î¦^¶Ç®É¶¡
+## é–‹åœ˜å›å‚³æ™‚é–“
 ## ================
     else:
-        # ¶}¹Î®É,¶ñ¼g®É¶¡¸ê®Æ
+        # é–‹åœ˜æ™‚,å¡«å¯«æ™‚é–“è³‡æ–™
         i = data_g.index(None)
         print("i =",i)
         column_all = ['acrivity_no', 'activity_type', 'activity_name',
                       'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
                       'due_date', 'description', 'photo', 'name',
                       'phone', 'mail', 'attendee', 'condition', 'user_id']
-        #³B²zactivity date and time
+        #è™•ç†activity date and time
         if event.postback.data == "activity_time" :
 
             record = event.postback.params['datetime']
             record = record.split("T")
             print(record)
             temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1) #due_date
-            # ¼g¤J¸ê®Æ(§ó·s¬¡°Ê¤é´Á¡B®É¶¡¡A¹w¶ñºI¤î®É¶¡¡^
+            # å¯«å…¥è³‡æ–™(æ›´æ–°æ´»å‹•æ—¥æœŸã€æ™‚é–“ï¼Œé å¡«æˆªæ­¢æ™‚é–“ï¼‰
             postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
 
-            #³B²zdue date
+            #è™•ç†due date
         elif event.postback.data == "due_time":
 
             record = event.postback.params['date']
-            # ¼g¤J¸ê®Æ(§ó·sºI¤î®É¶¡)
+            # å¯«å…¥è³‡æ–™(æ›´æ–°æˆªæ­¢æ™‚é–“)
             postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
             cursor.execute(postgres_update_query)
             conn.commit()
@@ -765,7 +767,7 @@ def gathering(event):
     record = [event.message.title, event.message.latitude, event.message.longitude]
     if record[0] == None:
         record[0] = event.message.address[:50]
-    # ¼g¤J¸ê®Æ(§ó·s¦ì¸m¸ê°T)
+    # å¯«å…¥è³‡æ–™(æ›´æ–°ä½ç½®è³‡è¨Š)
     postgres_update_query = f"""UPDATE group_data SET (location_tittle, lat, long) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_update_query)
     conn.commit()
@@ -805,7 +807,7 @@ def pic(event):
         print("i =",i)
         if i == 12:
 
-            #§â¹Ï¤ù¦s¤U¨Ó¨Ã¶Ç¤W¥h
+            #æŠŠåœ–ç‰‡å­˜ä¸‹ä¾†ä¸¦å‚³ä¸Šå»
             ext = 'jpg'
             print(f"messege_id : {event.message.id}")
             print(event)
@@ -835,12 +837,12 @@ def pic(event):
                 print("path = ",path)
                 os.remove(path)
                 print("image = ",image)
-                #§â¹Ï¤ùºô§}¦s¶i¸ê®Æ®w
+                #æŠŠåœ–ç‰‡ç¶²å€å­˜é€²è³‡æ–™åº«
                 postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_update_query)
                 conn.commit()
 
-                #msg=[TextSendMessage(text="¤W¶Ç¦¨¥\¡I"), 
+                #msg=[TextSendMessage(text="ä¸Šå‚³æˆåŠŸï¼"), 
                 #     ImageSendMessage(original_content_url = image['link'], preview_image_url=image['link']),
                 #     TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name)+"\n\n"+image['link'])]
 
@@ -854,12 +856,12 @@ def pic(event):
             except:
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text='¤W¶Ç¥¢±Ñ'))
+                    TextSendMessage(text='ä¸Šå‚³å¤±æ•—'))
 
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text = "²{¦b¤£¥Î¶Ç¹Ï¤ùµ¹§Ú")
+            TextSendMessage(text = "ç¾åœ¨ä¸ç”¨å‚³åœ–ç‰‡çµ¦æˆ‘")
         )
     return 0
 
