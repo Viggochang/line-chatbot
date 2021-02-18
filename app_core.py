@@ -6,7 +6,7 @@ import datetime as dt
 import tempfile
 from imgurpython import ImgurClient
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
@@ -45,7 +45,7 @@ def callback():
 # flask 網頁
 @app.route("/")
 def home():
-    return "邊緣人揪團"
+    return render_template("home.html")
     
 
 # 學你說話
