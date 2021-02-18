@@ -41,6 +41,12 @@ def callback():
         abort(400)
 
     return 'OK'
+    
+# flask 網頁
+@app.route("/")
+def home():
+    return "邊緣人揪團"
+    
 
 # 學你說話
 @handler.add(MessageEvent, message = TextMessage)
