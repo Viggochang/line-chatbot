@@ -14,3 +14,9 @@
   height: 40em;
   padding: 100px 100px 100px 100px;
 }
+
+footer{
+width: 100%;
+position: absolute;
+bottom: 0
+}
