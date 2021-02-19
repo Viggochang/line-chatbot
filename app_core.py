@@ -47,6 +47,10 @@ def callback():
 def home():
     return render_template("home.html")
     
+@app.route("/from_start")
+def from_start():
+    return render_template("from_start.html")
+    
 
 # 學你說話
 @handler.add(MessageEvent, message = TextMessage)
