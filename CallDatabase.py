@@ -8,6 +8,7 @@ def get_group_data():
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
     
+    #cols = ("activity_type", )
     select_query = '''SELECT * FROM group_data ORDER BY activity_no'''
     cursor.execute(select_query)
     conn.commit()
