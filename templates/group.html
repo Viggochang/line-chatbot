@@ -12,13 +12,11 @@
       </div>
       
       {% for record in html_data %}
-      <div class="row">
-        {% for item in record %}
-        <div class="col">
-          <p>{{ item }}</p>
-        </div>
-        {% endfor %}
+      {% for item in record %}
+      <div class="col">
+        <p>{{ item }}</p>
       </div>
+      {% endfor %}
       {% endfor %}
 
     </div>
