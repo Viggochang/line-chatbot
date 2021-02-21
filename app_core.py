@@ -54,8 +54,8 @@ def from_start():
     
 @app.route("/group")
 def show_groupdata():
-    #all_groupdata = CallDatabase.get_group_data()
-    return render_template("from_start.html")
+    all_groupdata = CallDatabase.get_group_data()
+    return render_template("group.html")
 
 
 # 學你說話
