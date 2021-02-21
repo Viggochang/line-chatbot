@@ -10,16 +10,18 @@
         <p></p>
         <h2>所有開團資料</h2>
       </div>
+    </div>
       
-      {% for record in html_data %}
+    {% for record in html_data %}
+    <div class="row">
       {% for item in record %}
       <div class="col">
         <p>{{ item }}</p>
       </div>
       {% endfor %}
-      {% endfor %}
-
     </div>
+    {% endfor %}
+
   </div>
 
 {% endblock %}
