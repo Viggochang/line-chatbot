@@ -14,6 +14,7 @@ from linebot.models import *
 
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
+import CallDatabase
 
 app = Flask(__name__)
 
@@ -52,17 +53,8 @@ def from_start():
     return render_template("from_start.html")
     
 @app.route("/group")
-def get_group_data():
-    print("連接資料庫")
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    cursor = conn.cursor()
-    
-    all_data = cursor.fetchall()
-    return all_data
-    
 def show_groupdata():
-    all_groupdata = get_group_data()
+    all_groupdata = CallDatabase.get_group_data()
     return render_template("group", html_data = all_groupdata)
 
 
