@@ -18,9 +18,10 @@
         </div>
         {% endfor %}
       </div>
-      { % endfor % }
+      {% endfor %}
 
     </div>
   </div>
 
 {% endblock %}
+
