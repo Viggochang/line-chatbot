@@ -57,6 +57,10 @@ def show_groupdata():
     all_groupdata = CallDatabase.get_group_data()
     print(len(all_groupdata))
     return render_template("group.html", html_data = all_groupdata)
+    
+@app.route("/search_group_1")
+def search_group():
+    return render_template("search_group_1.html")
 
 
 # 學你說話

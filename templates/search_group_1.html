@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}我要開團{% endblock %}
+
+{% block main %}
+
+  <div class="container">
+    <div class="row align-items-start">
+      <div class="col">
+        <p></p>
+        <h2><i class="far fa-clipboard"></i> 請輸入活動條件</h2>
+      </div>
+    </div>
+
+    <form method="post" action="/search_group_1">
+      <div class="form-group row">
+        <label for="activity_type" class="col-2 offset-1 col-form-label">請輸入活動類型</label>
+        <div class="col-3"> 
+          <input type="text" class="form-control" id="activity_type" name="activity-type">
+            <small class="form-text">登山踏青/桌遊麻將/吃吃喝喝/唱歌跳舞</small>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">查詢</button>
+    </form>
+  </div>
+  
+  <!--    
+    <!-- 宣告一個巨集 -->
+    {% macro easy_row(tag, data) -%}
+
+      {% for record in data %}
+      <div class="row">
+        {% for item in record %}
+        <div class="col">
+          <{{ tag }}>{{ item }}</{{ tag }}>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {%- endmacro %}
+    
+    <!-- 宣告欄位名稱 -->
+    {% set col_name=(("活動類型", "活動名稱", "活動日期", "活動時間", "費用"),) %}
+
+    <!-- 用巨集呈現欄位名稱 -->
+    {{ easy_row("h3", col_name) }}
+
+    <!-- 用巨集呈現活動資訊 -->
+    {{ easy_row("p", html_data) }}
+
+  </div>
+  -->
+
+{% endblock %}
+
