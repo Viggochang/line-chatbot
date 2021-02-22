@@ -13,7 +13,7 @@
     </div>
 
   <!-- 宣告一個巨集 -->
-    <% macro form(label_text, small_text) -%>
+    {% macro form(label_text, small_text) -%}
       <div class="form-group row">
         <label for="activity_type" class="col-2 offset-1 col-form-label">{{label_text}}</label>
         <div class="col-3"> 
@@ -21,7 +21,7 @@
             <small class="form-text">{{small_text}}</small>
         </div>
       </div>
-    <%- endmacro %>
+    {%- endmacro %}
 
     <form method="post" action="/search_group_1">
       {{ form("請輸入活動類型", "登山踏青/桌遊麻將/吃吃喝喝/唱歌跳舞") }}
