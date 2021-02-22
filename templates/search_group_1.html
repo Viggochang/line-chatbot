@@ -8,7 +8,7 @@
     <div class="row align-items-start">
       <div class="col">
         <p></p>
-        <h2><i class="far fa-clipboard"></i> 請輸入活動條件</h2>
+        <h2><i class="far fa-clipboard"></i> 請輸入活動查詢條件</h2>
       </div>
     </div>
 
@@ -20,6 +20,19 @@
             <small class="form-text">登山踏青/桌遊麻將/吃吃喝喝/唱歌跳舞</small>
         </div>
       </div>
+
+      <div class="from-group row">
+        <label for="cost" class="col-2 offset-1 col-form-label">請輸入活動費用範圍</label>
+        <div class="col-3">
+          <input type="text" class="form-control" id="cost" name="cost_min">
+            <small class="form-text">活動費用下限</small>
+        <div class="col-1"> 至 </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="cost" name="cost_max">
+            <small class="form-text">活動費用上限</small>
+        </div>
+      </div>
+
       <button type="submit" class="btn btn-primary">查詢</button>
     </form>
   </div>
