@@ -26,7 +26,7 @@ def filter_group(form):
     cost_min = form["cost_min"]
     cost_max = form["cost_max"]
     
-    select_query = f'''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data WHERE activity_type = '{activity_type}' AND cost >= cost_min AND cost <= cost_max'''
+    select_query = f'''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data WHERE activity_type = '{activity_type}' AND cost >= {cost_min} AND cost <= {cost_max}'''
     
     cursor.execute(select_query)
     conn.commit()
