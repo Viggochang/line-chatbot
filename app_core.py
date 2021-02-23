@@ -63,10 +63,10 @@ def search_group():
     if request.method == 'POST':
         print(request.form)
         filter_data = CallDatabase.filter_group(request.form)
-        return render_template("group.html", html_data = filter_data)
+        return render_template("search_group_1.html", html_data = filter_data)
         #return render_template("search_group_1.html")
     else:
-        return render_template("search_group_1.html")
+        return render_template("search_group_1.html", html_data = all_groupdata)
 
 
 # 學你說話
