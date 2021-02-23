@@ -9,7 +9,7 @@ def get_all_data():
     cursor = conn.cursor()
     
     #cols = ("activity_type", "activity_name", "activity_date", "activity_time", "cost")
-    select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data ORDER BY activity_data'''
+    select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
     cursor.execute(select_query)
     conn.commit()
     
