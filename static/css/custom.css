@@ -19,9 +19,12 @@
   padding: 100px 100px 100px 100px;
 }
 
-/*
+
 .zi_box_1 {
-background-color: #dfefff ; /*底色*/
+background-color: #dfefff ; 
+}
+
+/*
 border:2.5px solid #fff ;  /*白線*/
 box-shadow:0 0 0 2px #dfefff ;  /*外框*/
 margin:2em 0 ;  /*與其他方塊距離*/
