@@ -14,7 +14,7 @@ from linebot.models import *
 
 import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
 import cancel
-import CallDatabase
+from custom_models import CallDatabase
 
 app = Flask(__name__)
 
@@ -56,13 +56,14 @@ def from_start():
 def show_groupdata():
     all_groupdata = CallDatabase.get_group_data()
     print(len(all_groupdata))
-    return render_template(", group.html", html_data = all_groupdata)
+    return render_template("group.html", html_data = all_groupdata)
     
 @app.route("/search_group_1", methods=['GET', 'POST'])
 def search_group():
     if request.method == 'POST':
         print(request.form)
-        return render_template("search_group_1.html")
+        filter_group =
+        return render_template("group.html", html_data = filter_group)
     else:
         return render_template("search_group_1.html")
 
