@@ -52,13 +52,13 @@ def home():
 def from_start():
     return render_template("from_start.html")
     
-@app.route("/group")
-def show_groupdata():
-    all_groupdata = CallDatabase.get_group_data()
-    print(len(all_groupdata))
-    return render_template("group.html", html_data = all_groupdata)
+#@app.route("/group")
+#def show_groupdata():
+#    all_groupdata = CallDatabase.get_group_data()
+#    print(len(all_groupdata))
+#    return render_template("group.html", html_data = all_groupdata)
     
-@app.route("/search_group_1", methods=['GET', 'POST'])
+@app.route("/registration", methods=['GET', 'POST'])
 def search_group():
     if request.method == 'POST':
         print(request.form)
