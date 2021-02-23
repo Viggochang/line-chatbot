@@ -66,6 +66,8 @@ def search_group():
         return render_template("search_group_1.html", html_data = filter_data)
         #return render_template("search_group_1.html")
     else:
+        all_groupdata = CallDatabase.get_all_data()
+        print(len(all_groupdata))
         return render_template("search_group_1.html", html_data = all_groupdata)
 
 
