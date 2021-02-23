@@ -13,11 +13,11 @@
     </div>
 
   <!-- 宣告一個巨集 -->
-    {% macro form(label_text, small_text) -%}
+    {% macro form(name, label_text, small_text) -%}
       <div class="form-group row">
         <label for="activity_type" class="col-2 offset-1 col-form-label">{{label_text}}</label>
         <div class="col-3"> 
-          <input type="text" class="form-control" id="activity_type" name="activity-type">
+          <input type="text" class="form-control" id="activity_type" name={{name}}>
             <small class="form-text">{{small_text}}</small>
         </div>
       </div>
@@ -26,7 +26,7 @@
     <form method="post" action="/search_group_1">
       <div class="row"></br></div>
 
-      {{ form("請輸入活動類型", "登山踏青/桌遊麻將/吃吃喝喝/唱歌跳舞") }}
+      {{ form("activity_type", "請輸入活動類型", "登山踏青/桌遊麻將/吃吃喝喝/唱歌跳舞") }}
 
       <div class="from-group row">
         <label for="cost" class="col-2 offset-1 col-form-label">請輸入活動費用範圍</label>

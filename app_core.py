@@ -62,9 +62,9 @@ def show_groupdata():
 def search_group():
     if request.method == 'POST':
         print(request.form)
-        #filter_group =
-        #return render_template("group.html", html_data = filter_group)
-        return render_template("search_group_1.html")
+        filter_data = CallDatabase.filter_group(request.form)
+        return render_template("group.html", html_data = filter_data)
+        #return render_template("search_group_1.html")
     else:
         return render_template("search_group_1.html")
 
