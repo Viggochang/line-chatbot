@@ -22,8 +22,8 @@
 
 #box{
 background-color: #dfefff ; 
-border:2.5px solid #fff ;  /*白線*/
-box-shadow:0 0 0 2px #dfefff ;  /*外框*/
+border:2.5px solid #fff ;  
+box-shadow:0 0 0 2px #dfefff ;  
 margin:2em 0 ;  /*與其他方塊距離*/
 padding:15px ;  /*方塊內文字與邊框距離*/
 }  
