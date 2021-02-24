@@ -11,7 +11,10 @@
       {% for data in html_data[0:4] %}
       <div class="col">
         <p style="background:#dfefff">{{data[0]}}</p>
-        <div class="img-group" style="background-image: url({{data[1]}})">
+        <div class="img-group">
+          <style>
+          .img-group{ background-image: url({{data[1]}}) }
+          </style>
         </div>
         <h5>{{data[2]}}</h5>
         <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</font></span>
