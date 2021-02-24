@@ -21,3 +21,10 @@
 
 
 
+#box{
+background-color: #000000 ; 
+border:2.5px solid #000000 ;  
+box-shadow:0 0 0 15px 5px #dfefff ;  
+margin:0em 0 ;  /*與其他方塊距離*/
+padding:15px ;  /*方塊內文字與邊框距離*/
+}  

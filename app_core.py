@@ -69,7 +69,6 @@ def registration():
         return render_template("registration.html", html_data = all_groupdata)
 
 
-# 學你說話
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
