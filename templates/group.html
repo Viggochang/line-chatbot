@@ -8,10 +8,10 @@
     
     <div class="row">
 
-      {% for data in html_data[0:4] %}
+      {% for data in html_data[0:8] %}
       <div class="col">
         <p style="background:#dfefff">{{data[0]}}</p>
-        <div class="img-group" style="background-image: url(https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg)"> 
+        <div class="img-group" style="background-image: url({{data[1]}})"> 
           <style>
           .img-group{
             width: 20vw;
