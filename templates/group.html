@@ -4,28 +4,20 @@
 
 {% block main %}
 
-  <!-- 引入我們自己的 CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-
   <div class="container" style="margin: 4em auto">
     
     <div class="row">
 
+      {% for data in html_data[0:4] %}
       <div class="col">
-        <div class="box">
-          <h3>測試測試 1</h3>
-          <p>內文寫這邊～～</p>
-        </div>
+        <p style="background:#dfefff">{{data[0]}}</p>
+        <img src={{data[1]}}>
+        <h5>{{data[2]}}</h5>
+        <span><font color=#444444>地點: {{data[3]}}</font></span>
+        <span><font color=#444444>時間: {{data[4]}} {{data[5]}}</font></span>
+        <span><font color=#444444>費用: {{data[6]}}</font></span>
       </div>
-
-      <div class="col">
-        <div class="box">
-          <div class="row">
-            <h3>測試測試 2</h3>
-          </div>
-          <div class="row">內文寫這邊～～</div>
-        </div>
-      </div>
+      {% endfor %}
 
     </div>
   </div>

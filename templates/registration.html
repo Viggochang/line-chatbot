@@ -18,7 +18,7 @@
       <div class="row"></br></div>
 
       <div class="form-group row">
-        <label for="activity_type" class="col-2 offset-1 col-form-label">請輸入活動類型</label>
+        <label for="activity_type" class="col-2 offset-1 col-form-label">請選擇活動類型</label>
         <div class="col-3"> 
           <select id="activity_type", name="activity_type"}>
             <option value="">所有資料</option>
@@ -73,7 +73,7 @@
     {%- endmacro %}
     
     <!-- 宣告欄位名稱 -->
-    {% set col_name=(("活動類型", "活動名稱", "活動日期", "活動時間", "費用"),) %}
+    {% set col_name=(("活動類型", "相片", "活動名稱", "地點", "活動日期", "活動時間", "費用"),) %}
 
     <!-- 用巨集呈現欄位名稱 -->
     {{ easy_row("h3", col_name) }}

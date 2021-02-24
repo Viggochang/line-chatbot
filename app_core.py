@@ -54,7 +54,8 @@ def from_start():
     
 @app.route("/group")
 def group():
-    return render_template("group.html")
+    all_groupdata = CallDatabase.get_all_data()
+    return render_template("group.html", html_data = all_groupdata)
     
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():

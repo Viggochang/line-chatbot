@@ -9,11 +9,16 @@ def get_all_data():
     cursor = conn.cursor()
     
     #cols = ("activity_type", "activity_name", "activity_date", "activity_time", "cost")
-    select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
+    select_query = '''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
     cursor.execute(select_query)
     conn.commit()
     
-    all_data = cursor.fetchall()
+    all_data = [list(row) for row in cursor.fetchall()]
+    default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+    for row in all_data:
+        if "https://i.imgur.com/" not in row[1]：
+            row[1] = default_photo
+        
     return all_data
 
 def filter_group(form):
@@ -32,12 +37,17 @@ def filter_group(form):
         condition_query.append(f"cost <= {cost_max}")
     
     if condition_query:
-        select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data''' + ''' WHERE ''' + ''' AND '''.join(condition_query) + ''' ORDER BY activity_date'''
+        select_query = '''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost FROM group_data''' + ''' WHERE ''' + ''' AND '''.join(condition_query) + ''' ORDER BY activity_date'''
     else:
         select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
     
     cursor.execute(select_query)
     conn.commit()
     
-    filter_data = cursor.fetchall()
+    filter_data = [list(row) for row in cursor.fetchall()]
+    default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+    for row in all_data:
+        if "https://i.imgur.com/" not in row[1]：
+            row[1] = default_photo
+            
     return filter_data
