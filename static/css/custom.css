@@ -18,3 +18,12 @@
   height: 40em;
   padding: 100px 100px 100px 100px;
 }
+
+.img-group{
+  width: 20vw;
+  height: 20vw;
+  border-radius: 0%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
