@@ -23,7 +23,7 @@
 #box{
 background-color: #dfefff ; 
 border:2.5px solid #fff ;  
-box-shadow:0 0 0 2px #dfefff ;  
+box-shadow:0 0 0 15px #dfefff ;  
 margin:2em 0 ;  /*與其他方塊距離*/
 padding:15px ;  /*方塊內文字與邊框距離*/
 }  
