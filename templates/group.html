@@ -6,9 +6,10 @@
 
   <div class="container" style="margin: 4em auto">
     
+    {% for data_4 in html_data %}
     <div class="row">
 
-      {% for data in html_data[0:8] %}
+      {% for data in data_4 %}
       <div class="col">
         <p style="background:#dfefff">{{data[0]}}</p>
 
@@ -16,7 +17,7 @@
           <style>
           .box{
             border:5px #dfefff solid;
-            padding:4px;
+            padding:10px;
           }
           </style>
 
@@ -38,10 +39,13 @@
           <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
         </div>
       </div>
-        {% endfor %}
+      {% endfor %}
 
     </div>
+
     <span></br></span>
+    {% endfor %}
+
   </div>
 
 {% endblock %}

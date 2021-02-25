@@ -18,7 +18,8 @@ def get_all_data():
     for row in all_data:
         if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
-        
+    
+    all_data = [all_data[i:i+4] for i in range(len(all_data)) if i%4 == 0]
     return all_data
 
 def filter_group(form):
