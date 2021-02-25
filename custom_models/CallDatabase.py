@@ -47,7 +47,7 @@ def filter_group(form):
     
     filter_data = [list(row) for row in cursor.fetchall()]
     default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
-    for row in all_data:
+    for row in filter_data:
         if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
             
