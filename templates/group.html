@@ -9,26 +9,34 @@
     <div class="row">
 
       {% for data in html_data[0:8] %}
-      <div class="col">
-        <p style="background:#dfefff">{{data[0]}}</p>
-        <div class="img-group" style="background-image: url({{data[1]}})"> 
-          <style>
-          .img-group{
-            width: 15vw;
-            height: 15vw;
-            border-radius: 0%;
-            background-size: 100%;
-            background-repeat: no-repeat;
-            background-position: 50% 50%;
-          }
-          </style>
-        </div>
-        <span></br></span>
-        <h5>{{data[2]}}</h5>
-        <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
-      </div>
-      {% endfor %}
+      <div id="box">
+        <style>
+        .box{
+          border:5px blue solid;
+          padding:4px;
+        }
+        </style>
 
+        <div class="col">
+          <p style="background:#dfefff">{{data[0]}}</p>
+          <div class="img-group" style="background-image: url({{data[1]}})"> 
+            <style>
+            .img-group{
+              width: 15vw;
+              height: 15vw;
+              border-radius: 0%;
+              background-size: 100%;
+              background-repeat: no-repeat;
+              background-position: 50% 50%;
+            }
+            </style>
+          </div>
+          <span></br></span>
+          <h5>{{data[2]}}</h5>
+          <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 
