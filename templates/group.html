@@ -11,14 +11,22 @@
 
       {% for data in data_4 %}
       <div class="col">
-        <p style="background:#dfefff">{{data[0]}}</p>
+        <div class="box-type">
+          <p>{{data[0]}}</p>
+          <style>
+          .box-type{
+            background-color:#dfefff;
+            padding:6px;
+            width:255px;
+          }
+          </style>
 
         <div class="box">
           <style>
           .box{
             border:5px #dfefff solid;
             padding:10px;
-            width:250px;
+            width:255px;
           }
           </style>
 
