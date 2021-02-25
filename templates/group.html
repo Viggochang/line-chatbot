@@ -9,16 +9,17 @@
     <div class="row">
 
       {% for data in html_data[0:8] %}
-      <div id="box">
-        <style>
-        .box{
-          border:5px blue solid;
-          padding:4px;
-        }
-        </style>
+      <div class="col">
+        <p style="background:#dfefff">{{data[0]}}</p>
 
-        <div class="col">
-          <p style="background:#dfefff">{{data[0]}}</p>
+        <div class="box">
+          <style>
+          .box{
+            border:5px #dfefff solid;
+            padding:4px;
+          }
+          </style>
+
           <div class="img-group" style="background-image: url({{data[1]}})"> 
             <style>
             .img-group{
@@ -31,12 +32,14 @@
             }
             </style>
           </div>
+
           <span></br></span>
           <h5>{{data[2]}}</h5>
           <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
         </div>
-        {% endfor %}
       </div>
+        {% endfor %}
+
     </div>
   </div>
 
