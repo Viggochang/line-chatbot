@@ -51,4 +51,5 @@ def filter_group(form):
         if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
             
+    filter_data = [filter_data[i:i+4] for i in range(len(filter_data)) if i%4 == 0]
     return filter_data
