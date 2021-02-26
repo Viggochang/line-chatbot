@@ -6,7 +6,8 @@ import datetime as dt
 import tempfile
 from imgurpython import ImgurClient
 
-from flask import Flask, request, abort, render_template
+from flask import Flask, request, abort, render_template, url_for, redirect, flash
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
@@ -43,6 +44,38 @@ def callback():
 
     return 'OK'
     
+# 網頁登錄
+app.secret_key = config.get('flask', 'secret_key')
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+login_manager.login_message = "請先登錄後再使用喔！"
+
+class User(UserMixin):
+    pass
+ 
+@login_manager.request_loader
+def user_loader(man):
+    if man not in users:
+        return
+    user = User()
+    user.id = man
+    return user
+  
+@login_manager.request_loader
+def request_loader(request):
+    man = request.form.get('user_id')
+    if man not in users:
+        return
+    user = User()
+    user.id = man
+    user.is_authenticated = request.form['password'] == user[man]['password']
+    return user
+    
+users = {'Me':{'password': 'myself'}}
+        
+    
+
 # flask 網頁
 @app.route("/")
 def home():
@@ -70,6 +103,7 @@ def registration():
         return render_template("registration.html", html_data = all_groupdata)
 
 
+# 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
