@@ -6,6 +6,31 @@
 
   <div class="container" style="margin: 4em auto">
     
+        <!-- 宣告一個巨集 -->
+    {% macro easy_row(tag, data) -%}
+
+      {% for record in data %}
+      <div class="row">
+        {% for item in record %}
+        <div class="col">
+          <{{ tag }}>{{ item }}</{{ tag }}>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {%- endmacro %}
+    
+    <!-- 宣告欄位名稱 -->
+    {% set col_name=(("活動類型", "相片", "活動名稱", "地點", "活動日期", "活動時間", "費用"),) %}
+
+    <!-- 用巨集呈現欄位名稱 -->
+    {{ easy_row("h3", col_name) }}
+
+    <!-- 用巨集呈現活動資訊 -->
+    {{ easy_row("p", html_data) }}
+
+
+
     {% for data_4 in html_data %}
     <div class="row">
 

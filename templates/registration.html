@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}我要開團{% endblock %}
+{% block title %}我要報名{% endblock %}
 
 {% block main %}
 
@@ -58,30 +58,60 @@
     <hr class="my-4">
     <div class="row"></br></div>
 
-    <!-- 宣告一個巨集 -->
-    {% macro easy_row(tag, data) -%}
+    
+    {% for data_4 in html_data %}
+    <div class="row">
 
-      {% for record in data %}
-      <div class="row">
-        {% for item in record %}
-        <div class="col">
-          <{{ tag }}>{{ item }}</{{ tag }}>
+      {% for data in data_4 %}
+      <div class="col">
+        <div class="box-type">
+          <p>{{data[0]}}</p>
+          <style>
+          .box-type{
+            background-color:#dfefff;
+            padding:6px;
+            width:255px;
+            height:30px;
+          }
+          </style>
         </div>
-        {% endfor %}
+
+        <div class="box">
+          <style>
+          .box{
+            border:5px #dfefff solid;
+            padding:10px;
+            width:255px;
+          }
+          </style>
+
+          <div class="img-group" style="background-image: url({{data[1]}})"> 
+            <style>
+            .img-group{
+              width: 15vw;
+              height: 15vw;
+              border-radius: 0%;
+              background-size: 100%;
+              background-repeat: no-repeat;
+              background-position: 50% 50%;
+            }
+            </style>
+          </div>
+
+          <span></br></span>
+          <h5>{{data[2]}}</h5>
+          <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
+        </div>
       </div>
       {% endfor %}
-    {%- endmacro %}
-    
-    <!-- 宣告欄位名稱 -->
-    {% set col_name=(("活動類型", "相片", "活動名稱", "地點", "活動日期", "活動時間", "費用"),) %}
 
-    <!-- 用巨集呈現欄位名稱 -->
-    {{ easy_row("h3", col_name) }}
+    </div>
 
-    <!-- 用巨集呈現活動資訊 -->
-    {{ easy_row("p", html_data) }}
+    <span></br></span>
+    {% endfor %}
 
   </div>
 
 {% endblock %}
+
 
