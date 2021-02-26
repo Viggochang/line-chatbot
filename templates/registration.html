@@ -59,11 +59,13 @@
     <div class="row"></br></div>
 
     
+    <!-- show data -->
+
     {% for data_4 in html_data %}
     <div class="row">
 
       {% for data in data_4 %}
-      <div class="col">
+
         <div class="box-type">
           <p>{{data[0]}}</p>
           <style>
@@ -102,7 +104,7 @@
           <h5>{{data[2]}}</h5>
           <span><font color=#444444>地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
         </div>
-      </div>
+      
       {% endfor %}
 
     </div>
