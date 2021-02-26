@@ -66,18 +66,6 @@
 
       {% for data in data_4 %}
 
-        <div class="box-type">
-          <p>{{data[0]}}</p>
-          <style>
-          .box-type{
-            background-color:#dfefff;
-            padding:6px;
-            width:255px;
-            height:30px;
-          }
-          </style>
-        </div>
-
         <div class="box">
           <style>
           .box{
@@ -87,6 +75,8 @@
           }
           </style>
 
+          <p style="background:#dfefff">{{data[0]}}</p>
+          <span></br></span>
           <div class="img-group" style="background-image: url({{data[1]}})"> 
             <style>
             .img-group{
