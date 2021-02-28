@@ -55,25 +55,47 @@ class User(UserMixin):
     pass
  
 @login_manager.request_loader
-def user_loader(man):
-    if man not in users:
-        return
-    user = User()
-    user.id = man
-    return user
+def user_loader(account):
+    if account in users:
+        user = User()
+        user.id = account
+        return user
   
 @login_manager.request_loader
 def request_loader(request):
-    man = request.form.get('user_id')
-    if man not in users:
-        return
-    user = User()
-    user.id = man
-    user.is_authenticated = request.form['password'] == user[man]['password']
-    return user
+    account = request.form.get("user_id")
+    if account in users:
+        user = User()
+        user.id = account
+        user.is_authenticated = request.form["password"] == user[man]["password"]
+        return user
     
 users = {'Me':{'password': 'myself'}}
         
+        
+@app.route("/login", methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template("login.html")
+        
+    else:  # request.method == 'POST'
+        account = reguest.form["user_id"]
+        if (account in users) and (request.form["password"] == users[account]["password"]):
+            user = User()
+            user.id = account
+            login_user(user)
+            flash(f"Hi {account}~~歡迎使用揪團機器人！！")
+            return redirect(url_for("from_start"))
+        else:
+            flash("登錄失敗！)
+            return render_template("login.html")
+            
+@app.route("/logout")
+def logout()
+    account = current_user.get_id()
+    logout_user()
+    flash(f"再見啦~~{account}")
+    return render_template("login_html")
     
 
 # flask 網頁
@@ -86,6 +108,7 @@ def from_start():
     return render_template("from_start.html")
     
 @app.route("/group")
+@login_required
 def group():
     all_groupdata = CallDatabase.get_all_data()
     return render_template("group.html", html_data = all_groupdata)
