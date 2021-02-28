@@ -54,7 +54,7 @@ login_manager.login_message = "請先登錄後再使用喔！"
 class User(UserMixin):
     pass
  
-@login_manager.request_loader
+@login_manager.user_loader
 def user_loader(account):
     if account in users:
         user = User()
