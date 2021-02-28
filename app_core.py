@@ -79,7 +79,7 @@ def login():
         return render_template("login.html")
         
     else:  # request.method == 'POST'
-        account = reguest.form["user_id"]
+        account = request.form["user_id"]
         if (account in users) and (request.form["password"] == users[account]["password"]):
             user = User()
             user.id = account
@@ -91,7 +91,7 @@ def login():
             return render_template("login.html")
             
 @app.route("/logout")
-def logout():
+def logout():m
     account = current_user.get_id()
     logout_user()
     flash(f"再見啦~~{account}")
