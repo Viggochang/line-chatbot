@@ -87,7 +87,7 @@ def login():
             flash(f"Hi {account}~~歡迎使用揪團機器人！！")
             return redirect(url_for("from_start"))
         else:
-            flash("登錄失敗！)
+            flash("登錄失敗！")
             return render_template("login.html")
             
 @app.route("/logout")
