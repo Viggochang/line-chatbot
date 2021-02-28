@@ -91,7 +91,7 @@ def login():
             return render_template("login.html")
             
 @app.route("/logout")
-def logout()
+def logout():
     account = current_user.get_id()
     logout_user()
     flash(f"再見啦~~{account}")
