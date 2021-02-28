@@ -67,7 +67,7 @@ def request_loader(request):
     if account in users:
         user = User()
         user.id = account
-        user.is_authenticated = request.form["password"] == user[account]["password"]
+        User.is_authenticated = request.form["password"] == users[account]["password"]
         return user
     
 users = {'Me':{'password': 'myself'}}
