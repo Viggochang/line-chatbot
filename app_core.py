@@ -49,7 +49,7 @@ app.secret_key = config.get('flask', 'secret_key')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-login_manager.login_message = "請先登錄後再使用喔！"
+login_manager.login_message = "請先登入後再使用喔！"
 
 class User(UserMixin):
     pass
