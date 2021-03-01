@@ -9,6 +9,105 @@
       <h1><img src="static/img/group.png" width="80" height="80">我要開團</h1>
     </div>
 
+    <form method="post" action="/group">
+      <div class="row">
+        <label for="activity_type" class="col-2 offset-1 col-form-label">活動類型:</label>
+        <div class="col-3"> 
+          <select id="activity_type", name="activity_type"}>
+            <option value="登山踏青">登山踏青</option>
+            <option value="桌遊麻將">桌遊麻將</option>
+            <option value="吃吃喝喝">吃吃喝喝</option>
+            <option value="唱歌跳舞">唱歌跳舞</option> 
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="activity_name" class="col-2 offset-1 col-form-label">活動名稱:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="activity_name" name="activity_name">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="activity_date" class="col-2 offset-1 col-form-label">活動日期:</label>
+        <div class="col-2">
+          <input type="date" class="form-control" id="activity_date" name="activity_date">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="activity_time" class="col-2 offset-1 col-form-label">活動時間:</label>
+        <div class="col-2">
+          <input type="time" class="form-control" id="activity_time" name="activity_time">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="location_tittle" class="col-2 offset-1 col-form-label">活動地點:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="location_tittle" name="location_tittle">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="people" class="col-2 offset-1 col-form-label">活動人數:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="people" name="people">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="cost" class="col-2 offset-1 col-form-label">活動費用:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="cost" name="cost">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="due_date" class="col-2 offset-1 col-form-label">報名截止日:</label>
+        <div class="col-2">
+          <input type="date" class="form-control" id="due_date" name="due_date">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="description" class="col-2 offset-1 col-form-label">活動敘述:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="description" name="description">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="photo" class="col-2 offset-1 col-form-label">活動照片:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="photo" name="photo">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="name" class="col-2 offset-1 col-form-label">主揪姓名:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="name" name="name">
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="phone" class="col-2 offset-1 col-form-label">主揪電話:</label>
+        <div class="col-2">
+          <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+      </div>
+
+      <div class="row"></div>
+        <div class="col"></br></div>
+
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary">查詢</button>
+        </div>
+      </div>
+    </form>
 
   </div>
 {% endblock %}
