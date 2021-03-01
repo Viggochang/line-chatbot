@@ -768,9 +768,9 @@ def summary(data):
                                 gravity = "top",
                                 weight = "bold",
                                 action = PostbackAction(
-                                    label = "修改活動照片",
+                                    label = "上傳活動照片",
                                     data = "修改開團_photo",
-                                    display_text = "修改活動照片"
+                                    display_text = "上傳活動照片"
                                 )
                             )
                         ]
