@@ -85,7 +85,7 @@ def login():
             user.id = account
             login_user(user)
             flash(f"Hi {account}~~歡迎使用揪團機器人！！")
-            return redirect(url_for("from_start"))  #回到首頁
+            return render_template("home.html")  #回到首頁
         else:
             flash("登錄失敗！")
             return render_template("login.html")
