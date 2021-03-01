@@ -85,7 +85,7 @@ def login():
             user.id = account
             login_user(user)
             flash(f"Hi {account}~~歡迎使用揪團機器人！！")
-            return redirect(url_for(""))
+            return redirect(url_for("/"))  #回到首頁
         else:
             flash("登錄失敗！")
             return render_template("login.html")
@@ -110,8 +110,7 @@ def from_start():
 @app.route("/group")
 @login_required
 def group():
-    all_groupdata = CallDatabase.get_all_data()
-    return render_template("group.html", html_data = all_groupdata)
+    return render_template("group.html")
     
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():

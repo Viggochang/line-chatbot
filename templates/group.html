@@ -11,7 +11,7 @@
 
     <form method="post" action="/group">
       <div class="row">
-        <label for="activity_type" class="col-2 offset-1 col-form-label" style="font-size:20px">活動類型:</label>
+        <label for="activity_type" class="col-2 offset-1 col-form-label">活動類型:</label>
         <div class="col-3"> 
           <select id="activity_type", name="activity_type"}>
             <option value="登山踏青">登山踏青</option>
@@ -24,7 +24,7 @@
 
       {% macro easy_row(id, type, text, required) -%}
         <div class="row">
-          <label for={{id}} class="col-2 offset-1 col-form-label" style="font-size:16px">{{text}}：</label>
+          <label for={{id}} class="col-2 offset-1 col-form-label" style="line-height:20px">{{text}}：</label>
           <div class="col-3">
             <input type={{type}} class="form-control" id={{id}} name={{id}} {{required}}}>
           </div>
