@@ -22,6 +22,28 @@
         </div>
       </div>
 
+      {% macro easy_row(id, type, text, required) -%}
+        <div class="row">
+          <label for={{id}} class="col-2 offset-1 col-form-label">{{text}}:</label>
+          <div class="col-3">
+            <input type={{type}} class="form-control" id={{id}} name={{id} {{required}}}>
+          </div>
+        </div>
+      {%- endmacro %}
+
+      {{ easy_row("activity_name", "text", "活動名稱", "required") }}
+      {{ easy_row("activity_date", "date", "活動日期", "required") }}
+      {{ easy_row("activity_time", "time", "活動時間", "required") }}
+      {{ easy_row("location_tittle", "text", "活動地點", "required") }}
+      {{ easy_row("people", "text", "活動人數", "required") }}
+      {{ easy_row("cost", "text", "活動費用", "required") }}
+      {{ easy_row("due_date", "date", "報名截止日") }}
+      {{ easy_row("description", "textarea", "活動敘述") }}
+      {{ easy_row("photo", "file", "活動照片") }}
+      {{ easy_row("name", "text", "主揪姓名") }}
+      {{ easy_row("phone", "tel", "主揪電話") }}
+
+    <!--  
       <div class="row">
         <label for="activity_name" class="col-2 offset-1 col-form-label">活動名稱:</label>
         <div class="col-2">
@@ -108,6 +130,8 @@
           <button type="submit" class="btn btn-primary">查詢</button>
         </div>
       </div>
+    -->
+
     </form>
 
   </div>
