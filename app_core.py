@@ -95,7 +95,7 @@ def logout():
     account = current_user.get_id()
     logout_user()
     flash(f"再見啦~~{account}")
-    return render_template("login_html")
+    return render_template("login.html")
     
 
 # flask 網頁
