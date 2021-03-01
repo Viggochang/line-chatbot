@@ -24,7 +24,7 @@
 
       {% macro easy_row(id, type, text, required) -%}
         <div class="row">
-          <label for={{id}} class="col-2 offset-1 col-form-label">{{text}}:</label>
+          <label for={{id}} class="col-1 offset-1 col-form-label">{{text}}:</label>
           <div class="col-3">
             <input type={{type}} class="form-control" id={{id}} name={{id}} {{required}}}>
           </div>
@@ -43,84 +43,6 @@
       {{ easy_row("name", "text", "主揪姓名") }}
       {{ easy_row("phone", "tel", "主揪電話") }}
 
-    <!--  
-      <div class="row">
-        <label for="activity_name" class="col-2 offset-1 col-form-label">活動名稱:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="activity_name" name="activity_name">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="activity_date" class="col-2 offset-1 col-form-label">活動日期:</label>
-        <div class="col-2">
-          <input type="date" class="form-control" id="activity_date" name="activity_date">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="activity_time" class="col-2 offset-1 col-form-label">活動時間:</label>
-        <div class="col-2">
-          <input type="time" class="form-control" id="activity_time" name="activity_time">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="location_tittle" class="col-2 offset-1 col-form-label">活動地點:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="location_tittle" name="location_tittle">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="people" class="col-2 offset-1 col-form-label">活動人數:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="people" name="people">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="cost" class="col-2 offset-1 col-form-label">活動費用:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="cost" name="cost">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="due_date" class="col-2 offset-1 col-form-label">報名截止日:</label>
-        <div class="col-2">
-          <input type="date" class="form-control" id="due_date" name="due_date">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="description" class="col-2 offset-1 col-form-label">活動敘述:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="description" name="description">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="photo" class="col-2 offset-1 col-form-label">活動照片:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="photo" name="photo">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="name" class="col-2 offset-1 col-form-label">主揪姓名:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="name" name="name">
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="phone" class="col-2 offset-1 col-form-label">主揪電話:</label>
-        <div class="col-2">
-          <input type="text" class="form-control" id="phone" name="phone">
-        </div>
-      </div>
-
       <div class="row"></div>
         <div class="col"></br></div>
 
@@ -130,7 +52,7 @@
           <button type="submit" class="btn btn-primary">送出開團資訊</button>
         </div>
       </div>
-    -->
+
 
     </form>
 
