@@ -24,7 +24,7 @@
 
       {% macro easy_row(id, type, text, required) -%}
         <div class="row">
-          <label for={{id}} class="col-2 offset-1 col-form-label" style="font-size:20px">{{text}}：</label>
+          <label for={{id}} class="col-2 offset-1 col-form-label" style="font-size:16px">{{text}}：</label>
           <div class="col-3">
             <input type={{type}} class="form-control" id={{id}} name={{id}} {{required}}}>
           </div>
@@ -48,7 +48,7 @@
         <div class="col"></br></div>
 
       <div class="row">
-        <div class="col-2"></div>
+        <div class="col-4"></div>
         <div class="col">
           <button type="submit" class="btn btn-primary">送出開團資訊</button>
         </div>
