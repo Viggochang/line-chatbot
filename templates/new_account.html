@@ -13,7 +13,7 @@
     <form method="POST" action="/new_account" autocomplete="off">
       {% macro easy_row(id, type, text) -%}
         <div class="row">
-          <label for={{id}} class="col-2 offset-1 col-form-label" style="line-height:30px">{{text}}：</label>
+          <label for={{id}} class="col-1 offset-1 col-form-label" style="line-height:30px">{{text}}：</label>
           <div class="col-3">
             <input type={{type}} class="form-control" id={{id}} name={{id}} required>
           </div>
