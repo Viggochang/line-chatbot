@@ -104,7 +104,7 @@ def logout():
     
 @app.route("/new_account", methods=['GET','POST'])
 def new_account():
-    if request.method == 'GET'
+    if request.method == 'GET':
         return render_template("new_account.html")
     else:
         user_name, user_phone, user_id, password = request.form["user_name"], request.form["user_phone"], request.form["user_id"], request.form["password"]
