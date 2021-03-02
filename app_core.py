@@ -130,7 +130,7 @@ def home():
 def from_start():
     return render_template("from_start.html")
     
-@app.route("/group")
+@app.route("/group", methods=['GET', 'POST'])
 @login_required
 def group():
     return render_template("group.html")
