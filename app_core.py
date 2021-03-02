@@ -97,6 +97,9 @@ def logout():
     flash(f"再見啦~~{account}")
     return render_template("login.html")
     
+@app.route("/new_account")
+def new_account():
+    
 
 # flask 網頁
 @app.route("/")
