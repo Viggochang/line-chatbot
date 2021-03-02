@@ -12,7 +12,7 @@
     <div></br></div>
    
     {% macro easy_row(col, data) -%}
-      <div class="row" style="line-height:25px">
+      <div class="row" style="line-height:25px text-indent:20px">
         <p>{{col}}：{{data}}</p>
       </div>
     {%- endmacro %}
@@ -37,8 +37,9 @@
     <div class="row"></br></div>
 
     <div class="row">
-      <form method="post" action="/cancel_group" >
-        <button type="submit" value={{html_data[0]}}>取消開團</button>
+      <form method="post" action="/cancel_group" style="margin-left:20px">
+        <input value={{html_data[0]}}>
+        <button type="submit">取消開團</button>
       </form>
     </div>
 
