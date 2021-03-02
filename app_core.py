@@ -149,7 +149,7 @@ def group():
         cursor.execute(postgres_update_query)
         conn.commit()
             
-        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
+        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
         
