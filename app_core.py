@@ -28,6 +28,11 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 
 static_tmp_path = os.path.join(os.path.abspath(__file__), 'static', 'tmp') # 存圖片用
 
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cursor = conn.cursor()
+print("連接資料庫")
+
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -97,11 +102,18 @@ def logout():
     flash(f"再見啦~~{account}")
     return render_template("login.html")
     
-@app.route("/new_account")
+@app.route("/new_account", methods=['GET','POST'])
 def new_account():
-    return render_template("new_account.html")
-    
-
+    if request.method == 'GET'
+        return render_template("new_account.html")
+    else:
+        user_name, user_phone, user_id, password = request.form["user_name"], request.form["user_phone"], request.form["user_id"], request.form["password"]
+        
+        postgres_insert_query = f"""INSERT INTO login (user_id, password, user_name, user_phone) VALUES ('{user_id}', '{password}', '{user_name}', '{user_phone}');"""
+        cursor.execute(postgres_insert_query)
+        conn.commit()
+        return render_template("login.html")
+            
 # flask 網頁
 @app.route("/")
 def home():
