@@ -145,7 +145,7 @@ def group():
             if request.form[g_col]:
                 q.append(f"""{g_col} = '{request.form[g_col]}'""")
         
-        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
+        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'pending' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
         conn.commit()
             
