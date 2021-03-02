@@ -12,14 +12,16 @@
 
     <form method="POST" action="/login">
       <div class="row"></br></div>
-      <div class="row">
+      <div class="row-form">
         <label for="user_id" class="col-1">帳號：</label>
         <div class="col-3">
           <input type="text" class="form-control" id="user_id" name="user_id">
         </div>
       </div>
+
       <div class="row"></br></div>
-      <div class="row">
+
+      <div class="row-form">
         <label for="password" class="col-1">密碼：</label>
         <div class="col-3">
           <input type="text" class="form-control" id="password" name="password">
@@ -28,8 +30,10 @@
 
       <div class="row"></br></div>
       <div class="row">
-        <div class="col">
+        <div class="col-2">
           <button type="submit" class="btn btn-primary">登入</button>
+        </div>
+        <div class="col-2">
           <a href="/new_account" role="button" style="text-indent:20px">新帳號申請</a>
         </div>
       </div>
