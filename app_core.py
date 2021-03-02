@@ -149,9 +149,10 @@ def group():
         cursor.execute(postgres_update_query)
         conn.commit()
             
-        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}';"""
+        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}' ORDER BY activity_no DESC;"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
+        print(data_g)
         
         return render_template("group_summary.html", html_data = data_g)
         
