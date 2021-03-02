@@ -39,7 +39,12 @@
       {{ easy_row("people", "number", "活動人數", "required") }}
       {{ easy_row("cost", "number", "活動費用", "required") }}
       {{ easy_row("due_date", "date", "報名截止日") }}
-      {{ easy_row("description", "textarea", "活動敘述") }}
+      <div class="row">
+        <label for="description" class="col-2 offset-1 col-form-label" style="line-height:30px">活動敘述：</label>
+        <div class="col-3">
+          <textarea row="3" class="form-control" id="description" name="description" >
+        </div>
+      </div>
       {{ easy_row("photo", "file", "活動照片") }}
       <hr class="my-4">
 
