@@ -95,9 +95,11 @@ def login():
             user.id = account
             login_user(user)
             flash(f"Hi {account}~~歡迎使用揪團機器人！！")
+            print("登入成功")
             return render_template("home.html")  #回到首頁
         else:
             flash("登錄失敗！")
+            print("登入失敗")
             return render_template("login.html")
             
 @app.route("/logout")
