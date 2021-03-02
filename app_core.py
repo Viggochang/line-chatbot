@@ -133,6 +133,8 @@ def from_start():
 @app.route("/group", methods=['GET', 'POST'])
 @login_required
 def group():
+    if request.method == 'POST':
+        print(request.form)
     return render_template("group.html")
     
 @app.route("/registration", methods=['GET', 'POST'])
@@ -141,7 +143,6 @@ def registration():
         print(request.form)
         filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
-        #return render_template("search_group_1.html")
     else:
         all_groupdata = CallDatabase.get_all_data()
         print(len(all_groupdata))
