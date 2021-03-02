@@ -56,6 +56,14 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 login_manager.login_message = "請先登入後再使用喔！"
 
+# 獲取所有會員資訊
+postgres_select_query = f'''SELECT * FROM login;'''
+cursor.execute(postgres_select_query)
+conn.commit()
+users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+cursor.close()
+conn.close()
+
 class User(UserMixin):
     pass
  
@@ -74,9 +82,7 @@ def request_loader(request):
         user.id = account
         User.is_authenticated = request.form["password"] == users[account]["password"]
         return user
-    
-users = {'Me':{'password': 'myself'}}
-        
+
         
 @app.route("/login", methods=['GET','POST'])
 def login():
