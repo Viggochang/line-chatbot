@@ -16,9 +16,7 @@ def get_all_data():
     all_data = [list(row) for row in cursor.fetchall()]
     default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
     for row in all_data:
-        if row[1] == None:
-            row[1] = default_photo
-        elif "https://i.imgur.com/" not in row[1]:
+        if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
     
     all_data = [all_data[i:i+4] for i in range(len(all_data)) if i%4 == 0]
@@ -50,9 +48,7 @@ def filter_group(form):
     filter_data = [list(row) for row in cursor.fetchall()]
     default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
     for row in filter_data:
-        if row[1] == None:
-            row[1] = default_photo
-        elif "https://i.imgur.com/" not in row[1]:
+        if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
             
     filter_data = [filter_data[i:i+4] for i in range(len(filter_data)) if i%4 == 0]
