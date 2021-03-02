@@ -135,6 +135,8 @@ def from_start():
 def group():
     if request.method == 'POST':
         print(request.form)
+        user_name = users[current_user.id]['user_name']
+        user_phone = users[current_user.id]['user_phone']
         return render_template("group.html", html_data = [user_name, user_phone])
     else:
         user_name = users[current_user.id]['user_name']
