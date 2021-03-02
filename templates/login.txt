@@ -10,7 +10,7 @@
       <h2>使用者登錄</h2>
     </div>
 
-    <form method="POST" action="/login">
+    <form method="POST" action="/login" autocomplete="off">
       <div class="row"></br></div>
       <div class="row-form">
         <label for="user_id" class="col-1">帳號：</label>
@@ -24,7 +24,7 @@
       <div class="row-form">
         <label for="password" class="col-1">密碼：</label>
         <div class="col-3">
-          <input type="text" class="form-control" id="password" name="password">
+          <input type="password" class="form-control" id="password" name="password">
         </div>
       </div>
 
