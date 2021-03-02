@@ -12,7 +12,7 @@
 
     <form method="post" action="/group" autocomplete="off">
       <div class="row">
-        <label for="activity_type" class="col-2 offset-1 col-form-label">活動類型:</label>
+        <label for="activity_type" class="col-2 offset-1 col-form-label">活動類型：</label>
         <div class="col-3"> 
           <select id="activity_type", name="activity_type"}>
             <option value="登山踏青">登山踏青</option>
@@ -39,12 +39,14 @@
       {{ easy_row("people", "number", "活動人數", "required") }}
       {{ easy_row("cost", "number", "活動費用", "required") }}
       {{ easy_row("due_date", "date", "報名截止日") }}
+
       <div class="row" style="margin-bottom:5px">
         <label for="description" class="col-2 offset-1 col-form-label" style="line-height:30px">活動敘述：</label>
         <div class="col-3">
           <textarea row="3" class="form-control" id="description" name="description"></textarea>
         </div>
       </div>
+
       {{ easy_row("photo", "file", "活動照片") }}
       <hr class="my-4">
 

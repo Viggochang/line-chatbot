@@ -98,7 +98,7 @@ def login():
             print("登入成功")
             return render_template("home.html")  #回到首頁
         else:
-            flash("登錄失敗！")
+            flash("登入失敗！")
             print("登入失敗")
             return render_template("login.html")
             
@@ -135,13 +135,39 @@ def from_start():
 def group():
     if request.method == 'POST':
         print(request.form)
-        user_name = users[current_user.id]['user_name']
-        user_phone = users[current_user.id]['user_phone']
-        return render_template("group.html", html_data = [user_name, user_phone])
+        
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee) VALUES ('pending', '{current_user.get_id()}', 1);"""
+        cursor.execute(postgres_insert_query)
+        conn.commit()
+        
+        q = []
+        for g_col in request.form:
+            if request.form[g_col]:
+                q.append(f"""g_col = '{request.form[g_col]}'""")
+        
+        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
+        cursor.execute(postgres_update_query)
+        conn.commit()
+            
+        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
+        cursor.execute(postgres_select_query)
+        data_g = cursor.fetchone()
+        
+        return render_template("group_summary.html", html_data = data_g)
+        
     else:
         user_name = users[current_user.id]['user_name']
         user_phone = users[current_user.id]['user_phone']
         return render_template("group.html", html_data = [user_name, user_phone])
+        
+@app.route("/cancel_group", methods=['POST'])
+def cancel_group():
+    print(request.form)
+    return render_template("group_cancel.html")
+    #postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+    #cursor.execute(postgres_delete_query)
+    #conn.commit()
+    
     
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
