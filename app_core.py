@@ -163,12 +163,13 @@ def group():
         
 @app.route("/cancel_group", methods=['POST'])
 def cancel_group():
-    print(f"activity_no_cancel:{request.form}")
-    return render_template("group_cancel.html")
-    #postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    #cursor.execute(postgres_delete_query)
-    #conn.commit()
+    print(request.form)
+
+    postgres_delete_query = f"""DELETE FROM group_data WHERE activity_no = {request.form['activity_no_cancel']};"""
+    cursor.execute(postgres_delete_query)
+    conn.commit()
     
+    return render_template("group_cancel.html")
     
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
