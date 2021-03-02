@@ -99,6 +99,7 @@ def logout():
     
 @app.route("/new_account")
 def new_account():
+    return render_template("new_account.html")
     
 
 # flask 網頁
