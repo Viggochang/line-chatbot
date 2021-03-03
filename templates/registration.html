@@ -98,8 +98,16 @@
           </div>
          
           <div class="row"> 
-            <a href="/" role="button" style="background:#dfefff; margin:5px">詳細資訊</a>
-            <a href="/" role="button" style="background:#dfefff; margin:5px">我要報名</a>
+            <form action="#" method="post">
+              <input name="activity_no" type="hidden" value="{{data[-1]}}">
+              <input type="submit" value="詳細資訊">
+            </form>
+
+            <form action="#" method="post">
+              <input name="activity_no" type="hidden" value="{{data[-1]}}">
+              <input type="submit" value="我要報名">
+            </form>
+
           </div>
 
         </div>
