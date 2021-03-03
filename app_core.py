@@ -141,6 +141,7 @@ def group():
         conn.commit()
         
         q = []
+        print(request.form["activity_date"], type(request.form["activity_date"]))
         for g_col in request.form:
             if request.form[g_col]:
                 q.append(f"""{g_col} = '{request.form[g_col]}'""")
