@@ -97,6 +97,7 @@ def login():
             flash(f"Hi {account}~~歡迎使用揪團機器人！！")
             print("登入成功")
             return render_template("home.html")  #回到首頁
+            #return redirect(url_for("from_start"))
         else:
             flash("登入失敗！")
             print("登入失敗")
@@ -107,7 +108,7 @@ def logout():
     account = current_user.get_id()
     logout_user()
     flash(f"再見啦~~{account}")
-    return render_template("login.html")
+    return redirect(url_for("login"))
     
 @app.route("/new_account", methods=['GET','POST'])
 def new_account():
