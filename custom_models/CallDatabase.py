@@ -16,7 +16,7 @@ def get_all_data():
     all_data = [list(row) for row in cursor.fetchall()]
     default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
     for row in all_data:
-        if "https://i.imgur.com/" not in row[1] and "png" not in row[1]:
+        if "https://i.imgur.com/" not in row[1]:
             row[1] = default_photo
     
     all_data = [all_data[i:i+4] for i in range(len(all_data)) if i%4 == 0]
