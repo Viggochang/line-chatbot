@@ -40,7 +40,7 @@ def filter_group(form):
     if condition_query:
         select_query = '''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost FROM group_data''' + ''' WHERE ''' + ''' AND '''.join(condition_query) + ''' ORDER BY activity_date'''
     else:
-        select_query = '''SELECT activity_type, activity_name, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
+        select_query = '''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost FROM group_data ORDER BY activity_date'''
     
     cursor.execute(select_query)
     conn.commit()

@@ -136,11 +136,11 @@ def group():
     if request.method == 'POST':
         print(request.form)
         
-        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('pending', '{current_user.get_id()}', 1, '無', '無');"""
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        q = []
+        q = ["""condition = 'pending'"""]
         print(request.form["activity_date"], type(request.form["activity_date"]))
         for g_col in request.form:
             if request.form[g_col]:
@@ -149,7 +149,7 @@ def group():
                 activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
                 q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
         
-        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'pending' AND user_id = '{current_user.get_id()}';"""
+        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
         conn.commit()
             
