@@ -136,7 +136,7 @@ def group():
     if request.method == 'POST':
         print(request.form)
         
-        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee) VALUES ('pending', '{current_user.get_id()}', 1);"""
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('pending', '{current_user.get_id()}', 1, '無', '無');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
         
@@ -144,8 +144,6 @@ def group():
         for g_col in request.form:
             if request.form[g_col]:
                 q.append(f"""{g_col} = '{request.form[g_col]}'""")
-            if g_col == "photo" and request.form[g_col] == "":
-                q.append("""photo = 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg'""")
         
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'pending' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
