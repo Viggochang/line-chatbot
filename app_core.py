@@ -184,7 +184,6 @@ def registration():
         return render_template("registration.html", html_data = filter_data)
     else:
         all_groupdata = CallDatabase.get_all_data()
-        print(len(all_groupdata))
         return render_template("registration.html", html_data = all_groupdata)
 
 

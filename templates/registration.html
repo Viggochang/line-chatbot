@@ -92,7 +92,16 @@
 
           <span></br></span>
           <h5>{{data[2]}}</h5>
-          <span><font color="#7B7B7B">地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
+
+          <div class="box" style="weight:230px; min-height:100px">
+            <span><font color="#7B7B7B">地點: {{data[3]}}</br>時間: {{data[4]}} {{data[5]}}</br>費用: {{data[6]}}</br></br></font></span>
+          </div>
+         
+          <div class="row"> 
+            <a href="/" role="button" style="background:#dfefff">詳細資訊</a>
+            <a href="/" role="button" style="background:#dfefff">我要報名</a>
+          </div>
+
         </div>
       
       {% endfor %}
