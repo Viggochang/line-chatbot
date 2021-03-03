@@ -12,35 +12,37 @@
     <div></br></div>
    
     {% macro easy_row(col, data) -%}
-      <div class="row" style="line-height:25px text-indent:20px padding-left:100px">
+      <div class="row" style="line-height:25px text-indent:20px">
         <p>{{col}}：{{data}}</p>
       </div>
     {%- endmacro %}
     
-    {{ easy_row("活動類型", html_data[1]) }}
-    {{ easy_row("活動名稱", html_data[2]) }}
-    {{ easy_row("活動日期", html_data[3]) }}
-    {{ easy_row("活動時間", html_data[4]) }}
-    {{ easy_row("活動地點", html_data[5]) }}
-    {{ easy_row("活動人數", html_data[8]) }}
-    {{ easy_row("活動費用", html_data[9]) }}
-    {{ easy_row("報名截止日", html_data[10]) }}  
-    {{ easy_row("活動敘述", html_data[11]) }}
-    {{ easy_row("活動照片", html_data[12]) }}
+    <div class="box" style="margin:0px 0px 0px 100px">
+      {{ easy_row("活動類型", html_data[1]) }}
+      {{ easy_row("活動名稱", html_data[2]) }}
+      {{ easy_row("活動日期", html_data[3]) }}
+      {{ easy_row("活動時間", html_data[4]) }}
+      {{ easy_row("活動地點", html_data[5]) }}
+      {{ easy_row("活動人數", html_data[8]) }}
+      {{ easy_row("活動費用", html_data[9]) }}
+      {{ easy_row("報名截止日", html_data[10]) }}  
+      {{ easy_row("活動敘述", html_data[11]) }}
+      {{ easy_row("活動照片", html_data[12]) }}
 
-    <hr class="my-4">
+      <hr class="my-4">
 
-    {{ easy_row("主揪姓名", html_data[13]) }}
-    {{ easy_row("主揪電話", html_data[14]) }}
+      {{ easy_row("主揪姓名", html_data[13]) }}
+      {{ easy_row("主揪電話", html_data[14]) }}
 
       
-    <div class="row"></br></div>
+      <div class="row"></br></div>
 
-    <div class="row">
-      <form method="post" action="/cancel_group" style="margin-left:20px">
-        <input type="hidden" name="activity_no_cancel" value={{html_data[0]}}>
-        <button type="submit">取消開團</button>
-      </form>
+      <div class="row">
+        <form method="post" action="/cancel_group" style="margin-left:20px">
+          <input type="hidden" name="activity_no_cancel" value={{html_data[0]}}>
+          <button type="submit">取消開團</button>
+        </form>
+      </div>
     </div>
 
   </div>
