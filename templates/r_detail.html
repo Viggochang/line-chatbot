@@ -17,7 +17,7 @@
       </style>
 
         <div class="col-6">
-          <div class="img-group" style="background-image: url({{data[12]}})"> 
+          <div class="img-group" style="background-image: url({{html_data[12]}})"> 
             <style>
             .img-group{
               width: 50%;
@@ -37,20 +37,20 @@
 
         <div class="col-5">
           <div class="row">
-            <span><font color="#7B7B7B">活動名稱： {{data[2]}}</br>
-                                        活動時間： {{data[3]}} {{data[4]}}</br>
-                                        活動地點： {{data[5]}}</br>
-                                        活動人數： {{data[8]}}</br>
-                                        活動費用： {{data[9]}}</br>
-                                        報名截止日： {{data[10]}}</br>
-                                        活動敘述： {{data[11]}}</br>
-                                        主揪姓名： {{data[13]}}</br></font>
+            <span><font color="#7B7B7B">活動名稱： {{html_data[2]}}</br>
+                                        活動時間： {{html_data[3]}} {{data[4]}}</br>
+                                        活動地點： {{html_data[5]}}</br>
+                                        活動人數： {{html_data[8]}}</br>
+                                        活動費用： {{html_data[9]}}</br>
+                                        報名截止日： {{html_data[10]}}</br>
+                                        活動敘述： {{html_data[11]}}</br>
+                                        主揪姓名： {{html_data[13]}}</br></font>
             </span>
           </div>
     
           <div class="row"> 
             <form action="/" method="post">
-              <input name="activity_no" type="hidden" value="{{data[0]}}">
+              <input name="activity_no" type="hidden" value="{{html_data[0]}}">
               <div class="col"><input type="submit" value="我要報名" style="width:95px; height:35px; background-color:#dfefff; border:none"></div>
             </form>
           </div>
