@@ -194,8 +194,8 @@ def r_detail():
     cursor.execute(postgres_select_query)
     conn.commit
     
-    html_data = cursor.fetchone()
-    return render_template("r_detail.html")
+    data = cursor.fetchone()
+    return render_template("r_detail.html", html_data = data)
     
 
 # 聊天機器人
