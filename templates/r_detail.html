@@ -8,6 +8,7 @@
     <div class="row-title">
       <h1><i class="fas fa-list"></i> 活動詳細資訊</h1>
     </div>
+    <div></br></div>
 
     <div class="box">
       <style>
@@ -34,8 +35,8 @@
           </div>
 
 
-          <div class="col-6" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:45px">
-            <div class="row"><h4><{{html_data[2]}}</h4></div>
+          <div class="col-7" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:45px">
+            <div class="row"><h4>{{html_data[2]}}</h4></div>
             <div class="row">
               <span><font color="#7B7B7B" size="4">活動時間： {{html_data[3]}} {{html_data[4]}}</br>
                                           活動地點： {{html_data[5]}}</br>
@@ -52,7 +53,7 @@
             <div class="row"> 
               <form action="/" method="post">
                 <input name="activity_no" type="hidden" value="{{html_data[0]}}">
-                <div class="col"><input type="submit" value="我要報名" style="width:95px; height:35px; background-color:#dfefff; border:none"></div>
+                <div class="col"><input type="submit" value="我要報名" style="width:120px; height:45px; background-color:#dfefff; border:none"; font-size:25px;></div>
               </form>
             </div>
           </div>
