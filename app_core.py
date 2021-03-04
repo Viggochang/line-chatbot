@@ -189,7 +189,7 @@ def registration():
 @app.route("/r_detail", methods=['POST'])
 def r_detail():
     print(request.form)
-    activity_no = request.form
+    activity_no = request.form[activity_no]
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no} """
     cursor.execute(postgres_select_query)
     conn.commit
@@ -197,8 +197,6 @@ def r_detail():
     html_data = cursor.fetchone()
     return render_template("r_detail.html")
     
-    
-
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
