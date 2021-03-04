@@ -189,7 +189,7 @@ def registration():
 @app.route("/r_detail", methods=['POST'])
 def r_detail():
     print(request.form)
-    activity_no = request.form[activity_no]
+    activity_no = request.form["activity_no"]
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no} """
     cursor.execute(postgres_select_query)
     conn.commit
