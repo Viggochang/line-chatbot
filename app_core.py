@@ -185,6 +185,19 @@ def registration():
     else:
         all_groupdata = CallDatabase.get_all_data()
         return render_template("registration.html", html_data = all_groupdata)
+        
+@app.route("/r_detail", methods=['POST'])
+def r_detail():
+    print(request.form)
+    activity_no = request.form
+    postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no} """
+    cursor.execute(postgres_select_query)
+    conn.commit
+    
+    html_data = cursor.fetchone()
+    return render_template("r_detail.html")
+    
+    
 
 
 # 聊天機器人

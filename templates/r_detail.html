@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}我要報名{% endblock %}
+
+{% block main %}
+
+  <div class="container" style="margin: 4em auto">
+    <!-- show data -->
+
+    {% for data in html_data %}
+    <div class="box">
+      <style>
+      .box{
+         border:5px #dfefff solid;
+         margin: 0px 8px;
+         padding:15px;
+         }
+      </style>
+
+        <div class="col-6">
+          <div class="img-group" style="background-image: url({{data[12]}})"> 
+            <style>
+            .img-group{
+              width: 50%;
+              height: 50%;
+              border-radius: 0%;
+              background-size: 100%;
+              background-repeat: no-repeat;
+              background-position: 50% 50%;
+              }
+            </style>
+          </div>
+        </div>
+
+        <div class="col-1">
+          <div class="box-vline" style="border-left:1px solid #7B7B7B"></div>
+        </div>
+
+        <div class="col-5">
+          <div class="row">
+            <span><font color="#7B7B7B">活動名稱： {{data[2]}}</br>
+                                        活動時間： {{data[3]}} {{data[4]}}</br>
+                                        活動地點： {{data[5]}}</br>
+                                        活動人數： {{data[8]}}</br>
+                                        活動費用： {{data[9]}}</br>
+                                        報名截止日： {{data[10]}}</br>
+                                        活動敘述： {{data[11]}}</br>
+                                        主揪姓名： {{data[13]}}</br></font>
+            </span>
+          </div>
+    
+          <div class="row"> 
+            <form action="/" method="post">
+              <input name="activity_no" type="hidden" value="{{data[0]}}">
+              <div class="col"><input type="submit" value="我要報名" style="width:95px; height:35px; background-color:#dfefff; border:none"></div>
+            </form>
+          </div>
+
+        </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}
+
+
