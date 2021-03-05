@@ -11,7 +11,8 @@
     <div></br></div>
 
     <div class="row">
-      <div class="col">
+      <div class="col-2"></br></div>
+      <div class="col-4">
         <div class="box">
           <style>
           .box{
@@ -46,7 +47,7 @@
         </div>
       </div>
 
-      <div class="col">
+      <div class="col-6">
         <h4> 我要報名 {{html_data[2]}}！</h4>
 
         <form method="post" action="/r_summary" autocomplete="off">    
@@ -60,8 +61,8 @@
           </div>
         {%- endmacro %}
 
-          {{ user_row("name", "text", "姓名", html_data[7], "required") }}
-          {{ user_row("phone", "tel", "電話", html_data[8], "required") }}
+          {{ user_row("name", "text", "姓名", html_data[8], "required") }}
+          {{ user_row("phone", "tel", "電話", html_data[9], "required") }}
 
           <div class="row"></br></div>  
   
