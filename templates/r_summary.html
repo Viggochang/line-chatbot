@@ -49,21 +49,19 @@
       <div class="col">
         <h4> 我要報名 {{html_data[2]}}！</h4>
 
-        <form method="post" action="/r_summary" autocomplete="off">   
-          <div class="row">    
+        <form method="post" action="/r_summary" autocomplete="off">    
           
-          {% macro user_row(id, type, text, dafault_value, required) -%}
-            <div class="row">
-              <label for={{id}} class="col-2 offset-1 col-form-label" style="line-height:30px">{{text}}：</label>
-              <div class="col-3">
-                <input type={{type}} class="form-control" id={{id}} name={{id}} value={{dafault_value}} {{required}}>
-              </div>
+        {% macro user_row(id, type, text, dafault_value, required) -%}
+          <div class="row">
+            <label for={{id}} class="col-2 offset-1 col-form-label" style="line-height:30px">{{text}}：</label>
+            <div class="col-3">
+              <input type={{type}} class="form-control" id={{id}} name={{id}} value={{dafault_value}} {{required}}>
             </div>
-          {%- endmacro %}
-
-            {{ user_row("name", "text", "姓名", html_data[7], "required") }}
-            {{ user_row("phone", "tel", "電話", html_data[8], "required") }}
           </div>
+        {%- endmacro %}
+
+          {{ user_row("name", "text", "姓名", html_data[7], "required") }}
+          {{ user_row("phone", "tel", "電話", html_data[8], "required") }}
 
           <div class="row"></br></div>  
   
