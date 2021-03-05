@@ -187,6 +187,7 @@ def registration():
         return render_template("registration.html", html_data = all_groupdata)
         
 @app.route("/r_detail", methods=['POST'])
+@login_required
 def r_detail():
     print(request.form)
     activity_no = request.form["activity_no"]
@@ -195,6 +196,7 @@ def r_detail():
     return render_template("r_detail.html", html_data = data)
     
 @app.route("/r_summary", methods=['GET', 'POST'])
+@login_required
 def r_summary():
     if request.method == 'POST':
         print(request.form)
