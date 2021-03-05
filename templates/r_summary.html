@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}活動詳細資訊{% endblock %}
+
+{% block main %}
+
+  <div class="container" style="margin: 4em auto">
+    <div class="row-title">
+      <h1><i class="fas fa-list"></i>確認報名</h1>
+    </div>
+    <div></br></div>
+
+    <div class="row">
+      <div class="col">
+        <div class="box">
+          <style>
+          .box{
+            border:5px #dfefff solid;
+            margin: 0px 8px;
+            padding:15px;
+            width:260px;
+          }
+          </style>
+ 
+
+          <p style="background:#dfefff; padding:5px" >{{html_data[0]}}</p>
+          <div class="img-group" style="background-image: url({{html_data[1]}})"> 
+            <style>
+            .img-group{
+              width: 15vw;
+              height: 15vw;
+              border-radius: 0%;
+              background-size: 100%;
+              background-repeat: no-repeat;
+              background-position: 50% 50%;
+            }
+            </style>
+          </div>
+
+          <span></br></span>
+          <h5>{{html_data[2]}}</h5>
+
+          <div class="box-2" style="weight:230px; min-height:120px">
+            <span><font color="#7B7B7B">地點: {{html_data[3]}}</br>時間: {{html_data[4]}} {{html_data[5]}}</br>費用: {{html_data[6]}}</font></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <h4> 我要報名 {{html_data[2]}}！</h4>
+
+        <form method="post" action="/r_summary" autocomplete="off">   
+          <div class="row">    
+          
+          {% macro user_row(id, type, text, dafault_value, required) -%}
+            <div class="row">
+              <label for={{id}} class="col-2 offset-1 col-form-label" style="line-height:30px">{{text}}：</label>
+              <div class="col-3">
+                <input type={{type}} class="form-control" id={{id}} name={{id}} value={{dafault_value}} {{required}}>
+              </div>
+            </div>
+          {%- endmacro %}
+
+            {{ user_row("name", "text", "姓名", html_data[7], "required") }}
+            {{ user_row("phone", "tel", "電話", html_data[8], "required") }}
+          </div>
+
+          <div class="row"></br></div>  
+  
+          <div class="row">
+            <button type="submit" class="btn btn-primary">確認報名</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+

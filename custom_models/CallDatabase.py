@@ -52,7 +52,7 @@ def filter_group(form):
     filter_data = [filter_data[i:i+4] for i in range(len(filter_data)) if i%4 == 0]
     return filter_data
 
-def detail(activity_no):
+def r_detail(activity_no):
 
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no} """
     cursor.execute(postgres_select_query)
@@ -61,5 +61,17 @@ def detail(activity_no):
     data = list(cursor.fetchone())
     if "https://i.imgur.com/" not in data[12]:
         data[12] = default_photo
+    
+    return data
+
+def r_summary(activity_no):
+
+    postgres_select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE activity_no = {activity_no}'''
+    cursor.execute(postgres_select_query)
+    conn.commit
+    
+    data = list(cursor.fetchone())
+    if "https://i.imgur.com/" not in data[1]:
+        data[1] = default_photo
     
     return data

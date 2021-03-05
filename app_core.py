@@ -191,8 +191,22 @@ def r_detail():
     print(request.form)
     activity_no = request.form["activity_no"]
     
-    data = CallDatabase.detail(activity_no)
+    data = CallDatabase.r_detail(activity_no)
     return render_template("r_detail.html", html_data = data)
+    
+@app.route("/r_summary", methods=['GET', 'POST'])
+def r_detail():
+    if request.method == 'GET':
+        print(request.form)
+        activity_no = request.form["activity_no"]
+        
+        data = CallDatabase.r_summary(activity_no)
+        
+        user_name = users[current_user.id]['user_name']
+        user_phone = users[current_user.id]['user_phone']
+        
+        data += [user_name, user_phone]
+        return render_template("r_detail.html", html_data = data)
     
 
 # 聊天機器人
