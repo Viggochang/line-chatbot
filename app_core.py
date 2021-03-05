@@ -195,7 +195,7 @@ def r_detail():
     return render_template("r_detail.html", html_data = data)
     
 @app.route("/r_summary", methods=['GET', 'POST'])
-def r_detail():
+def r_summary():
     if request.method == 'GET':
         print(request.form)
         activity_no = request.form["activity_no"]
@@ -206,7 +206,7 @@ def r_detail():
         user_phone = users[current_user.id]['user_phone']
         
         data += [user_name, user_phone]
-        return render_template("r_detail.html", html_data = data)
+        return render_template("r_summary.html", html_data = data)
     
 
 # 聊天機器人
