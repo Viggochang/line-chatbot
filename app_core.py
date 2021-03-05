@@ -196,7 +196,7 @@ def r_detail():
     
 @app.route("/r_summary", methods=['GET', 'POST'])
 def r_summary():
-    if request.method == 'GET':
+    if request.method == 'POST':
         print(request.form)
         activity_no = request.form["activity_no"]
         
