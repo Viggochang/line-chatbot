@@ -216,6 +216,8 @@ def r_summary():
 def app_core(event):
     if event.message.text == "安安":
         img_url = "https://i.imgur.com/1BnOgeG.jpg"
+        img_url_2 = https://imgur.com/trzQtGc
+        msg = [ImageSendMessage(original_content_url = img_url, preview_image_url = img_url), ImageSendMessage(original_content_url = img_url_2, preview_image_url = img_url_2)]
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(original_content_url = img_url, preview_image_url = img_url)
