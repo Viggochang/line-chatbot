@@ -219,7 +219,7 @@ def app_core(event):
         img_url_2 = "https://imgur.com/trzQtGc"
         
         photo_1 = ImageSendMessage(original_content_url = img_url, preview_image_url = img_url)
-        pphoto_2 = ImageSendMessage(original_content_url = img_url_2, preview_image_url = img_url_2)
+        photo_2 = ImageSendMessage(original_content_url = img_url_2, preview_image_url = img_url_2)
         
         msg = [photo_1, photo_2]
         
