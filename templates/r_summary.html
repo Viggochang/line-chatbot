@@ -55,9 +55,9 @@
         {% macro user_row(id, type, text, dafault_value, required) -%}
           <div class="row">
            <div class="col-2">
-            <label for={{id}} style="line-height:30px">{{text}}：</label>
+            <label for={{id}} style="line-height:30px" style="font-indent:20px">{{text}}：</label>
            </div>
-           <div class="col">
+           <div class="col-4">
              <input type={{type}} class="form-control" id={{id}} name={{id}} value={{dafault_value}} {{required}}>
             </div>
           </div>
