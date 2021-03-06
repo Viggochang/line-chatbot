@@ -214,6 +214,18 @@ def r_summary():
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
+    if event.message.text == "安安":
+        message = {
+          "type": "image",
+          "originalContentUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F690458186611549671%2F&psig=AOvVaw2SmlyyHnG2YBhfRKgNp_sO&ust=1615093846550000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCaycvzmu8CFQAAAAAdAAAAABAD",
+          "previewImageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F690458186611549671%2F&psig=AOvVaw2SmlyyHnG2YBhfRKgNp_sO&ust=1615093846550000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCaycvzmu8CFQAAAAAdAAAAABAD"
+        }
+        
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
+
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
     progress_list_fullregistrationdata=[2, 0, 0, 0, 0, 0, 1, 2]
