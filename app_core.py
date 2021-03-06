@@ -215,7 +215,7 @@ def r_summary():
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
     if event.message.text == "安安":
-        img_url = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F690458186611549671%2F&psig=AOvVaw2SmlyyHnG2YBhfRKgNp_sO&ust=1615093846550000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCaycvzmu8CFQAAAAAdAAAAABAD"
+        img_url = "https://i.imgur.com/1BnOgeG.jpg"
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(original_content_url = img_url, preview_image_url = img_url)
