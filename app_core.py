@@ -216,7 +216,7 @@ def r_summary():
 def app_core(event):
     if event.message.text == "安安":
         img_url = "https://i.imgur.com/1BnOgeG.jpg"
-        img_url_2 = "https://imgur.com/trzQtGc"
+        img_url_2 = "https://imgur.com/trzQtGc.jpg"
         
         photo_1 = ImageSendMessage(original_content_url = img_url, preview_image_url = img_url)
         photo_2 = ImageSendMessage(original_content_url = img_url_2, preview_image_url = img_url_2)
