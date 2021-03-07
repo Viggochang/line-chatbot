@@ -233,7 +233,7 @@ def r_summary():
         elif activity_condition == "closed":
             return render_template("r_summary_confirm.html", html_data = "失敗")
         else:
-            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUE ({activity_no}, {activity_name}, {attendee_name}, {phone}, close , {user_id}, {activity_date}));"""
+            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUE ({activity_no}, {activity_name}, {attendee_name}, {phone}, close , {user_id}, {activity_date});"""
             cursor.execute(postgres_insert_query)
             conn.commit()
             
