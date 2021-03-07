@@ -8,6 +8,18 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
 default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+
+def g_summary():
+    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}' ORDER BY activity_no DESC;"""
+    cursor.execute(postgres_select_query)
+    conn.commit
+    
+    data = list(cursor.fetchone())
+    if "https://i.imgur.com/" not in data[12]:
+        data[12] = default_photo
+    
+    return data
+
     
 def get_all_data():
     #cols = ("activity_type", "activity_name", "activity_date", "activity_time", "cost")
@@ -24,7 +36,7 @@ def get_all_data():
     all_data = [all_data[i:i+4] for i in range(len(all_data)) if i%4 == 0]
     return all_data
 
-def filter_group(form):
+def filter_group(form): #查詢活動
     
     activity_type, cost_min, cost_max = form["activity_type"], form["cost_min"], form["cost_max"]
     condition_query = []
@@ -52,7 +64,7 @@ def filter_group(form):
     filter_data = [filter_data[i:i+4] for i in range(len(filter_data)) if i%4 == 0]
     return filter_data
 
-def r_detail(activity_no):
+def r_detail(activity_no): #活動詳細資訊
 
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no} """
     cursor.execute(postgres_select_query)

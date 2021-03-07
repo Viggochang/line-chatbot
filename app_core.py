@@ -153,10 +153,8 @@ def group():
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
         conn.commit()
-            
-        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}' ORDER BY activity_no DESC;"""
-        cursor.execute(postgres_select_query)
-        data_g = cursor.fetchone()
+        
+        data_g = CallDatabase.g_summary
         print(data_g)
         
         return render_template("group_summary.html", html_data = data_g)
