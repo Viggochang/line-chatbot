@@ -241,6 +241,7 @@ def r_summary():
             print(f"activity_no:{activity_no}")
             postgres_select_query = f"""SELECT attendee, people FROM group_data WHERE activity_no = {activity_no}"""
             cursor.execute(postgres_select_query)
+            print(cursor.fetchone())
             attendee = cursor.fetchone()[0] # 目前報名人數
             people = cursor.fetchone()[1] # 報名人數上限
             
