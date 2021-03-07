@@ -193,38 +193,74 @@ def r_detail():
     data = CallDatabase.r_detail(activity_no)
     return render_template("r_detail.html", html_data = data)
     
-@app.route("/r_summary", methods=['GET', 'POST'])
+@app.route("/r_summary", methods=['POST'])
 @login_required
 def r_summary():
-    if request.method == 'POST':
-        print(request.form)
+    print(request.form)
+    user_name = users[current_user.id]['user_name']
+    user_phone = users[current_user.id]['user_phone']
+    
+    if len(request.form) == 1: # 按下我要報名
         activity_no = request.form["activity_no"]
         
         data = CallDatabase.r_summary(activity_no)
-        
-        user_name = users[current_user.id]['user_name']
-        user_phone = users[current_user.id]['user_phone']
-        
         data += [user_name, user_phone]
         return render_template("r_summary.html", html_data = data)
+        
+    else: # 按下確認報名
+        activity_no = request.form["activity_no"]
+        activity_name = request.form["activity_name"]
+        activity_date = request.form["activity_date"]
+        attendee_name = request.form["attendee_name"]
+        phone = request.form["phone"]
+        user_id = current_user.id
+        postgres_select_query = f"""SELECT condition FROM group_data WHERE activity_no = {activity_no}"""
+        cursor.execute(postgres_select_query)
+        activity_condition = cursor.fetchone()[0]
+        
+        #審核電話 先抓取該活動的報名者電話清單
+        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{activity_no}' ;"""
+        cursor.execute(postgres_select_query)
+        phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
+
+        print(f"phone_registration:{phone_registration}")
+        
+        if phone in phone_registration:
+            data = CallDatabase.r_summary(activity_no)
+            data += [user_name, user_phone, "invalid"]
+            return render_template("r_summary.html", html_data = data)
+            
+        elif activity_condition == "closed":
+            return render_template("r_summary_confirm.html", html_data = "失敗")
+        else:
+            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUE ({activity_no}, {activity_name}, {attendee_name}, {phone}, close , {user_id}, {activity_date}));"""
+            cursor.execute(postgres_insert_query)
+            conn.commit()
+            
+            # 取得該活動目前報名人數
+            postgres_select_query = f"""SELECT atendee, people FROM group_data WHERE activity_no = {activity_no}"""
+            cursor.execute(postgres_select_query)
+            attendee = cursor.fetchone()[0] # 目前報名人數
+            people = ursor.fetchone()[1] # 報名人數上限
+            
+            #將更新的報名人數attendee記錄到報名表單group_data裡
+            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee+1} WHERE activity_no = {activity_no};"""
+            cursor.execute(postgres_update_query)
+            conn.commit()
+
+            #檢查報名人數attendee是否達上限people
+            if (attendee + 1) == people:
+                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
+                cursor.execute(postgres_update_query)
+                conn.commit()
+                
+            return render_template("r_summary_confirm.html", html_data = "成功")
+
     
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
-    if event.message.text == "安安":
-        img_url = "https://i.imgur.com/1BnOgeG.jpg"
-        img_url_2 = "https://imgur.com/trzQtGc.jpg"
-        
-        photo_1 = ImageSendMessage(original_content_url = img_url, preview_image_url = img_url)
-        photo_2 = ImageSendMessage(original_content_url = img_url_2, preview_image_url = img_url_2)
-        
-        msg = [photo_1, photo_2]
-        
-        line_bot_api.reply_message(
-            event.reply_token,
-            msg
-        )
 
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}我要開團{% endblock %}
+
+{% block main %}
+
+  <div class="container" style="margin: 4em auto">
+
+    <div class="row-title">
+      {% if html_data == "成功" %}
+        <h1><img src="static/img/registration.png" width="65" height="65">報名成功！</h1>
+      {% elif html_data == "失敗" %}
+        <h1><img src="static/img/registration.png" width="65" height="65">報名人數已額滿！</h1>
+      {% endif %}
+    </div>
+    <div></br></div>
+   
+  </div>
+{% endblock %}
+

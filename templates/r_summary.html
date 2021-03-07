@@ -49,7 +49,11 @@
 
       <div class="col-6">
         <h4> 我要報名 {{html_data[2]}}！</h4>
-        <span></br></span>
+        {% if html_data[-1] == "invalid" %}
+          <span><font color="red">輸入之報名資料不得重複</font></span>
+        {% else %}
+          <span></br></span>
+        {% endif %}
 
         <form method="post" action="/r_summary" autocomplete="off">    
           
@@ -64,8 +68,13 @@
           </div>
         {%- endmacro %}
 
-          {{ user_row("name", "text", "姓名", html_data[8], "required") }}
+          {{ user_row("attendee_name", "text", "姓名", html_data[8], "required") }}
           {{ user_row("phone", "tel", "電話", html_data[9], "required") }}
+          <small class="form-text">若要幫他人報名，請重新輸入姓名及電話，報名資料不得重複"</small>
+
+          <input type = "hidden" name="activity_no" value="data[7]">
+          <input type = "hidden" name="activity_name" value="data[2]">
+          <input type = "hidden" name="activity_date" value="data[4]">
 
           <div class="row"></br></div>  
   
