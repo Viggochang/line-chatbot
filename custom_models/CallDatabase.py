@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import psycopg2
+import datetime as dt
 
 print("連接資料庫")
 DATABASE_URL = os.environ['DATABASE_URL']
