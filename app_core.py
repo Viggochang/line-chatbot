@@ -210,7 +210,7 @@ def r_summary():
     else: # 按下確認報名
         activity_no = request.form["activity_no"]
         activity_name = request.form["activity_name"]
-        activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
+        activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d').date()
         attendee_name = request.form["attendee_name"]
         phone = request.form["phone"]
         user_id = current_user.id
@@ -233,7 +233,7 @@ def r_summary():
         elif activity_condition == "closed":
             return render_template("r_summary_confirm.html", html_data = "失敗")
         else:
-            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUES ({activity_no}, {activity_name}, {attendee_name}, {phone}, close , {user_id}, {activity_date});"""
+            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUES ({activity_no}, {activity_name}, {attendee_name}, {phone}, closed , {user_id}, {activity_date});"""
             cursor.execute(postgres_insert_query)
             conn.commit()
             
