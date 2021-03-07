@@ -191,6 +191,7 @@ def r_detail():
     activity_no = request.form["activity_no"]
     
     data = CallDatabase.r_detail(activity_no)
+    print(data)
     return render_template("r_detail.html", html_data = data)
     
 @app.route("/r_summary", methods=['POST'])
@@ -226,13 +227,14 @@ def r_summary():
 
         print(f"phone_registration:{phone_registration}")
         
-        if phone in phone_registration:
+        if activity_condition == "closed":
+            return render_template("r_summary_confirm.html", html_data = "失敗")
+            
+        elif phone in phone_registration:
             data = CallDatabase.r_summary(activity_no)
             data += [user_name, user_phone, "invalid"]
             return render_template("r_summary.html", html_data = data)
             
-        elif activity_condition == "closed":
-            return render_template("r_summary_confirm.html", html_data = "失敗")
         else:
             postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}');"""
             cursor.execute(postgres_insert_query)
