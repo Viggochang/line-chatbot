@@ -217,6 +217,7 @@ def r_summary():
         postgres_select_query = f"""SELECT condition FROM group_data WHERE activity_no = {activity_no}"""
         cursor.execute(postgres_select_query)
         activity_condition = cursor.fetchone()[0]
+        prtin(activity_condition)
         
         #審核電話 先抓取該活動的報名者電話清單
         postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{activity_no}' ;"""
