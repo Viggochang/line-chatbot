@@ -9,8 +9,8 @@ cursor = conn.cursor()
 
 default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
 
-def g_summary():
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{current_user.get_id()}' ORDER BY activity_no DESC;"""
+def g_summary(usr_id):
+    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{user_id}' ORDER BY activity_no DESC;"""
     cursor.execute(postgres_select_query)
     conn.commit
     
