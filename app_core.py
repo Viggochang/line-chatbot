@@ -241,7 +241,7 @@ def r_summary():
             postgres_select_query = f"""SELECT attendee, people FROM group_data WHERE activity_no = {activity_no}"""
             cursor.execute(postgres_select_query)
             attendee = cursor.fetchone()[0] # 目前報名人數
-            people = ursor.fetchone()[1] # 報名人數上限
+            people = cursor.fetchone()[1] # 報名人數上限
             
             #將更新的報名人數attendee記錄到報名表單group_data裡
             postgres_update_query = f"""UPDATE group_data SET attendee = {attendee+1} WHERE activity_no = {activity_no};"""
