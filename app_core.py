@@ -210,7 +210,7 @@ def r_summary():
     else: # 按下確認報名
         activity_no = request.form["activity_no"]
         activity_name = request.form["activity_name"]
-        activity_date = request.form["activity_date"]
+        activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
         attendee_name = request.form["attendee_name"]
         phone = request.form["phone"]
         user_id = current_user.id
