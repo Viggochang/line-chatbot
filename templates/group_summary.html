@@ -10,37 +10,57 @@
       <h1><img src="static/img/group.png" width="65" height="65">開團成功！</h1>
     </div>
     <div></br></div>
-   
-    {% macro easy_row(col, data) -%}
-      <div class="row" style="line-height:25px text-indent:20px">
-        <p>{{col}}：{{data}}</p>
-      </div>
-    {%- endmacro %}
+
+    <div class="box">
+      <style>
+      .box{
+         border:5px #dfefff solid;
+         margin: 0px 8px;
+         padding:45px;
+         }
+      </style>
+
+        <div class="row">
+          <div class="col-5">
+            <div class="img-group" style="background-image: url({{html_data[12]}})"> 
+              <style>
+              .img-group{
+                width: 350px;
+                height: 350px;
+                border-radius: 0%;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+                }
+              </style>
+            </div>
+          </div>
+
+
+          <div class="col-7" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
+            <div class="row"><h3>{{html_data[2]}}</h3></div>
+            <div class="row">
+              <span style="line-height: 30px"><font color="#7B7B7B" size="4">
+                  活動類型： {{html_data[1]}}
+                  活動時間： {{html_data[3]}} &ensp;{{html_data[4]}}</br>
+                  活動地點： {{html_data[5]}}</br>
+                  活動人數： {{html_data[8]}}</br>
+                  活動費用： {{html_data[9]}}</br>
+                  報名截止日： {{html_data[10]}}</br>
+                  活動敘述： {{html_data[11]}}</br>
+                  主揪姓名： {{html_data[13]}}</br>
+                  主揪電話： {{html_data[14]}}</br></font>
+              </span>
+            </div>
+            
+            <div class="row"></br></div>
     
-    <div class="box" style="margin:0px 0px 0px 100px">
-      {{ easy_row("活動類型", html_data[1]) }}
-      {{ easy_row("活動名稱", html_data[2]) }}
-      {{ easy_row("活動日期", html_data[3]) }}
-      {{ easy_row("活動時間", html_data[4]) }}
-      {{ easy_row("活動地點", html_data[5]) }}
-      {{ easy_row("活動人數", html_data[8]) }}
-      {{ easy_row("活動費用", html_data[9]) }}
-      {{ easy_row("報名截止日", html_data[10]) }}  
-      {{ easy_row("活動敘述", html_data[11]) }}
-      {{ easy_row("活動照片", html_data[12]) }}
-
-      <hr class="my-4">
-
-      {{ easy_row("主揪姓名", html_data[13]) }}
-      {{ easy_row("主揪電話", html_data[14]) }}
-
-      
-      <div class="row"></br></div>
+    
 
       <div class="row">
-        <form method="post" action="/cancel_group" style="margin-left:20px">
+        <form method="post" action="/cancel_group">
           <input type="hidden" name="activity_no_cancel" value={{html_data[0]}}>
-          <button type="submit">取消開團</button>
+          <div class="col"><input type="submit" value="取消開團" style="width:120px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
         </form>
       </div>
     </div>
