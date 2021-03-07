@@ -238,6 +238,7 @@ def r_summary():
             conn.commit()
             
             # 取得該活動目前報名人數
+            print(f"activity_no:{activity_no}")
             postgres_select_query = f"""SELECT attendee, people FROM group_data WHERE activity_no = {activity_no}"""
             cursor.execute(postgres_select_query)
             attendee = cursor.fetchone()[0] # 目前報名人數
