@@ -130,7 +130,8 @@ def home():
 @app.route("/from_start")
 def from_start():
     return render_template("from_start.html")
-    
+
+# 我要開團
 @app.route("/group", methods=['GET', 'POST'])
 @login_required
 def group():
@@ -173,7 +174,8 @@ def cancel_group():
     conn.commit()
     
     return render_template("group_cancel.html")
-    
+
+# 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
     if request.method == 'POST':
@@ -259,7 +261,15 @@ def r_summary():
                 
             return render_template("r_summary_confirm.html", html_data = "成功")
 
+# 我的開團紀錄
+@app.route("/my_group", methods=['GET', 'POST'])
+def my_group():
+    return render_template("my_group.html")
     
+# 我的報名紀錄
+@app.route("/my_registration", methods=['GET', 'POST'])
+def my_registration():
+    return render_template("my_registration.html")
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
