@@ -24,7 +24,7 @@ def g_summary(user_id):
     
 def get_all_data():
     #cols = ("activity_type", "activity_name", "activity_date", "activity_time", "cost")
-    select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > {dt.date.today()} ORDER BY activity_date'''
+    select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date'''
     cursor.execute(select_query)
     conn.commit()
     
@@ -49,7 +49,7 @@ def filter_group(form): #查詢活動
         condition_query.append(f"cost <= {cost_max}")
     
     if condition_query:
-        select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data''' + ''' WHERE ''' + ''' AND '''.join(condition_query) + ''' WHERE activity_date >= '{dt.date.today()}' AND people > attendee AND condition = 'pending' AND activity_date > {dt.date.today()} ORDER BY activity_date'''
+        select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data''' + ''' WHERE ''' + ''' AND '''.join(condition_query) + ''' WHERE activity_date >= '{dt.date.today()}' AND people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date'''
     else:
         select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE activity_date >= '{dt.date.today()}' AND people > attendee AND condition = 'pending' AND activity_date > {dt.date.today()} ORDER BY activity_date'''
     
