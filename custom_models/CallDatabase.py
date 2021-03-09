@@ -38,7 +38,6 @@ def get_all_data():
     return all_data
 
 def filter_group(form):
-    #查詢活動
     activity_type, cost_min, cost_max = form["activity_type"], form["cost_min"], form["cost_max"]
     condition_query = []
     if activity_type:
@@ -49,7 +48,7 @@ def filter_group(form):
         condition_query.append(f"cost <= {cost_max}")
     
     if condition_query:
-        select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data""" + """ WHERE """ + """ AND """.join(condition_query) + """ AND people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
+        select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE """ + """ AND """.join(condition_query) + """ AND people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
     else:
         select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
     
@@ -66,7 +65,7 @@ def filter_group(form):
     return filter_data
 
 def r_detail(activity_no):
-    #活動詳細資訊
+
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
     cursor.execute(postgres_select_query)
     conn.commit
