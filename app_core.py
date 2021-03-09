@@ -266,7 +266,7 @@ def r_summary():
 def my_group():
     if request.method == "GET":
         user_id = current_user.get_id()
-        postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
+        postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date DESC;"""
         cursor.execute(postgres_select_query)
         past_group_data = cursor.fetchall()
 
@@ -277,7 +277,7 @@ def my_group():
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
         
     else:
-        print(request.form)
+        print(request.form["group_data"])
         
     
 # 我的報名紀錄
