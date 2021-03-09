@@ -88,3 +88,11 @@ def r_summary(activity_no):
         data[1] = default_photo
     
     return data
+
+def attendee_data(activity_no):
+    postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE activity_no = {activity_no}'''
+    cursor.execute(postgres_select_query)
+    conn.commit
+    
+    data = cursor.fetchall()
+    return data

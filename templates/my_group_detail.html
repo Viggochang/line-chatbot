@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}活動詳細資訊{% endblock %}
+
+{% block main %}
+
+  <div class="container" style="margin: 4em auto">
+    <div class="row-title">
+      <h1><i class="fas fa-list"></i> 活動詳細資訊</h1>
+    </div>
+
+    <div></br></div>
+
+    {% set group_data, attendee_data = html_data %}
+
+    <div class="box">
+      <style>
+      .box{
+         border:5px #dfefff solid;
+         margin: 0px 8px;
+         padding:45px;
+         }
+      </style>
+
+        <div class="row">
+          <div class="col-5">
+            <div class="img-group" style="background-image: url({{group_data[12]}})"> 
+              <style>
+              .img-group{
+                width: 350px;
+                height: 350px;
+                border-radius: 0%;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+                }
+              </style>
+            </div>
+          </div>
+
+
+          <div class="col-5" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
+            <div class="row"><h3>{{group_data[2]}}</h3></div>
+            <div class="row">
+              <span style="line-height: 30px"><font color="#7B7B7B" size="4">活動時間： {{group_data[3]}} &ensp;{{group_data[4]}}</br>
+                                          活動地點： {{group_data[5]}}</br>
+                                          活動人數： {{group_data[8]}}</br>
+                                          活動費用： {{group_data[9]}}</br>
+                                          報名截止日： {{group_data[10]}}</br>
+                                          活動敘述： {{group_data[11]}}</br>
+                                          主揪姓名： {{group_data[13]}}</br></font>
+              </span>
+            </div>
+            
+            <div class="row"></br></div>
+
+            <div class="row"> 
+              <form action="/" method="post">
+                <input name="activity_no" type="hidden" value="{{group_data[0]}}">
+                <div class="col"><input type="submit" value="提早結束報名" style="width:120px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
+              </form>
+            </div>
+          </div>
+ 
+          <div class="col-5" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
+            <div class="row"><h3>報名者名單</h3></div>
+            <hr class="my-4">
+            {% for attendee in attendee_data %}
+              <span> attendee[0]</br></span>
+              <span><font color="#7B7B7B" size="3"> attendee[1]</br></font></span>
+            {% endfor %}
+
+          </div>
+
+        </div>
+      </div>
+
+  </div>
+
+{% endblock %}
+
+

@@ -278,9 +278,10 @@ def my_group():
         
     else:
         activity_no = request.form["activity_no"]
-        data = CallDatabase.r_detail(activity_no)
-        print(data)
-        return render_template("r_detail.html", html_data = data)
+        group_data = CallDatabase.r_detail(activity_no)
+        attendee_data = CallDatabase.attendee_data(activity_no)
+        
+        return render_template("my_group_detail.html", html_data = [group_data, attendee_data])
 
         
     
