@@ -17,7 +17,7 @@
           <div class="row">
             <form action="/my_group" method="post">
               <input name="group_data" type="hidden" value={{data}}>
-              <i class="fab fa-font-awesome-flag"></i><input type="submit" value="{{data[2]}}">
+              <i class="fab fa-font-awesome-flag"></i> <input type="submit" value="{{data[2]}}">
             </form>
           </div>
         {% endfor %}
@@ -30,7 +30,7 @@
       {% endif %}
     {%- endmacro %}
 
-    {% set now_group_data, past_group_data = html_data[0], html_data[1] %}
+    {% set now_group_data, past_group_data = html_data %}
 
     <div class="row">
       <div class="col-1"></div>
@@ -67,7 +67,7 @@
           <h3><i class="fas fa-list"></i> 歷史開團紀錄</h3>
           <hr class="my-4">
 
-          {{ group_list(now_group_data) }}
+          {{ group_list(past_group_data) }}
 
         </div>
       </div>
