@@ -19,6 +19,7 @@
               <input name="group_data" type="hidden" value={{data}}>
               <i class="fab fa-font-awesome-flag"></i><input type="submit" value="{{data[2]}}">
             </form>
+          </div>
         {% endfor %}
 
       {% else %}
@@ -29,7 +30,7 @@
       {% endif %}
     {%- endmacro %}
 
-    {% set now_group_data, past_group_data = html_data %}
+    {% set now_group_data, past_group_data = html_data[0], html_data[1] %}
 
     <div class="row">
       <div class="col-1"></div>
