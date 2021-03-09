@@ -37,8 +37,8 @@ def get_all_data():
     all_data = [all_data[i:i+4] for i in range(len(all_data)) if i%4 == 0]
     return all_data
 
-def filter_group(form): #查詢活動
-    
+def filter_group(form):
+    #查詢活動
     activity_type, cost_min, cost_max = form["activity_type"], form["cost_min"], form["cost_max"]
     condition_query = []
     if activity_type:
@@ -65,8 +65,8 @@ def filter_group(form): #查詢活動
     filter_data = [filter_data[i:i+4] for i in range(len(filter_data)) if i%4 == 0]
     return filter_data
 
-def r_detail(activity_no): #活動詳細資訊
-
+def r_detail(activity_no):
+    #活動詳細資訊
     postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
     cursor.execute(postgres_select_query)
     conn.commit
