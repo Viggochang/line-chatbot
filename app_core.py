@@ -178,7 +178,7 @@ def cancel_group():
 # 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
-    if request.method == 'post':
+    if request.method == 'POST':
         print(request.form)
         filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
