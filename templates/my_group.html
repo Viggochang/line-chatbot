@@ -17,16 +17,16 @@
           <div class="row">
             <form action="/my_group" method="post">
               <input name="group_data" type="hidden" value={{data}}>
-              <h5><i class="fab fa-font-awesome-flag"></i> 
-                  <input type="submit" value="{{data[2]}}" style="background-color:none; border:none"">
-              </h5>
+              <h4 style="text-indent:30px"><i class="fab fa-font-awesome-flag"></i> 
+                  <input type="submit" value="{{data[2]}}" style="background-color:#ffffff; border:none"">
+              </h4>
             </form>
           </div>
         {% endfor %}
 
       {% else %}
         <div class="row">
-          <h5><font color="#7B7B7B"> 目前無紀錄！</font></h5>
+          <h4><font color="#7B7B7B"> 目前無紀錄！</font></h4>
         </div>
 
       {% endif %}
