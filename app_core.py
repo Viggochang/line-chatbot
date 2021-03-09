@@ -275,6 +275,9 @@ def my_group():
         now_group_data = cursor.fetchall()
 
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
+        
+    #else:
+        
     
 # 我的報名紀錄
 @app.route("/my_registration", methods=['GET', 'POST'])
