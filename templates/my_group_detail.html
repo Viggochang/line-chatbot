@@ -62,14 +62,17 @@
             </div>
           </div>
  
-          <div class="col-5" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
+          <div class="col-2" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
             <div class="row"><h3>報名者名單</h3></div>
             <hr class="my-4">
-            {% for attendee in attendee_data %}
-              <span> attendee[0]</br></span>
-              <span><font color="#7B7B7B" size="3"> attendee[1]</br></font></span>
-            {% endfor %}
-
+            {% if attendee_data %}
+              {% for attendee in attendee_data %}
+                <span> attendee[0]</br></span>
+                <span><font color="#7B7B7B" size="3"> attendee[1]</br></font></span>
+              {% endfor %}
+            {% else %}
+               <span><font color="#7B7B7B"> 目前無人報名！</br></font></span>
+            {% endif %}
           </div>
 
         </div>
