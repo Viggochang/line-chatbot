@@ -16,7 +16,7 @@
         {% for data in total_data %}
           <div class="row">
             <form action="/my_group" method="post">
-              <input name="group_data" type="hidden" value="{{data}}">
+              <input name="group_data" type="hidden" value={{data[0]}}, {{data[1]}}>
               <h4 style="text-indent:20px; margin:8px 0px">
                 <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</a>
                 <input type="submit" value="{{data[2]}}" style="color:#3C3C3C; background-color:#ffffff; border:none"">
