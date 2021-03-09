@@ -17,7 +17,9 @@
           <div class="row">
             <form action="/my_group" method="post">
               <input name="group_data" type="hidden" value={{data}}>
-              <i class="fab fa-font-awesome-flag"></i> <input type="submit" value="{{data[2]}}">
+              <h5><i class="fab fa-font-awesome-flag"></i> 
+                  <input type="submit" value="{{data[2]}}" style="background-color:none; border:none"">
+              </h5>
             </form>
           </div>
         {% endfor %}
