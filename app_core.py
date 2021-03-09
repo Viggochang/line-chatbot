@@ -277,7 +277,7 @@ def my_group():
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
         
     else:
-        print(request.form["group_data"][2])
+        print(request.form["group_data"])
         
     
 # 我的報名紀錄
