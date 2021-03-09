@@ -67,8 +67,8 @@
             <hr class="my-4">
             {% if attendee_data %}
               {% for attendee in attendee_data %}
-                <span> attendee[0]</br></span>
-                <span><font color="#7B7B7B" size="3"> attendee[1]</br></font></span>
+                <h5> {{attendee[0]}}</br></h5>
+                <span><font color="#7B7B7B" size="3"> {{attendee[1]}}</br></font></span>
               {% endfor %}
             {% else %}
                <span><font color="#7B7B7B"> 目前無人報名！</br></font></span>
