@@ -277,9 +277,11 @@ def my_group():
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
         
     else:
-        group_data = request.form
-        print(group_data)
-        return render_template("r_detail.html", html_data = group_data)
+        activity_no = request.form["activity_no"]
+        data = CallDatabase.r_detail(activity_no)
+        print(data)
+        return render_template("r_detail.html", html_data = data)
+
         
     
 # 我的報名紀錄
