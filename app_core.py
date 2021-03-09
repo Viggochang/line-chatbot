@@ -188,7 +188,7 @@ def registration():
         
 @app.route("/r_detail", methods=['POST'])
 @login_required
-def r_detail():
+def r_detail(): # 詳細資料
     print(request.form)
     activity_no = request.form["activity_no"]
     
@@ -277,7 +277,8 @@ def my_group():
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
         
     else:
-        print(request.form["group_data"])
+        group_data = request.form["group_data"]
+        return render_template("r_detail.html", html_data = group_data)
         
     
 # 我的報名紀錄
