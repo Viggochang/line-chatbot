@@ -48,7 +48,7 @@ def filter_group(form):
         condition_query.append(f"cost <= {cost_max}")
     
     if condition_query:
-        select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE """ + """ AND """.join(condition_query) + """ AND people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
+        select_query = f'''SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE ''' + ''' AND '''.join(condition_query) + ''' AND people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;'''
     else:
         select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
     
