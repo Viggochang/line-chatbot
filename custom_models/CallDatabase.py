@@ -24,7 +24,7 @@ def g_summary(user_id):
     
 def get_all_data():
     #cols = ("activity_type", "activity_name", "activity_date", "activity_time", "cost")
-    select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date"""
+    select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE people > attendee AND condition = 'pending' AND activity_date > '{dt.date.today()}' ORDER BY activity_date;"""
     cursor.execute(select_query)
     conn.commit()
     
@@ -67,7 +67,7 @@ def filter_group(form): #查詢活動
 
 def r_detail(activity_no): #活動詳細資訊
 
-    postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no}"""
+    postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
     cursor.execute(postgres_select_query)
     conn.commit
     
@@ -79,7 +79,7 @@ def r_detail(activity_no): #活動詳細資訊
 
 def r_summary(activity_no):
 
-    postgres_select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE activity_no = {activity_no}"""
+    postgres_select_query = f"""SELECT activity_type, photo, activity_name, location_tittle, activity_date, activity_time, cost, activity_no FROM group_data WHERE activity_no = {activity_no};"""
     cursor.execute(postgres_select_query)
     conn.commit
     
@@ -90,7 +90,7 @@ def r_summary(activity_no):
     return data
 
 def attendee_data(activity_no):
-    postgres_select_query = f"""SELECT attendee_name, phone FROM registration_data WHERE activity_no = {activity_no}"""
+    postgres_select_query = f"""SELECT attendee_name, phone FROM registration_data WHERE activity_no = {activity_no};"""
     cursor.execute(postgres_select_query)
     conn.commit
     
