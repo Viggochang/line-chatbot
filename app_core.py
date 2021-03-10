@@ -287,8 +287,8 @@ def my_group():
     if request.method == "GET":
         user_id = current_user.get_id()
         
-        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", dt.date.today()], "condition"["!=", "initial"]}
-        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()], "condition"["!=", "initial"]}
+        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", dt.date.today()], "condition":["!=", "initial"]}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()], "condition":["!=", "initial"]}
         order = "activity_date"
         
         past_group_data = CallDatabase.get_data("group_data", condition = condition_past, order = order, ASC = False, all_data = True)
@@ -298,8 +298,11 @@ def my_group():
         
     else:
         activity_no = request.form["activity_no"]
-        group_data = CallDatabase.r_detail(activity_no)
-        attendee_data = CallDatabase.attendee_data(activity_no)
+        
+        condition = {"activity_no": ["=", activity_no]}    
+        group_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+
+        attendee_data = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
         
         return render_template("my_group_detail.html", html_data = [group_data, attendee_data])
 
