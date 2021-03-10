@@ -12,7 +12,7 @@ default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot
 
 def get_group_data(table, condition = None, order = None, ASC = True, all_data = True):
     if condition:
-        condition_query = "WHERE " + " AND" .join([f"{key} = '{condition[key]}'" for key in condition.keys()])
+        condition_query = "WHERE " + " AND " .join([f"{key} = '{condition[key]}'" for key in condition.keys()])
     if order:
         order_query = f" ORDER BY {order}" + (" ASC" if ASC else " DESC")
     postgres_select_query = f"""SELECT * FROM {table} """ + condition_query + order_query
