@@ -286,13 +286,13 @@ def r_summary():
 def my_group():
     if request.method == "GET":
         user_id = current_user.get_id()
-        postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date DESC;"""
-        cursor.execute(postgres_select_query)
-        past_group_data = cursor.fetchall()
-
-        postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
-        cursor.execute(postgres_select_query)
-        now_group_data = cursor.fetchall()
+        
+        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", dt.date.today()], "condition"["!=", "initial"]}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()], "condition"["!=", "initial"]}
+        order = "activity_date"
+        
+        past_group_data = CallDatabase.get_data("group_data", condition = condition_past, order = order, ASC = False, all_data = True)
+        now_group_data = CallDatabase.get_data("group_data", condition = condition_now, order = order, ASC = True, all_data = True)
 
         return render_template("my_group.html", html_data = [now_group_data, past_group_data])
         
