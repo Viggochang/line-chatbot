@@ -157,7 +157,7 @@ def group():
         
         condition = {"condition":["=", "pending"], "user_id":["=", current_user.get_id()]}
         order = "activity_no"
-        data_g = CallDatabase.get_group_data("group_data", condition, order, ASC = False, all_data = False)
+        data_g = CallDatabase.get_data("group_data", condition, order, ASC = False, all_data = False)
         #data_g = CallDatabase.g_summary(current_user.get_id())
         print(data_g)
         
@@ -193,13 +193,13 @@ def registration():
         if request.form.get("cost_max", None):
             condition["cost"] = ["<=", request.form["cost_max"]]
             
-        filter_data = CallDatabase.get_group_data("group_data", condition, order, ASC = True, all_data = True)
+        filter_data = CallDatabase.get_data("group_data", condition, order, ASC = True, all_data = True)
         filter_data = [filter_data[i: i+4] for i in range(len(filter_data)) if i%4 == 0]
         #filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
         
     else:
-        all_groupdata = CallDatabase.get_group_data("group_data", condition, order, ASC = True, all_data = True)
+        all_groupdata = CallDatabase.get_data("group_data", condition, order, ASC = True, all_data = True)
         all_groupdata = [all_groupdata[i: i+4] for i in range(len(all_groupdata)) if i%4 == 0]
         #all_groupdata = CallDatabase.get_all_data()
         return render_template("registration.html", html_data = all_groupdata)
@@ -207,11 +207,10 @@ def registration():
 @app.route("/r_detail", methods=['POST'])
 @login_required
 def r_detail(): # 詳細資料
-    print(request.form)
     activity_no = request.form["activity_no"]
+    condition = {"activity_no": activity_no}
     
-    data = CallDatabase.r_detail(activity_no)
-    print(data)
+    data = CallDatabase.get_data(group_data, condition = condition, all_data = False)
     return render_template("r_detail.html", html_data = data)
     
 @app.route("/r_summary", methods=['POST'])

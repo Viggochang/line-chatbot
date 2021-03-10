@@ -10,7 +10,7 @@ cursor = conn.cursor()
 
 default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
 
-def get_group_data(table, condition = None, order = None, ASC = True, all_data = True):
+def get_data(table, condition = None, order = None, ASC = True, all_data = True):
     if condition:
         condition_query = "WHERE " + " AND " .join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     if order:
