@@ -263,6 +263,7 @@ def r_summary():
 
 # 我的開團紀錄
 @app.route("/my_group", methods=['GET', 'POST'])
+@login_required
 def my_group():
     if request.method == "GET":
         user_id = current_user.get_id()
@@ -287,6 +288,7 @@ def my_group():
     
 # 我的報名紀錄
 @app.route("/my_registration", methods=['GET', 'POST'])
+@login_required
 def my_registration():
     return render_template("my_registration.html")
 
