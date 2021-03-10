@@ -155,7 +155,7 @@ def group():
         cursor.execute(postgres_update_query)
         conn.commit()
         
-        condition = {"condition":"pending", "user_id":current_user.get_id()}
+        condition = {"condition":["=", "pending"], "user_id":["=", current_user.get_id()]}
         order = "activity_no"
         data_g = CallDatabase.get_group_data("group_data", condition, order, ASC = False, all_data = False)
         #data_g = CallDatabase.g_summary(current_user.get_id())
@@ -183,10 +183,15 @@ def cancel_group():
 def registration():
     if request.method == 'POST':
         print(request.form)
+        
         filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
     else:
-        all_groupdata = CallDatabase.get_all_data()
+        condition = {"condition":["=", "pending"], "activity_date":[">", dt.date.today()], "people":[">", "attendee"]}
+        order = "activity_date"
+        all_groupdata = CallDatabase.get_group_data("group_data", condition, order, ASC = True, all_data = True)
+        all_groupdata = [all_groupdata[i: i+4] for i in range(len(all_groupdata)) if i%4 == 0]
+        #all_groupdata = CallDatabase.get_all_data()
         return render_template("registration.html", html_data = all_groupdata)
         
 @app.route("/r_detail", methods=['POST'])
