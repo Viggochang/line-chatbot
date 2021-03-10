@@ -220,11 +220,14 @@ def r_summary():
     user_name = users[current_user.id]['user_name']
     user_phone = users[current_user.id]['user_phone']
     
+    activity_no = request.form["activity_no"]
+    condition = {"activity_no": activity_no}
+    
+    data = CallDatabase.get_data(group_data, condition = condition, all_data = False)
+    data += [user_name, user_phone]
+    
     if len(request.form) == 1: # 按下我要報名
-        activity_no = request.form["activity_no"]
-        
-        data = CallDatabase.r_summary(activity_no)
-        data += [user_name, user_phone]
+
         return render_template("r_summary.html", html_data = data)
         
     else: # 按下確認報名
@@ -250,8 +253,7 @@ def r_summary():
             return render_template("r_summary_confirm.html", html_data = "失敗")
             
         elif phone in phone_registration:
-            data = CallDatabase.r_summary(activity_no)
-            data += [user_name, user_phone, "invalid"]
+            data.append("invalid")
             return render_template("r_summary.html", html_data = data)
             
         else:

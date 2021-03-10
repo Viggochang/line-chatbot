@@ -24,8 +24,8 @@
           </style>
  
 
-          <p style="background:#dfefff; padding:5px" >{{html_data[0]}}</p>
-          <div class="img-group" style="background-image: url({{html_data[1]}})"> 
+          <p style="background:#dfefff; padding:5px" >{{html_data[1]}}</p>
+          <div class="img-group" style="background-image: url({{html_data[12]}})"> 
             <style>
             .img-group{
               width: 260px;
@@ -42,7 +42,7 @@
           <h5>{{html_data[2]}}</h5>
 
           <div class="box-2" style="weight:230px; min-height:120px">
-            <span><font color="#7B7B7B">地點: {{html_data[3]}}</br>時間: {{html_data[4]}} {{html_data[5]}}</br>費用: {{html_data[6]}}</font></span>
+            <span><font color="#7B7B7B">地點: {{html_data[5]}}</br>時間: {{html_data[3]}} {{html_data[4]}}</br>費用: {{html_data[9]}}</font></span>
           </div>
         </div>
       </div>
@@ -68,13 +68,13 @@
           </div>
         {%- endmacro %}
 
-          {{ user_row("attendee_name", "text", "姓名", html_data[8], "required") }}
-          {{ user_row("phone", "tel", "電話", html_data[9], "required") }}
+          {{ user_row("attendee_name", "text", "姓名", html_data[18], "required") }}
+          {{ user_row("phone", "tel", "電話", html_data[19], "required") }}
           <small class="form-text"><font color="#7B7B7B">若要幫他人報名，請重新輸入姓名及電話，報名資料不得重複</font></small>
 
-          <input type = "hidden" name="activity_no" value={{html_data[7]}}>
+          <input type = "hidden" name="activity_no" value={{html_data[0]}}>
           <input type = "hidden" name="activity_name" value={{html_data[2]}}>
-          <input type = "hidden" name="activity_date" value={{html_data[4]}}>
+          <input type = "hidden" name="activity_date" value={{html_data[3]}}>
 
           <div class="row"></br></div>  
   
