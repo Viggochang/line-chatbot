@@ -12,7 +12,7 @@ default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot
 
 def get_data(table, condition = None, order = None, ASC = True, all_data = True):
     if condition:
-    condition_query = "WHERE " + " AND " .join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
+        condition_query = "WHERE " + " AND " .join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     else:
         condition_query = ""
         
