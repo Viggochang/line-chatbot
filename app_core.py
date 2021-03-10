@@ -210,7 +210,7 @@ def r_detail(): # 詳細資料
     activity_no = request.form["activity_no"]
     condition = {"activity_no": activity_no}
     
-    data = CallDatabase.get_data(group_data, condition = condition, all_data = False)
+    data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     return render_template("r_detail.html", html_data = data)
     
 @app.route("/r_summary", methods=['POST'])
