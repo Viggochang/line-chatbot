@@ -223,7 +223,7 @@ def r_summary():
     activity_no = request.form["activity_no"]
     condition = {"activity_no": activity_no}
     
-    data = CallDatabase.get_data(group_data, condition = condition, all_data = False)
+    data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     data += [user_name, user_phone]
     
     if len(request.form) == 1: # 按下我要報名
