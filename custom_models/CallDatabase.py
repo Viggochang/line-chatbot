@@ -10,6 +10,32 @@ cursor = conn.cursor()
 
 default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
 
+def get_group_data(table, condition = None, order = None, ASC = True, all_data = True):
+    if condition:
+        condition_query = "WHERE " + " AND" .join([f"{key} = '{condition[key]}'" for key in condition.keys()])
+    if order:
+        order_query = f" ORDER BY {order}" + (" ASC" if ASC else " DESC")
+    postgres_select_query = f"""SELECT * FROM {table} """ + condition_query + order_query
+    
+    cursor.execute(postgres_select_query)
+    conn.commit
+    
+    if all_data:
+        all_data = [list(row) for row in cursor.fetchall()]
+        if table == "group_data":
+            for row in all_data:
+                if "https://i.imgur.com/" not in row[12]:
+                    row[12] = default_photo
+        return all_data
+        
+    else:
+        data = list(cursor.fetchone())
+        if table == "group_data":
+            if "https://i.imgur.com/" not in data[12]:
+                data[12] = default_photo
+        return data
+    
+
 def g_summary(user_id):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{user_id}' ORDER BY activity_no DESC;"""
     cursor.execute(postgres_select_query)

@@ -155,7 +155,10 @@ def group():
         cursor.execute(postgres_update_query)
         conn.commit()
         
-        data_g = CallDatabase.g_summary(current_user.get_id())
+        condition = {"condition":"pending", "user_id":current_user.get_id()}
+        order = "activity_no"
+        data_g = CallDatabase.get_group_data(group_data, condition, order, ASC = False, all_data = False)
+        #data_g = CallDatabase.g_summary(current_user.get_id())
         print(data_g)
         
         return render_template("group_summary.html", html_data = data_g)
