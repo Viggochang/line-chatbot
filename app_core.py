@@ -181,14 +181,24 @@ def cancel_group():
 # 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
+    condition = {"condition":["=", "pending"], "activity_date":[">", dt.date.today()], "people":[">", "attendee"]}
+    order = "activity_date"
+    
     if request.method == 'POST':
         print(request.form)
-        
-        filter_data = CallDatabase.filter_group(request.form)
+        if request.form.get("activity_type", None):
+            condition["activity_type"] = ["=", request.form["activity_type"]]
+        if request.form.get("cost_min", None):
+            condition["cost"] = [">=", request.form["cost_min"]]
+        if request.form.get("cost_max", None):
+            condition["cost"] = ["<=", request.form["cost_max"]]
+            
+        filter_data = CallDatabase.get_group_data("group_data", condition, order, ASC = True, all_data = True)
+        filter_data = [filter_data[i: i+4] for i in range(len(filter_data)) if i%4 == 0]
+        #filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
     else:
-        condition = {"condition":["=", "pending"], "activity_date":[">", dt.date.today()], "people":[">", "attendee"]}
-        order = "activity_date"
+
         all_groupdata = CallDatabase.get_group_data("group_data", condition, order, ASC = True, all_data = True)
         all_groupdata = [all_groupdata[i: i+4] for i in range(len(all_groupdata)) if i%4 == 0]
         #all_groupdata = CallDatabase.get_all_data()
