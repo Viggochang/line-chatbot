@@ -42,6 +42,10 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         return data
     
 
+
+
+
+
 def g_summary(user_id):
     postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'pending' AND user_id = '{user_id}' ORDER BY activity_no DESC;"""
     cursor.execute(postgres_select_query)

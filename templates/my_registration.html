@@ -11,6 +11,30 @@
     </div>
     <div></br></div>
 
+    {% macro group_list(total_data) -%}
+      {% if total_data %}
+        {% for data in total_data %}
+          <div class="row">
+            <form action="/my_registration" method="post">
+              <input name="activity_no" type="hidden" value={{data[1]}}>
+              <h4 style="text-indent:20px; margin:8px 0px">
+                <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[2]}}&ensp;</a>
+                <input type="submit" value="{{data[2]}}" style="color:#3C3C3C; background-color:#ffffff; border:none"">
+              </h4>
+            </form>
+          </div>
+        {% endfor %}
+
+      {% else %}
+        <div class="row">
+          <h4 style="text-indent:20px"><font color=#7B7B7B> 目前無紀錄！</font></h4>
+        </div>
+
+      {% endif %}
+    {%- endmacro %}
+
+    {% set now_registration_data, past_registration_data = html_data %}
+
     <div class="row">
       <div class="col-1"></div>
       <div class="col">
@@ -26,6 +50,9 @@
           
           <h3><i class="fas fa-list"></i> 我報名的團</h3>
           <hr class="my-4">
+
+          {{group_list(now_registration_data)}}
+
         </div>
       </div>
 
@@ -42,6 +69,9 @@
 
           <h3><i class="fas fa-list"></i> 歷史報名紀錄</h3>
           <hr class="my-4">
+
+          {{group_list(past_registration_data)}}
+
         </div>
       </div>
       <div class="col-1"></div>
