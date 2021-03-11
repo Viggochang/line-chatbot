@@ -194,7 +194,7 @@ def carousel(data, act_type, i = 0):
                                     style = "link",
                                     action = PostbackAction(
                                         label = "立即報名",
-                                        data = f"立即報名_{row[0]}_{row[2]}_{row[3]}",
+                                        data = f"立即報名_{row[0]}_{row[1]}_{row[2]}_{row[3]}",
                                         display_text = f"我要報名 {row[2]}！"
                                     ),
                                     height = "sm",
@@ -375,7 +375,7 @@ def MoreInfoSummary(data):
                           gravity = "bottom",
                           action = PostbackAction(
                               label = "立即報名",
-                              data = f"立即報名_{data[0]}_{data[2]}_{data[3]}",
+                              data = f"立即報名_{data[0]}_{data[1]}_{data[2]}_{data[3]}",
                               display_text = f"我要報名 {data[2]}"
                           )
                       )

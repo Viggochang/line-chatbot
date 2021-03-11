@@ -636,7 +636,7 @@ def gathering(event):
         cancel.reset(cursor, conn, event)
 
         #創建一列
-        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}');"""
+        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_type, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}', '{record[4]}');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
 
