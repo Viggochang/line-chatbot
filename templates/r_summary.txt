@@ -75,6 +75,7 @@
           <input type = "hidden" name="activity_no" value={{html_data[0]}}>
           <input type = "hidden" name="activity_name" value={{html_data[2]}}>
           <input type = "hidden" name="activity_date" value={{html_data[3]}}>
+          <input type = "hidden" name="activity_type" value={{html_data[1]}}>
 
           <div class="row"></br></div>  
   

@@ -234,9 +234,12 @@ def r_summary():
         activity_no = request.form["activity_no"]
         activity_name = request.form["activity_name"]
         activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d').date()
+        activity_type = request.form["activity_type"]
+        
         attendee_name = request.form["attendee_name"]
         phone = request.form["phone"]
         user_id = current_user.id
+        
         postgres_select_query = f"""SELECT condition FROM group_data WHERE activity_no = {activity_no}"""
         cursor.execute(postgres_select_query)
         activity_condition = cursor.fetchone()[0]
@@ -257,7 +260,7 @@ def r_summary():
             return render_template("r_summary.html", html_data = data)
             
         else:
-            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}');"""
+            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date, activity_type) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}'), '{activity_type}';"""
             cursor.execute(postgres_insert_query)
             conn.commit()
             
