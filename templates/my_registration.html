@@ -16,9 +16,9 @@
         {% for data in total_data %}
           <div class="row">
             <form action="/my_registration" method="post">
-              <input name="activity_no" type="hidden" value={{data[1]}}>
+              <input name="activity_no" type="hidden" value={{data[0]}}>
               <h4 style="text-indent:20px; margin:8px 0px">
-                <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[8]}}&ensp;</a>
+                <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</a>
                 <input type="submit" value="{{data[2]}}" style="color:#3C3C3C; background-color:#ffffff; border:none"">
               </h4>
             </form>
