@@ -322,7 +322,7 @@ def my_registration():
         past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order ASC = False, all_data = True)
         now_registration_data = CallDatabase.get_data("registration_data", condition = condition_now, order = order ASC = True, all_data = True)
 
-    return render_template("my_registration.html", html_data = [now_registration_data, past_registration_data])
+        return render_template("my_registration.html", html_data = [now_registration_data, past_registration_data])
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
