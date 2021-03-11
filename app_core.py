@@ -323,10 +323,10 @@ def my_registration():
         order = "activity_date"
         
         past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order, ASC = False, all_data = True)
-        past_registration_data = list(set([tuple(data[1], data[8], data[2]) for data in past_registration_data]))
+        past_registration_data = list(set([(data[1], data[8], data[2]) for data in past_registration_data]))
         
         now_registration_data = CallDatabase.get_data("registration_data", condition = condition_now, order = order, ASC = True, all_data = True)
-        now_registration_data = list(set([tuple(data[1], data[8], data[2]) for data in now_registration_data]))
+        now_registration_data = list(set([(data[1], data[8], data[2]) for data in now_registration_data]))
 
         return render_template("my_registration.html", html_data = [now_registration_data, past_registration_data])
 
