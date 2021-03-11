@@ -319,8 +319,8 @@ def my_registration():
         condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()]}
         order = "activity_date"
         
-        past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order ASC = False, all_data = True)
-        now_registration_data = CallDatabase.get_data("registration_data", condition = condition_now, order = order ASC = True, all_data = True)
+        past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order, ASC = False, all_data = True)
+        now_registration_data = CallDatabase.get_data("registration_data", condition = condition_now, order = order, ASC = True, all_data = True)
 
         return render_template("my_registration.html", html_data = [now_registration_data, past_registration_data])
 
