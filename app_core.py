@@ -260,7 +260,7 @@ def r_summary():
             return render_template("r_summary.html", html_data = data)
             
         else:
-            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date, activity_type) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}'), '{activity_type}';"""
+            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date, activity_type) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}', '{activity_type}');"""
             cursor.execute(postgres_insert_query)
             conn.commit()
             
