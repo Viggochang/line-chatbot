@@ -337,9 +337,9 @@ def my_registration():
         group_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
 
         condition = {"activity_no": ["=", activity_no], "user_id":["=", current_user.id]}
-        registration _data = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
+        registration_data = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
 
-        return render_template("my_registration_detail.html", html_data = [group_data, attendee_data])
+        return render_template("my_registration_detail.html", html_data = [group_data, registration_data])
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)
