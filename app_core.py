@@ -168,8 +168,8 @@ def group():
         user_phone = users[current_user.id]['user_phone']
         return render_template("group.html", html_data = [user_name, user_phone])
         
-@app.route("/cancel_group", methods=['POST'])
-def cancel_group():
+@app.route("/group_cancel", methods=['POST'])
+def group_cancel():
     print(request.form)
 
     postgres_delete_query = f"""DELETE FROM group_data WHERE activity_no = {request.form['activity_no_cancel']};"""
@@ -177,6 +177,17 @@ def cancel_group():
     conn.commit()
     
     return render_template("group_cancel.html")
+    
+@app.route("/group_closed", methods=['POST'])
+def group_closed():
+    activity_no = request.form["activity_no"]
+    activity_name = request.form["activity_name"]
+    print(activity_name)
+    #提早關團 condition >> closed by owner
+    postgres_update_query = f"""UPDATE group_data SET condition = 'closed by owner' WHERE activity_no = {activity_no};"""
+    cursor.execute(postgres_update_query)
+    conn.commit()
+    return render_template("group_closed.html", html_data = activity_name)
 
 # 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
