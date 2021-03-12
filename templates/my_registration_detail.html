@@ -44,7 +44,7 @@
             <div class="row">
               <span style="line-height: 30px"><font color="#7B7B7B" size="4">活動時間： {{group_data[3]}}&emsp;{{group_data[4]}}</br>
                                           活動地點： {{group_data[5]}}</br>
-                                          活動人數： {{group_data[8]}}</br>
+                                          活動人數： {{group_data[15]}} / {{group_data[8]}}</br>
                                           活動費用： {{group_data[9]}}</br>
                                           報名截止日： {{group_data[10]}}</br>
                                           活動敘述： {{group_data[11]}}</br>
@@ -59,17 +59,18 @@
             {% if attendee_data %}
               {% for attendee in attendee_data %}
                 <h5> {{attendee[3]}}</br></h5>
-                <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></font></span>
+                <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></br></font></span>
                 
                 <div class="row"> 
                   <form action="/r_cancel" method="post">
                     <input name="registration_no" type="hidden" value="{{attendee[0]}}">
                     <input name="activity_no" type="hidden" value="{{attendee[1]}}">
-                    <div class="col"><input type="submit" value="取消報名" style="width:140px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
+                    <div class="col"><input type="submit" value="取消報名" style="width:100px; height:30px; background-color:#dfefff; border:none; font-size:18px"></div>
                   </form>
                 <div>
-            </div>
               {% endfor %}
+            </div>
+
             {% else %}
                <span><font color="#7B7B7B"> 目前無資料！</br></font></span>
             {% endif %}
