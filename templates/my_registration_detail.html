@@ -59,15 +59,16 @@
             {% if attendee_data %}
               {% for attendee in attendee_data %}
                 <h5> {{attendee[3]}}</br></h5>
-                <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></br></font></span>
+                <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></font></span>
                 
-                <div class="row"> 
+                <div class="row", style="margin:5px 0px 0px"> 
                   <form action="/r_cancel" method="post">
                     <input name="registration_no" type="hidden" value="{{attendee[0]}}">
                     <input name="activity_no" type="hidden" value="{{attendee[1]}}">
                     <div class="col"><input type="submit" value="取消報名" style="width:80px; height:25px; background-color:#dfefff; border:none; font-size:16px"></div>
-                  </form>
+                  </form></br>
                 </div>
+                
               {% endfor %}
             </div>
 
