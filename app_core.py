@@ -329,6 +329,17 @@ def my_registration():
         now_registration_data = list(set([(data[1], data[8], data[2]) for data in now_registration_data]))
 
         return render_template("my_registration.html", html_data = [now_registration_data, past_registration_data])
+        
+    else:
+        activity_no = request.form["activity_no"]
+
+        condition = {"activity_no": ["=", activity_no]}
+        group_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+
+        condition = {"activity_no": ["=", activity_no], "user_id":["=", current_user.id]}
+        registration _data = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
+
+        return render_template("my_registration_detail.html", html_data = [group_data, attendee_data])
 
 # 聊天機器人
 @handler.add(MessageEvent, message = TextMessage)

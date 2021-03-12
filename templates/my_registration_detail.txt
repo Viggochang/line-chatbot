@@ -57,13 +57,13 @@
             <div class="row"> 
               <form action="/" method="post">
                 <input name="activity_no" type="hidden" value="{{group_data[0]}}">
-                <div class="col"><input type="submit" value="提早結束報名" style="width:140px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
+                <div class="col"><input type="submit" value="取消報名" style="width:140px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
               </form>
             </div>
           </div>
  
           <div class="col-3" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 20px 0px 45px">
-            <div class="row"><h3>報名者名單</h3></div>
+            <div class="row"><h3>我的報名資料</h3></div>
             <hr class="my-4">
             {% if attendee_data %}
               {% for attendee in attendee_data %}
@@ -71,7 +71,7 @@
                 <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></font></span>
               {% endfor %}
             {% else %}
-               <span><font color="#7B7B7B"> 目前無人報名！</br></font></span>
+               <span><font color="#7B7B7B"> 目前無資料！</br></font></span>
             {% endif %}
           </div>
 
