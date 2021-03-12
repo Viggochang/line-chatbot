@@ -282,6 +282,30 @@ def r_summary():
                 conn.commit()
                 
             return render_template("r_summary_confirm.html", html_data = "成功")
+            
+@app.route("/r_cancel", methods=['POST'])
+def r_cancel():
+    registration_no = request.form["registration_no"]
+    activity_no = request.form["activity_no"]
+    user_id = current_user.get_id()
+    
+    postgres_delete_query = f"""DELETE FROM registration_data WHERE registration_no = {registration_no};"""
+    cursor.execute(postgres_delete_query)
+    conn.commit()
+    
+    # 取得該團的報名人數(attendee)
+    postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no}"""
+    cursor.execute(postgres_select_query)
+    attendee = int(cursor.fetchone()[0])
+    attendee -= 1
+    postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
+    cursor.execute(postgres_update_query)
+    conn.commit()
+    postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE activity_no = {activity_no} AND condition = 'closed';"""
+    cursor.execute(postgres_update_query)
+    conn.commit()
+    
+    return render_template("r_cancel.html")
 
 # 我的開團紀錄
 @app.route("/my_group", methods=['GET', 'POST'])

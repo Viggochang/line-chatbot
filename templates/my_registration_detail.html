@@ -51,15 +51,6 @@
                                           主揪姓名： {{group_data[13]}}</br></font>
               </span>
             </div>
-            
-            <div class="row"></br></div>
-
-            <div class="row"> 
-              <form action="/" method="post">
-                <input name="activity_no" type="hidden" value="{{group_data[0]}}">
-                <div class="col"><input type="submit" value="取消報名" style="width:140px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
-              </form>
-            </div>
           </div>
  
           <div class="col-3" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 20px 0px 45px">
@@ -69,10 +60,20 @@
               {% for attendee in attendee_data %}
                 <h5> {{attendee[3]}}</br></h5>
                 <span><font color="#7B7B7B" size="3"> {{attendee[4]}}</br></font></span>
+                
+                <div class="row"> 
+                  <form action="/r_cancel" method="post">
+                    <input name="registration_no" type="hidden" value="{{attendee[0]}}">
+                    <input name="activity_no" type="hidden" value="{{attendee[1]}}">
+                    <div class="col"><input type="submit" value="取消報名" style="width:140px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
+                  </form>
+                <div>
+            </div>
               {% endfor %}
             {% else %}
                <span><font color="#7B7B7B"> 目前無資料！</br></font></span>
             {% endif %}
+
           </div>
 
         </div>
