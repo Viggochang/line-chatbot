@@ -97,8 +97,6 @@ def login():
         
     else:  # request.method == 'POST'
         account = request.form["user_id"]
-        print(account, users)
-        print(request.form["password"], users[account]["password"])
         if (account in users) and (request.form["password"] == users[account]["password"]):
             user = User()
             user.id = account
