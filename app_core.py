@@ -5,6 +5,7 @@ import psycopg2
 import datetime as dt
 import tempfile
 from imgurpython import ImgurClient
+from werkzeug.utils import secure_filename
 
 from flask import Flask, request, abort, render_template, url_for, redirect, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -147,10 +148,10 @@ def group():
         
         print(f"request.form:{request.form}")
         print(f"request.files:{request.files}")
-#        photo = request.files["photo"]
-#        if photo:
-#            filename = secure_filename(photo.filename)
-#            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        photo = request.files["photo"]
+        if photo:
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 #            #把圖片存下來並傳上去
 #            file_path = f"/tmp/{photo.filename}.png"
