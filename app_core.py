@@ -144,7 +144,7 @@ def group():
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        photo = request.files['photo']
+        photo = request.files['photo'] 
         if photo:
             #把圖片存下來並傳上去
             file_path = f"/tmp/{photo.filename}.png"

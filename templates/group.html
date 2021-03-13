@@ -47,8 +47,14 @@
         </div>
       </div>
 
-      {{ easy_row("photo", "file", "活動照片") }}
-      <hr class="my-4">
+      <div class="row">
+        <label for="photo" class="col-2 offset-1 col-form-label" style="line-height:30px"><i class="far fa-dot-circle"></i> 活動照片：</label>
+        <div class="col-3">
+          <input type="file" accept=".jpg,.jpeg,.png" class="form-control" id="photo" name="photo">
+        </div>
+      </div>
+      
+<hr class="my-4">
 
       {% macro user_row(id, type, text, dafault_value, required) -%}
         <div class="row">
