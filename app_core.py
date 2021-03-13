@@ -19,7 +19,6 @@ import cancel
 from custom_models import CallDatabase
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "/tmp"
 
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
@@ -27,8 +26,6 @@ config.read('config.ini')
 
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
-
-static_tmp_path = os.path.join(os.path.abspath(__file__), 'static', 'tmp') # 存圖片用
 
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
