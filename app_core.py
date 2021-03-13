@@ -18,7 +18,7 @@ import cancel
 from custom_models import CallDatabase
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "/tmp"
+app.config['UPLOAD_FOLDER'] = "/Users/shao/chatbot/tmp"
 
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
