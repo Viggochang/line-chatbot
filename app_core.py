@@ -145,7 +145,7 @@ def group():
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        print(request.files)
+        print(f"request.files:{request.files}")
 #        photo = request.files["photo"]
 #        if photo:
 #            filename = secure_filename(photo.filename)
