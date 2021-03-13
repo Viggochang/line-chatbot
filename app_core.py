@@ -58,6 +58,12 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 login_manager.login_message = "請先登入後再使用喔！"
 
+# 獲取所有會員資訊
+postgres_select_query = f'''SELECT * FROM login;'''
+cursor.execute(postgres_select_query)
+conn.commit()
+users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+
 class User(UserMixin):
     pass
  
