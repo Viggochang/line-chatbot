@@ -61,7 +61,6 @@ postgres_select_query = f'''SELECT * FROM login;'''
 cursor.execute(postgres_select_query)
 conn.commit()
 users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
-print(f"users:{users}")
 
 class User(UserMixin):
     pass
@@ -148,10 +147,9 @@ def group():
         photo = request.files['photo']
         if photo:
             #把圖片存下來並傳上去
-            photo.save(f"/tmp/{request.form['photo']}")
-            file_path = f"/tmp/{request.form['photo']}"
+            file_path = f"/tmp/{photo.filename}.png"
             with open(file_path, "wb") as tf:
-                for chunk in message_content.iter_content():
+                for chunk in photo:
                     tf.write(chunk)
                 tempfile_path = tf.name
             
