@@ -173,7 +173,11 @@ def group():
                 image = client.upload_from_path(dist_path, config = con, anon = False)
                 os.remove(dist_path)
                 print("image = ",image)
+                print("上傳成功")
                 
+            except:
+                print("上傳失敗")
+        
         q = ["""condition = 'pending'"""]
         for g_col in request.form:
             if request.form[g_col]:
