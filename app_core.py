@@ -176,11 +176,12 @@ def group():
 
                 image = client.upload_from_path(dist_path, config = con, anon = False)
                 os.remove(dist_path)
-                print("image = ",image)
+                print("image = ", image)
                 print("上傳成功")
 
             except:
                 print("上傳失敗")
+        photo = image['link']
         
         q = ["""condition = 'pending'"""]
         for g_col in request.form:
@@ -189,6 +190,8 @@ def group():
             elif g_col == "due_date" and request.form[g_col] == "":
                 activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
                 q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
+            elif g_col == "photo":
+                q.append(f"""{g_col} = '{photo}'""")
         
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
