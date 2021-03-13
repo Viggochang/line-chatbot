@@ -18,6 +18,7 @@ import cancel
 from custom_models import CallDatabase
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "/tmp"
 
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
@@ -144,7 +145,7 @@ def group():
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        photo = request.files['photo'] 
+        photo = request.files['photo']
         if photo:
             #把圖片存下來並傳上去
             file_path = f"/tmp/{photo.filename}.png"
