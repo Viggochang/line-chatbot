@@ -157,8 +157,8 @@ def group():
                 activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
                 q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
                 
-        if "photo" in request.files:
-            photo = request.files["photo"]
+        photo = request.files["photo"]
+        if photo in request.files:
             filename = secure_filename(photo.filename)
 
             #把圖片存下來並傳上去
