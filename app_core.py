@@ -171,7 +171,7 @@ def group():
                     'album': config.get('imgur', 'album_id'),
                     'name': f'{current_user}_{filename}',
                     'title': f'{current_user}_{filename}',
-                    'description': f'current_user}_{filename}'
+                    'description': f'{current_user}_{filename}'
                 }
 
                 image = client.upload_from_path(dist_path, config = con, anon = False)
