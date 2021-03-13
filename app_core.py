@@ -153,7 +153,7 @@ def group():
             filename = secure_filename(photo.filename)
 
             #把圖片存下來並傳上去
-            file_path = f"/tmp/{filename}.png"
+            file_path = f"/tmp/{filename}"
             with open(file_path, "wb") as tf:
                 for chunk in photo:
                     tf.write(chunk)
@@ -169,9 +169,9 @@ def group():
                 client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
                 con = {
                     'album': config.get('imgur', 'album_id'),
-                    'name': f'{event.source.user_id}_{data_g[3]}',
-                    'title': f'{event.source.user_id}_{data_g[3]}',
-                    'description': f'{event.source.user_id}_{data_g[3]}'
+                    'name': f'{current_user}_{filename}',
+                    'title': f'{current_user}_{filename}',
+                    'description': f'current_user}_{filename}'
                 }
 
                 image = client.upload_from_path(dist_path, config = con, anon = False)
