@@ -147,35 +147,37 @@ def group():
         
         photo = request.files['photo']
         if photo:
-            #把圖片存下來並傳上去
-            file_path = f"/tmp/{photo.filename}.png"
-            with open(file_path, "wb") as tf:
-                for chunk in photo:
-                    tf.write(chunk)
-                tempfile_path = tf.name
-            
-            dist_path = tempfile_path
-            dist_name = os.path.basename(dist_path)
-            print(f"dist_path={dist_path}", "\n", f"dist_name={dist_name}")
-
-            try:
-                config = configparser.ConfigParser()
-                config.read('config.ini')
-                client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
-                con = {
-                    'album': config.get('imgur', 'album_id'),
-                    'name': f'{event.source.user_id}_{data_g[3]}',
-                    'title': f'{event.source.user_id}_{data_g[3]}',
-                    'description': f'{event.source.user_id}_{data_g[3]}'
-                }
-
-                image = client.upload_from_path(dist_path, config = con, anon = False)
-                os.remove(dist_path)
-                print("image = ",image)
-                print("上傳成功")
-                
-            except:
-                print("上傳失敗")
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#            #把圖片存下來並傳上去
+#            file_path = f"/tmp/{photo.filename}.png"
+#            with open(file_path, "wb") as tf:
+#                for chunk in photo:
+#                    tf.write(chunk)
+#                tempfile_path = tf.name
+#
+#            dist_path = tempfile_path
+#            dist_name = os.path.basename(dist_path)
+#            print(f"dist_path={dist_path}", "\n", f"dist_name={dist_name}")
+#
+#            try:
+#                config = configparser.ConfigParser()
+#                config.read('config.ini')
+#                client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
+#                con = {
+#                    'album': config.get('imgur', 'album_id'),
+#                    'name': f'{event.source.user_id}_{data_g[3]}',
+#                    'title': f'{event.source.user_id}_{data_g[3]}',
+#                    'description': f'{event.source.user_id}_{data_g[3]}'
+#                }
+#
+#                image = client.upload_from_path(dist_path, config = con, anon = False)
+#                os.remove(dist_path)
+#                print("image = ",image)
+#                print("上傳成功")
+#
+#            except:
+#                print("上傳失敗")
         
         q = ["""condition = 'pending'"""]
         for g_col in request.form:
