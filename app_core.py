@@ -145,10 +145,12 @@ def group():
         cursor.execute(postgres_insert_query)
         conn.commit()
         
-        photo = request.files["photo"]
-        if photo:
-            filename = secure_filename(photo.filename)
-            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print(request.files)
+#        photo = request.files["photo"]
+#        if photo:
+#            filename = secure_filename(photo.filename)
+#            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
 #            #把圖片存下來並傳上去
 #            file_path = f"/tmp/{photo.filename}.png"
 #            with open(file_path, "wb") as tf:
