@@ -158,7 +158,7 @@ def group():
                 q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
                 
         photo = request.files["photo"]
-        if photo in request.files:
+        if photo:
             filename = secure_filename(photo.filename)
 
             #把圖片存下來並傳上去
