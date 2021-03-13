@@ -186,12 +186,14 @@ def group():
         q = ["""condition = 'pending'"""]
         for g_col in request.form:
             if request.form[g_col]:
-                q.append(f"""{g_col} = '{request.form[g_col]}'""")
+                if g_col == "photo":
+                    q.append(f"""{g_col} = '{photo}'""")
+                else:
+                    q.append(f"""{g_col} = '{request.form[g_col]}'""")
             elif g_col == "due_date" and request.form[g_col] == "":
                 activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
                 q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
-            elif g_col == "photo":
-                q.append(f"""{g_col} = '{photo}'""")
+
         
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
