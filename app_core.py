@@ -140,14 +140,41 @@ def from_start():
 @login_required
 def group():
     if request.method == 'POST':
-        print(request.form)
         
         postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
         cursor.execute(postgres_insert_query)
         conn.commit()
         
+        photo = request.files['photo']
+        if photo:
+            #把圖片存下來並傳上去
+            photo.save(f"/tmp/{request.form['photo']}")
+            file_path = f"/tmp/{request.form['photo']}"
+            with open(file_path, "wb") as tf:
+                for chunk in message_content.iter_content():
+                    tf.write(chunk)
+                tempfile_path = tf.name
+            
+            dist_path = tempfile_path
+            dist_name = os.path.basename(dist_path)
+            print(f"dist_path={dist_path}", "\n", f"dist_name={dist_name}")
+
+            try:
+                config = configparser.ConfigParser()
+                config.read('config.ini')
+                client = ImgurClient(config.get('imgur', 'client_id'), config.get('imgur', 'client_secret'), config.get('imgur', 'access_token'), config.get('imgur', 'refresh_token'))
+                con = {
+                    'album': config.get('imgur', 'album_id'),
+                    'name': f'{event.source.user_id}_{data_g[3]}',
+                    'title': f'{event.source.user_id}_{data_g[3]}',
+                    'description': f'{event.source.user_id}_{data_g[3]}'
+                }
+
+                image = client.upload_from_path(dist_path, config = con, anon = False)
+                os.remove(dist_path)
+                print("image = ",image)
+                
         q = ["""condition = 'pending'"""]
-        print(request.form["activity_date"], type(request.form["activity_date"]))
         for g_col in request.form:
             if request.form[g_col]:
                 q.append(f"""{g_col} = '{request.form[g_col]}'""")
