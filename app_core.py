@@ -148,8 +148,17 @@ def group():
         
         print(f"request.form:{request.form}")
         print(f"request.files:{request.files}")
-        photo = request.files["photo"]
-        if photo:
+        
+        q = ["""condition = 'pending'"""]
+        for g_col in request.form:
+            if request.form[g_col]:
+                q.append(f"""{g_col} = '{request.form[g_col]}'""")
+            elif g_col == "due_date" and request.form[g_col] == "":
+                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
+                q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
+                
+        if "photo" in request.files:
+            photo = request.files["photo"]
             filename = secure_filename(photo.filename)
 
             #把圖片存下來並傳上去
@@ -178,22 +187,11 @@ def group():
                 os.remove(dist_path)
                 print("image = ", image)
                 print("上傳成功")
+                photo = image['link']
+                q.append(f"""photo = '{photo}'""")
 
             except:
                 print("上傳失敗")
-        photo = image['link']
-        
-        q = ["""condition = 'pending'"""]
-        for g_col in request.form:
-            if request.form[g_col]:
-                if g_col == "photo":
-                    q.append(f"""{g_col} = '{photo}'""")
-                else:
-                    q.append(f"""{g_col} = '{request.form[g_col]}'""")
-            elif g_col == "due_date" and request.form[g_col] == "":
-                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
-                q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
-
         
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
