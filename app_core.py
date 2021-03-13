@@ -33,7 +33,7 @@ static_tmp_path = os.path.join(os.path.abspath(__file__), 'static', 'tmp') # 存
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
-print("連接資料庫")
+print("網頁連接資料庫")
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
