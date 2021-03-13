@@ -127,7 +127,7 @@ def new_account():
 def home():
     return render_template("home.html")
     
-@qpp.route("/more_information")
+@app.route("/more_information")
 def more_information():
     return render_template("more_information.html")
     
