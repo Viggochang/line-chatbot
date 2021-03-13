@@ -230,7 +230,7 @@ def group_closed():
 # 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
-    condition = {"condition":["=", "pending"], "activity_date":[">", dt.date.today()]}
+    condition = {"condition":["=", "pending"], "due_date":[">=", dt.date.today()]}
     order = "activity_date"
     
     if request.method == 'POST':
