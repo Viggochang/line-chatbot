@@ -11,19 +11,17 @@
     </div>
     <div></br></div>
 
-    {% macro group_list(total_data) -%}
+{% macro group_list(total_data) -%}
       {% if total_data %}
         {% for data in total_data %}
           <div class="row">
-            <div class="col">
-              <span style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</span>
-            </div>
-            <div class="col">
-              <form action="/my_group" method="post">
-                <input name="activity_no" type="hidden" value={{data[0]}}>
-                <input type="submit" value="{{data[2]}}" style="color:#3C3C3C; background-color:#ffffff; border:none"">
-              </form>
-            </div>
+            <form action="/my_registration" method="post">
+              <input name="activity_no" type="hidden" value={{data[0]}}>
+              <h4 style="text-indent:20px; margin:8px 0px">
+                <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</a>
+                <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none"">{{data[2]}}</button>
+              </h4>
+            </form>
           </div>
         {% endfor %}
 
