@@ -16,12 +16,12 @@
         {% for data in total_data %}
           <div class="row" style="margin:8px 0px">
 
-            <div class="box-typd" style="background-color:#dfefff; font-size:16px; border:1px #dfefff solid">&ensp;{{data[1]}}&ensp;</div>
+            <div class="box-type" style="background-color:#dfefff; font-size:16px; border:1px #dfefff solid">&ensp;{{data[1]}}&ensp;</div>
             
             <div class="box-name" style="width:280px; border:1px #dfefff solid">
               <form action="/my_registration" method="post">
                 <input name="activity_no" type="hidden" value={{data[0]}}>
-                <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none; padding:0px 5px"><font size="5"><b>{{data[2]}}</b></font></button>
+                <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none; padding:0px 5px"><font size="5">{{data[2]}}</font></button>
               </form>
             </div>
 
