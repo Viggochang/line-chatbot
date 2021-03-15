@@ -14,11 +14,11 @@
     {% macro group_list(total_data) -%}
       {% if total_data %}
         {% for data in total_data %}
-          <tr height="30">
-            <td align="center" valign="center">
+          <tr>
+            <td width="85" align="center" valign="center">
               <span style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</span>
             </td>
-            <td align="center" valign="center">
+            <td width="295" align="center" valign="center">
               <form action="/my_registration" method="post">
                 <input name="activity_no" type="hidden" value={{data[0]}}>
                 <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none; padding:0px 5px"><font size="5">{{data[2]}}</font></button>
