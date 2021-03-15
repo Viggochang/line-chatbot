@@ -15,15 +15,13 @@
       {% if total_data %}
         {% for data in total_data %}
           <div class="row" style="margin:8px 0px">
-            <div class="col-4">
+            <div class="col-3">
               <a style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</a>
             </div>
-            <div class="col-8">
+            <div class="col-9">
               <form action="/my_registration" method="post">
                 <input name="activity_no" type="hidden" value={{data[0]}}>
-                <h4>
-                  <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none"">{{data[2]}}</button>
-                </h4>
+                <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none"">{{data[2]}}</button>
               </form>
             </div>
           </div>
