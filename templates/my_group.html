@@ -18,7 +18,7 @@
             <td width="85" align="center" valign="center">
               <span style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</span>
             </td>
-            <td width="295" align="center" valign="center">
+            <td width="295" align="left" valign="center">
               <form action="/my_registration" method="post">
                 <input name="activity_no" type="hidden" value={{data[0]}}>
                 <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none; padding:0px 5px"><font size="5">{{data[2]}}</font></button>
@@ -56,7 +56,9 @@
           <h3>&emsp;<i class="fas fa-list"></i> 即將來臨的活動</h3>
           <hr class="my-4">
           
-          {{ group_list(now_group_data) }}
+          <table>
+            {{ group_list(past_group_data) }}
+          </table>
 
         </div>
       </div>
