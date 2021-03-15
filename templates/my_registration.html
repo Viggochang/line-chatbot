@@ -39,44 +39,48 @@
     {% set now_registration_data, past_registration_data = html_data %}
 
     <div class="row">
+
       <div class="col-1"></div>
-      <div class="col">
+
+      <div class="col-5">
         <div class="box">
           <style>
           .box{
+             width:430px;
              border: 5px #dfefff solid;
              margin: 0px 8px;
-             padding: 25px 30px;
+             padding: 25px 20px;
              min-height: 450px
              }
           </style>
           
-          <h3><i class="fas fa-list"></i> 我報名的團</h3>
+          <h3>&ensp;<i class="fas fa-list"></i> 我報名的團</h3>
           <hr class="my-4">
 
           <table>
-            {{group_list(now_registration_data)}}
+            {{ group_list(now_registration_data) }}
           </table>
 
         </div>
       </div>
 
-      <div class="col">
+      <div class="col-5">
         <div class="box">
           <style>
           .box{
+             width:430px;
              border: 5px #dfefff solid;
              margin: 0px 8px;
-             Padding: 25px 30px;
+             padding: 25px 20px;
              min-height: 450px
              }
           </style>
 
-          <h3><i class="fas fa-list"></i> 歷史報名紀錄</h3>
+          <h3>&ensp;<i class="fas fa-list"></i> 歷史報名紀錄</h3>
           <hr class="my-4">
 
           <table>
-            {{group_list(past_registration_data)}}
+            {{ group_list(past_registration_data) }}
           </table>
 
         </div>
