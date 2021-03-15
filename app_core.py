@@ -31,6 +31,19 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 print("連接資料庫")
+    
+# 網頁登錄
+app.secret_key = config.get('flask', 'secret_key')
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+login_manager.login_message = "請先登入後再使用喔！"
+
+# 獲取所有會員資訊
+postgres_select_query = f'''SELECT * FROM login;'''
+cursor.execute(postgres_select_query)
+conn.commit()
+users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
@@ -47,23 +60,10 @@ def callback():
         abort(400)
 
     return 'OK'
-    
-# 網頁登錄
-app.secret_key = config.get('flask', 'secret_key')
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-login_manager.login_message = "請先登入後再使用喔！"
-
-# 獲取所有會員資訊
-postgres_select_query = f'''SELECT * FROM login;'''
-cursor.execute(postgres_select_query)
-conn.commit()
-users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
 
 class User(UserMixin):
     pass
- 
+    
 @login_manager.user_loader
 def user_loader(account):
     if account in users:
@@ -112,6 +112,7 @@ def logout():
     account = current_user.get_id()
     logout_user()
     flash(f"再見啦~~{account}")
+    print("登出成功")
     return redirect(url_for("login"))
     
 @app.route("/new_account", methods=['GET','POST'])
