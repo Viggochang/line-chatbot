@@ -14,18 +14,17 @@
     {% macro group_list(total_data) -%}
       {% if total_data %}
         {% for data in total_data %}
-          <div class="row" style="margin:8px 0px">
-
-            <div class="box-type" style="background-color:#dfefff; font-size:16px; border:1px #dfefff solid">&ensp;{{data[1]}}&ensp;</div>
-            
-            <div class="box-name" style="width:280px; border:1px #dfefff solid">
+          <tr height="30">
+            <td align="center" valign="center">
+              <span style="background-color:#dfefff; font-size:16px">&ensp;{{data[1]}}&ensp;</span>
+            </td>
+            <td align="center" valign="center">
               <form action="/my_registration" method="post">
                 <input name="activity_no" type="hidden" value={{data[0]}}>
                 <button type="submit" style="color:#3C3C3C; background-color:#ffffff; border:none; padding:0px 5px"><font size="5">{{data[2]}}</font></button>
               </form>
-            </div>
-
-          </div>
+            </td>
+          </tr>
         {% endfor %}
 
       {% else %}
@@ -76,8 +75,9 @@
 
           <h3>&emsp;<i class="fas fa-list"></i> 歷史開團紀錄</h3>
           <hr class="my-4">
-
-          {{ group_list(past_group_data) }}
+          <table>
+            {{ group_list(past_group_data) }}
+          </table>
 
         </div>
       </div>
