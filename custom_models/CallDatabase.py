@@ -12,7 +12,7 @@ default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot
 
 def get_data(table, condition = None, order = None, ASC = True, all_data = True):
     if condition:
-        condition_query = "WHERE " + " AND " .join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
+        condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     else:
         condition_query = ""
         
@@ -21,7 +21,7 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
     else:
         order_query = ""
         
-    postgres_select_query = f"""SELECT * FROM {table} """ + condition_query + order_query
+    postgres_select_query = f"""SELECT * FROM {table} {condition_query} {order_query}"""
     
     cursor.execute(postgres_select_query)
     conn.commit
@@ -41,7 +41,29 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
                 data[12] = default_photo
         return data
     
-
+def insert(table, columns, values):
+    columns = ",".join([f"{col}" for col in columns])
+    values = ",".join([f"'{val}'" for val in values])
+    postgres_insert_query = f"""INSERT INTO {table} ({columns}) VALUES ({values})"""
+    
+    cursor.execute(postgres_insert_query)
+    conn.commit()
+    
+def update(table, columns, values, condition)
+    columns = "(" + ",".join([f"{col}" for col in columns]) + ")"
+    values = "(" + ",".join([f"'{val}'" for val in values]) + ")"
+    condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
+    postgres_update_query = f"""UPDATE {table} SET {columns} = {values} {condition_query}"""
+    
+    cursor.execute(postgres_update_query)
+    conn.commit()
+        
+def delete(table, condition)
+    condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
+    postgres_delete_query = """DELETE FROM {table} {condition_query}"""
+    
+    cursor.execute(postgres_delete_query)
+    conn.commit()
 
 
 
