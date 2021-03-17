@@ -49,7 +49,7 @@ def insert(table, columns, values):
     cursor.execute(postgres_insert_query)
     conn.commit()
     
-def update(table, columns, values, condition)
+def update(table, columns, values, condition):
     columns = "(" + ",".join([f"{col}" for col in columns]) + ")"
     values = "(" + ",".join([f"'{val}'" for val in values]) + ")"
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
@@ -58,7 +58,7 @@ def update(table, columns, values, condition)
     cursor.execute(postgres_update_query)
     conn.commit()
         
-def delete(table, condition)
+def delete(table, condition):
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     postgres_delete_query = """DELETE FROM {table} {condition_query}"""
     
