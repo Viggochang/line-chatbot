@@ -222,7 +222,7 @@ def group():
 def group_cancel():
     print(request.form)
     
-    condition = {activity_no: ["=", request.form['activity_no_cancel']]}
+    condition = {"activity_no": ["=", request.form['activity_no_cancel']]}
     CallDatabase.delete("group_data", condition = condition)
     
     return render_template("group_cancel.html")
