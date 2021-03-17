@@ -153,6 +153,18 @@ def group():
 #        cursor.execute(postgres_insert_query)
 #        conn.commit()
         
+        columns, values = ["condition"], ["pending"]
+        for g_col in request.form:
+            if request.form[g_col]:
+                value = request.form[g_col]
+            # due_date 預設為活動前一天
+            elif g_col == "due_date" and request.form[g_col] == "":
+                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
+                value = activity_date - dt.timedelta(days=1)
+            
+            columns.append({g_col})
+            values.append({value})
+                
         photo = request.files["photo"]
         if photo:
             filename = secure_filename(photo.filename)
@@ -183,22 +195,20 @@ def group():
                 os.remove(dist_path)
                 print("上傳成功")
                 photo = image['link']
-                q.append(f"""photo = '{photo}'""")
+                
+                columns.append("photo")
+                values.append({photo})
 
             except:
                 print("上傳失敗")
-                
-        q = ["condition = 'pending'"]
-        for g_col in request.form:
-            if request.form[g_col]:
-                q.append(f"{g_col} = '{request.form[g_col]}'")
-            elif g_col == "due_date" and request.form[g_col] == "":
-                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
-                q.append(f"{g_col} = '{activity_date - dt.timedelta(days=1)}'")
-                
-        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
+       
+        condition = {"condition":["=", "initial"], "user_id":["=", current_user.get_id()]}
+        
+        CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+        
+#        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
+#        cursor.execute(postgres_update_query)
+#        conn.commit()
         
         condition = {"condition":["=", "pending"], "user_id":["=", current_user.get_id()]}
         order = "activity_no"
