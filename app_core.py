@@ -146,12 +146,12 @@ def from_start():
 def group():
     if request.method == 'POST':
         
-#        columns = ("condition", "user_id", "attendee", "photo", "description")
-#        values = ("initial", current_user.get_id(), 1, "無", "無")
-#        CallDatabase.insert("group_data", columns = columns, values = values)
-        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
-        cursor.execute(postgres_insert_query)
-        conn.commit()
+        columns = ("condition", "user_id", "attendee", "photo", "description")
+        values = ("initial", current_user.get_id(), 1, "無", "無")
+        CallDatabase.insert("group_data", columns = columns, values = values)
+#        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
+#        cursor.execute(postgres_insert_query)
+#        conn.commit()
         
         photo = request.files["photo"]
         if photo:
