@@ -146,21 +146,13 @@ def from_start():
 def group():
     if request.method == 'POST':
         
-        columns = ("condition", "user_id", "attendee", "photo", "description")
-        values = ("initial", current_user.get_id(), 1, "無", "無")
-        CallDatabase.insert("group_data", columns = columns, values = values)
-#        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
-#        cursor.execute(postgres_insert_query)
-#        conn.commit()
+#        columns = ("condition", "user_id", "attendee", "photo", "description")
+#        values = ("initial", current_user.get_id(), 1, "無", "無")
+#        CallDatabase.insert("group_data", columns = columns, values = values)
+        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
+        cursor.execute(postgres_insert_query)
+        conn.commit()
         
-        q = ["""condition = 'pending'"""]
-        for g_col in request.form:
-            if request.form[g_col]:
-                q.append(f"""{g_col} = '{request.form[g_col]}'""")
-            elif g_col == "due_date" and request.form[g_col] == "":
-                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
-                q.append(f"""{g_col} = '{activity_date - dt.timedelta(days=1)}'""")
-                
         photo = request.files["photo"]
         if photo:
             filename = secure_filename(photo.filename)
@@ -195,7 +187,15 @@ def group():
 
             except:
                 print("上傳失敗")
-        
+                
+        q = ["condition = 'pending'"]
+        for g_col in request.form:
+            if request.form[g_col]:
+                q.append(f"{g_col} = '{request.form[g_col]}'")
+            elif g_col == "due_date" and request.form[g_col] == "":
+                activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
+                q.append(f"{g_col} = '{activity_date - dt.timedelta(days=1)}'")
+                
         postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
         cursor.execute(postgres_update_query)
         conn.commit()
