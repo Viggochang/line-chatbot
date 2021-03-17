@@ -60,7 +60,7 @@ def update(table, columns, values, condition):
         
 def delete(table, condition):
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
-    postgres_delete_query = """DELETE FROM {table} {condition_query}"""
+    postgres_delete_query = f"""DELETE FROM {table} {condition_query}"""
     
     cursor.execute(postgres_delete_query)
     conn.commit()
