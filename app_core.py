@@ -203,12 +203,7 @@ def group():
                 print("上傳失敗")
        
         condition = {"condition":["=", "initial"], "user_id":["=", current_user.get_id()]}
-        
         CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
-        
-#        postgres_update_query = """UPDATE group_data SET """ + ",".join(q) + f""" WHERE condition = 'initial' AND user_id = '{current_user.get_id()}';"""
-#        cursor.execute(postgres_update_query)
-#        conn.commit()
         
         condition = {"condition":["=", "pending"], "user_id":["=", current_user.get_id()]}
         order = "activity_no"
@@ -226,10 +221,9 @@ def group():
 @app.route("/group_cancel", methods=['POST'])
 def group_cancel():
     print(request.form)
-
-    postgres_delete_query = f"""DELETE FROM group_data WHERE activity_no = {request.form['activity_no_cancel']};"""
-    cursor.execute(postgres_delete_query)
-    conn.commit()
+    
+    condition = {activity_no: ["=", request.form['activity_no_cancel']]}
+    CallDatabase.delete("group_data", condition = condition)
     
     return render_template("group_cancel.html")
     
