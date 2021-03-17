@@ -162,8 +162,8 @@ def group():
                 activity_date = dt.datetime.strptime(request.form["activity_date"], '%Y-%m-%d')
                 value = activity_date - dt.timedelta(days=1)
             
-            columns.append({g_col})
-            values.append({value})
+            columns.append(g_col)
+            values.append(value)
                 
         photo = request.files["photo"]
         if photo:
@@ -197,7 +197,7 @@ def group():
                 photo = image['link']
                 
                 columns.append("photo")
-                values.append({photo})
+                values.append(photo)
 
             except:
                 print("上傳失敗")
