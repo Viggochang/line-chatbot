@@ -320,9 +320,9 @@ def r_summary():
             return render_template("r_summary.html", html_data = data)
             
         else:
-            postgres_insert_query = f"""INSERT INTO registration_data (activity_no, activity_name, attendee_name, phone, condition, user_id, activity_date, activity_type) VALUES ({activity_no}, '{activity_name}', '{attendee_name}', '{phone}', 'closed' , '{user_id}', '{activity_date}', '{activity_type}');"""
-            cursor.execute(postgres_insert_query)
-            conn.commit()
+            columns = ["activity_no", "activity_name", "attendee_name", "phone", "condition", "user_id", "activity_date", "activity_type"]
+            values = [activity_no, activity_name, attendee_name, phone, "closed", user_id, activity_date, activity_type]
+            CallDatabase.insert("registration_data", columns = columns, values = values)
             
             # 取得該活動目前報名人數
             postgres_select_query = f"""SELECT attendee, people FROM group_data WHERE activity_no = {activity_no}"""
@@ -331,15 +331,17 @@ def r_summary():
             attendee, people = cursor.fetchone() # 目前報名人數, 報名人數上限
             
             #將更新的報名人數attendee記錄到報名表單group_data裡
-            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee+1} WHERE activity_no = {activity_no};"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
+            columns = ["attendee"]
+            values = [attendee+1]
+            condition = {"activity_no":["=", activity_no]}
+            CallDatabase.update(group_data, columns = columns, values = values, condition = condition)
 
             #檢查報名人數attendee是否達上限people
             if (attendee + 1) == people:
-                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
-                cursor.execute(postgres_update_query)
-                conn.commit()
+                columns = ["condition"]
+                values = ["closed"]
+                condition = {"activity_no":["=", activity_no]}
+                CallDatabase.update(group_data, columns = columns, values = values, condition = condition)
                 
             return render_template("r_summary_confirm.html", html_data = "成功")
             
