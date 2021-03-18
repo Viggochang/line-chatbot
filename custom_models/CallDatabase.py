@@ -3,14 +3,14 @@ import os
 import psycopg2
 import datetime as dt
 
-print("連接資料庫")
-DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = conn.cursor()
-
-default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
 
 def get_data(table, condition = None, order = None, ASC = True, all_data = True):
+    print("連接資料庫")
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+    default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+
     if condition:
         condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     else:
@@ -42,6 +42,11 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         return data
     
 def insert(table, columns, values):
+    print("連接資料庫")
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
     columns = ",".join([f"{col}" for col in columns])
     values = ",".join([f"'{val}'" for val in values])
     postgres_insert_query = f"""INSERT INTO {table} ({columns}) VALUES ({values})"""
@@ -50,6 +55,11 @@ def insert(table, columns, values):
     conn.commit()
     
 def update(table, columns, values, condition):
+    print("連接資料庫")
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
     columns = ",".join([f"{col}" for col in columns])
     values = ",".join([f"'{val}'" for val in values])
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
@@ -59,11 +69,18 @@ def update(table, columns, values, condition):
     conn.commit()
         
 def delete(table, condition):
+    print("連接資料庫")
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     postgres_delete_query = f"""DELETE FROM {table} {condition_query}"""
     
     cursor.execute(postgres_delete_query)
     conn.commit()
+
+
 
 
 
