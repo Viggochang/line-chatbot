@@ -334,14 +334,14 @@ def r_summary():
             columns = ["attendee"]
             values = [attendee+1]
             condition = {"activity_no":["=", activity_no]}
-            CallDatabase.update(group_data, columns = columns, values = values, condition = condition)
+            CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
 
             #檢查報名人數attendee是否達上限people
             if (attendee + 1) == people:
                 columns = ["condition"]
                 values = ["closed"]
                 condition = {"activity_no":["=", activity_no]}
-                CallDatabase.update(group_data, columns = columns, values = values, condition = condition)
+                CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
                 
             return render_template("r_summary_confirm.html", html_data = "成功")
             
