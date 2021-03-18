@@ -233,9 +233,10 @@ def group_closed():
     activity_name = request.form["activity_name"]
     print(activity_name)
     #提早關團 condition >> closed by owner
-    postgres_update_query = f"""UPDATE group_data SET condition = 'closed by owner' WHERE activity_no = {activity_no};"""
-    cursor.execute(postgres_update_query)
-    conn.commit()
+    CallDatabase.update("group_data", columns=["condition"], values = ["closed by owner"], condition = {"activity_no":["=", activity_no]})
+#    postgres_update_query = f"""UPDATE group_data SET condition = 'closed by owner' WHERE activity_no = {activity_no};"""
+#    cursor.execute(postgres_update_query)
+#    conn.commit()
     return render_template("group_closed.html", html_data = activity_name)
 
 # 我要報名
