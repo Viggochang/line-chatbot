@@ -40,10 +40,7 @@ login_manager.login_view = "login"
 login_manager.login_message = "請先登入後再使用喔！"
 
 # 獲取所有會員資訊
-postgres_select_query = f'''SELECT * FROM login;'''
-cursor.execute(postgres_select_query)
-conn.commit()
-users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+users = CallDatabase.get_users()
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
@@ -64,12 +61,9 @@ def callback():
 class User(UserMixin):
     pass
     
-@login_manager.user_loader
+@login_manager.user_loader # 確認是否在登入狀態
 def user_loader(account):
-    postgres_select_query = f'''SELECT * FROM login;'''
-    cursor.execute(postgres_select_query)
-    conn.commit()
-    users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+    users = CallDatabase.get_users()
     print(users)
     
     if account in users:
@@ -79,10 +73,7 @@ def user_loader(account):
   
 @login_manager.request_loader
 def request_loader(request):
-    postgres_select_query = f'''SELECT * FROM login;'''
-    cursor.execute(postgres_select_query)
-    conn.commit()
-    users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+    users = CallDatabase.get_users()
     print(users)
     
     account = request.form.get("user_id")
@@ -96,10 +87,7 @@ def request_loader(request):
 @app.route("/login", methods=['GET','POST'])
 def login():
     # 獲取所有會員資訊
-    postgres_select_query = f'''SELECT * FROM login;'''
-    cursor.execute(postgres_select_query)
-    conn.commit()
-    users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+    users = CallDatabase.get_users()
     
     if request.method == 'GET':
         return render_template("login.html")
@@ -158,6 +146,7 @@ def from_start():
 @login_required
 def group():
     if request.method == 'POST':
+        users = CallDatabase.get_users()
         
         columns = ("condition", "user_id", "attendee", "photo", "description")
         values = ("initial", current_user.get_id(), 1, "無", "無")
@@ -282,6 +271,8 @@ def r_detail(): # 詳細資料
 @app.route("/r_summary", methods=['POST'])
 @login_required
 def r_summary():
+    users = CallDatabase.get_users()
+    
     print(request.form)
     user_name = users[current_user.id]['user_name']
     user_phone = users[current_user.id]['user_phone']

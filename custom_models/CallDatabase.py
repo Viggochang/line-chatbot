@@ -84,6 +84,19 @@ def delete(table, condition):
     cursor.execute(postgres_delete_query)
     conn.commit()
 
+def get_users():
+    print("連接資料庫")
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
+    postgres_select_query = f'''SELECT * FROM login;'''
+    cursor.execute(postgres_select_query)
+    conn.commit()
+    users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
+    return users
+
+
 
 
 
