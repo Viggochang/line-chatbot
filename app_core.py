@@ -66,7 +66,12 @@ class User(UserMixin):
     
 @login_manager.user_loader
 def user_loader(account):
+    postgres_select_query = f'''SELECT * FROM login;'''
+    cursor.execute(postgres_select_query)
+    conn.commit()
+    users = {data[1]:{'password':data[2], 'user_name':data[3], 'user_phone':data[4]} for data in cursor.fetchall()}
     print(users)
+    
     if account in users:
         user = User()
         user.id = account
