@@ -64,7 +64,7 @@ class User(UserMixin):
 @login_manager.user_loader # 確認是否在登入狀態
 def user_loader(account):
     users = CallDatabase.get_users()
-    print(users)
+    print(f"user_loader: {users}")
     
     if account in users:
         user = User()
@@ -74,7 +74,7 @@ def user_loader(account):
 @login_manager.request_loader
 def request_loader(request):
     users = CallDatabase.get_users()
-    print(users)
+    print(f"request_loader: {users}")
     
     account = request.form.get("user_id")
     if account in users:
@@ -145,8 +145,10 @@ def from_start():
 @app.route("/group", methods=['GET', 'POST'])
 @login_required
 def group():
+    users = CallDatabase.get_users()
+    print(f"group: {users}")
     if request.method == 'POST':
-        users = CallDatabase.get_users()
+        
         
         columns = ("condition", "user_id", "attendee", "photo", "description")
         values = ("initial", current_user.get_id(), 1, "無", "無")
@@ -272,6 +274,7 @@ def r_detail(): # 詳細資料
 @login_required
 def r_summary():
     users = CallDatabase.get_users()
+    print(f"registration: {users}")
     
     print(request.form)
     user_name = users[current_user.id]['user_name']
