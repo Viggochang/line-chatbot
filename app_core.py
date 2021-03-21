@@ -363,8 +363,8 @@ def r_cancel():
     
     condition_1 = {"activity_no":["=", activity_no]}
     condition_2 = {"activity_no":["=", activity_no], "condition":["=", "closed"]}
-    CallDatabase.update("group_data", columns = "attendee", values = attendee, condition =condition_1)
-    CallDatabase.update("group_data", columns = "condition", values = "pending", condition = condition_2)
+    CallDatabase.update("group_data", columns = ["attendee"], values = [attendee], condition =condition_1)
+    CallDatabase.update("group_data", columns = ["condition"], values = ["pending"], condition = condition_2)
     
 #    postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
 #    cursor.execute(postgres_update_query)
