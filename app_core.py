@@ -66,6 +66,7 @@ class User(UserMixin):
     
 @login_manager.user_loader
 def user_loader(account):
+    print(users)
     if account in users:
         user = User()
         user.id = account
@@ -74,6 +75,7 @@ def user_loader(account):
 @login_manager.request_loader
 def request_loader(request):
     account = request.form.get("user_id")
+    print(users)
     if account in users:
         user = User()
         user.id = account
@@ -150,9 +152,6 @@ def group():
         columns = ("condition", "user_id", "attendee", "photo", "description")
         values = ("initial", current_user.get_id(), 1, "無", "無")
         CallDatabase.insert("group_data", columns = columns, values = values)
-#        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, attendee, photo, description) VALUES ('initial', '{current_user.get_id()}', 1, '無', '無');"""
-#        cursor.execute(postgres_insert_query)
-#        conn.commit()
         
         columns, values = ["condition"], ["pending"]
         for g_col in request.form:
@@ -209,7 +208,6 @@ def group():
         condition = {"condition":["=", "pending"], "user_id":["=", current_user.get_id()]}
         order = "activity_no"
         data_g = CallDatabase.get_data("group_data", condition, order, ASC = False, all_data = False)
-        #data_g = CallDatabase.g_summary(current_user.get_id())
         print(data_g)
         
         return render_template("group_summary.html", html_data = data_g)
@@ -235,9 +233,7 @@ def group_closed():
     print(activity_name)
     #提早關團 condition >> closed by owner
     CallDatabase.update("group_data", columns=["condition"], values = ["closed by owner"], condition = {"activity_no":["=", activity_no]})
-#    postgres_update_query = f"""UPDATE group_data SET condition = 'closed by owner' WHERE activity_no = {activity_no};"""
-#    cursor.execute(postgres_update_query)
-#    conn.commit()
+    
     return render_template("group_closed.html", html_data = activity_name)
 
 # 我要報名
@@ -257,13 +253,11 @@ def registration():
             
         filter_data = CallDatabase.get_data("group_data", condition, order, ASC = True, all_data = True)
         filter_data = [filter_data[i: i+4] for i in range(len(filter_data)) if i%4 == 0]
-        #filter_data = CallDatabase.filter_group(request.form)
         return render_template("registration.html", html_data = filter_data)
         
     else:
         all_groupdata = CallDatabase.get_data("group_data", condition, order, ASC = True, all_data = True)
         all_groupdata = [all_groupdata[i: i+4] for i in range(len(all_groupdata)) if i%4 == 0]
-        #all_groupdata = CallDatabase.get_all_data()
         return render_template("registration.html", html_data = all_groupdata)
         
 @app.route("/r_detail", methods=['POST'])
@@ -284,12 +278,10 @@ def r_summary():
     
     activity_no = request.form["activity_no"]
     condition = {"activity_no": ["=", activity_no]}
-    
     data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     data += [user_name, user_phone]
     
     if len(request.form) == 1: # 按下我要報名
-
         return render_template("r_summary.html", html_data = data)
         
     else: # 按下確認報名
