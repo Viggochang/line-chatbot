@@ -122,9 +122,10 @@ def new_account():
     else:
         user_name, user_phone, user_id, password = request.form["user_name"], request.form["user_phone"], request.form["user_id"], request.form["password"]
         
-        postgres_insert_query = f"""INSERT INTO login (user_id, password, user_name, user_phone) VALUES ('{user_id}', '{password}', '{user_name}', '{user_phone}');"""
-        cursor.execute(postgres_insert_query)
-        conn.commit()
+        columns = ("user_id", "password", "user_name", "user_phone")
+        values = (user_id, password, user_name, user_phone)
+        CallDatabase.insert("login", columns = columns, values = values)
+        
         return render_template("login.html")
             
 # flask 網頁
@@ -365,13 +366,6 @@ def r_cancel():
     condition_2 = {"activity_no":["=", activity_no], "condition":["=", "closed"]}
     CallDatabase.update("group_data", columns = ["attendee"], values = [attendee], condition =condition_1)
     CallDatabase.update("group_data", columns = ["condition"], values = ["pending"], condition = condition_2)
-    
-#    postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
-#    cursor.execute(postgres_update_query)
-#    conn.commit()
-#    postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE activity_no = {activity_no} AND condition = 'closed';"""
-#    cursor.execute(postgres_update_query)
-#    conn.commit()
     
     return render_template("r_cancel.html")
 
