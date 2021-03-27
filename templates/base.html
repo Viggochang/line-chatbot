@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- 提供 icon 檔案 -->
-  <link rel="icon" href="{{ url_for('static', filename='img/logo.jpg') }}">
+  <!-- 提供 ico 檔案 -->
+  <link rel="icon" href="{{ url_for('static', filename='img/alpaca_logo.ico') }}">
 
   <!-- 引入 cdn CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -25,55 +25,43 @@
 
 <body>
   <nav class="navbar navbar-expand navbar-dark bg-dirty-purple">
-    <a class="navbar-brand" href="/" style="color:#3C3C3C; font-weight:bold">邊緣人揪團去</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <a class="navbar-brand" href="/">賴田捕手</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/group" style="color:#FFFFFF">我要開團</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/registration" style="color:#FFFFFF">我要報名</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/my_group" style="color:#FFFFFF">我的開團紀錄</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/my_registration" style="color:#FFFFFF">我的報名紀錄</a>
-        </li>
-
-        <!--
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Flask</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">基本架構</a>
-            <a class="dropdown-item" href="#">網頁設計</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">接下來的</a>
-          </div>
-        </li>
-        -->
-
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">測試中</a>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          {% if current_user.is_authenticated %}
-            <a class="nav-link" href="/logout" style="color:#3D7878">登出</a>
-          {% else %}
-            <a class="nav-link" href="/login" style="color:#3D7878">登入</a>
-          {% endif %}
-        </li>
-      </ul>
-    </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/from_start">從頭開始</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">LINE-Bot-Sdk</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Heroku Postgres</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Flask
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">基本架構</a>
+          <a class="dropdown-item" href="#">網頁設計</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">接下來的</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">施工中</a>
+      </li>
+    </ul>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="#">請靠右走</a>
+      </li>
+  </ul>
+  </div>
   </nav>
 
   <main>
@@ -84,19 +72,15 @@
   <div class="container-fluid">
     <div class="row">
     <div class="col">
-      <ul class="list-group list-group-horizontal">
-        <li class="list-group-item bg-light border-light"><a href="https://www.ccclub.io/">ccClub2020Spring</a></li>
-        <li class="list-group-item bg-light border-light"><a href="#">Github</a></li>
+  <ul class="list-group list-group-horizontal">
+  <li class="list-group-item bg-light border-light"><a href="https://ithelp.ithome.com.tw/users/20120178/ironman/2654">iT邦幫忙鐵人賽</a></li>
+    <li class="list-group-item bg-light border-light"><a href="https://github.com/githubmhjao">Github</a></li>
       </ul></div>
-
-    <!--
-    <div class="col">
+      <div class="col">
       <ul class="list-group list-group-horizontal">
         <li class="list-group-item bg-light border-light">當前網站採用 Bootstrap v4.3.1 版本, <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank" rel="license noopener">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="license noopener">CC BY 3.0</a>.</li>
       </ul>
-    </div>
-    -->
-
+      </div>
   </div>
 </footer>
 
