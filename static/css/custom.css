@@ -2,13 +2,13 @@
 
 .btn-dirty-purple 
 { 
-  color: #009393;
+  color: #A6A600;
   background-color: #A6A600;
 }
 
 .btn-dirty-purple:hover 
 {
-  color: #D2BFE0;
+  color: #A6A600;
   text-decoration: none;
 }
 
