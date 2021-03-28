@@ -1,14 +1,14 @@
-.bg-dirty-purple {background-color: #336666;}
+.bg-color {background-color: #336666;}
 
-.btn-dirty-purple 
+.btn-color
 { 
-  color: #FFFFFF;
-  background-color: #5CADAD;
+  color: #B3D9D9;
+  background-color: #336666;
 }
 
-.btn-dirty-purple:hover 
+.btn-color:hover 
 {
-  color: #D2BFE0;
+  color: #FFFFFF;
   text-decoration: none;
 }
 
