@@ -476,7 +476,7 @@ def app_core(event):
                 try:
                     #輸入資料
                     condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
-                    CallDatabase.update("group_data", columns = [column_all[i]], values = [record] condition = condition)
+                    CallDatabase.update("group_data", columns = [column_all[i]], values = [record], condition = condition)
                     
                 except:
                     line_bot_api.reply_message(
@@ -523,6 +523,8 @@ def app_core(event):
 
                 postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                 cursor.execute(postgres_select_query)
+                
+                condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
                 activity_no = cursor.fetchone()[0] #取得正在報名的活動編號
 
                 postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{activity_no}';"""
