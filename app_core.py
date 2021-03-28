@@ -447,19 +447,17 @@ def app_core(event):
 
     # 開始回答問題流程
     else:
-        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        data_g = cursor.fetchone()
+        condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+        
+        data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
         print(f"data_g:{data_g}")
         column_all = ['acrivity_no', 'activity_type', 'activity_name',
                       'activity_date', 'activity_time', 'location_tittle', 'lat', 'long', 'people', 'cost',
                       'due_date', 'description', 'photo', 'name',
                       'phone', 'mail', 'attendee', 'condition', 'user_id']
     
-        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
         #準備寫入報名資料的那一列
-        data_r = cursor.fetchone()
+        data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
         print(f"data_r:{data_r}")
         column_all_registration = ['registration_no', 'activity_no',
                                    'activity_name', 'attendee_name', 'phone',
@@ -477,9 +475,8 @@ def app_core(event):
                 #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
                 try:
                     #輸入資料
-                    postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                    cursor.execute(postgres_update_query)
-                    conn.commit()
+                    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+                    CallDatabase.update("group_data", columns = [column_all[i]], values = [record] condition = condition)
                     
                 except:
                     line_bot_api.reply_message(
@@ -488,9 +485,8 @@ def app_core(event):
                     )
                 
                 #如果還沒輸入到最後一格, 則繼續詢問下一題
-                postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_select_query)
-                data_g = cursor.fetchone()
+                condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+                data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
                 print(f"輸入資料後 data_g:{data_g}")
                 
                 if data_g[14]:
