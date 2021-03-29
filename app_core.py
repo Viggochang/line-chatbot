@@ -457,10 +457,6 @@ def app_core(event):
                       'phone', 'mail', 'attendee', 'condition', 'user_id']
     
         #準備寫入報名資料的那一列
-#        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-#        cursor.execute(postgres_select_query)
-#        #準備寫入報名資料的那一列
-#        data_r = cursor.fetchone()
         data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
         print(f"data_r:{data_r}")
         column_all_registration = ['registration_no', 'activity_no',
@@ -524,19 +520,17 @@ def app_core(event):
                    
                 i_r = data_r.index(None)
                 record = event.message.text
-
-                postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_select_query)
-                
+#
+#                postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#                cursor.execute(postgres_select_query)
                 condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
-                activity_no = cursor.fetchone()[0] #取得正在報名的活動編號
+                activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0] #取得正在報名的活動編號
 
-                postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{activity_no}';"""
-                cursor.execute(postgres_select_query)
-                phone_registration = cursor.fetchall() #取得報名該團的電話列表
+                data = CallDatabase.get_data("registration_data", condition = {"activity_no": ["=", activity_no]}, all_data = True)
+                phone_registration = [row[0] for row in data] #取得報名該團的電話列表
                         
                     #當進行到輸入電話時(i_r==4)，開始檢驗是否重複
-                if i_r == 4 and record in phone_registration[0]:
+                if i_r == 4 and record in phone_registration:
                     #如果使用者輸入的電話重複則報名失敗，刪掉原本創建的列
                     postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
                     cursor.execute(postgres_delete_query)
