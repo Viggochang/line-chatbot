@@ -28,7 +28,7 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
     
     if all_data:
         data = [list(row) for row in cursor.fetchall()]
-        if table == "group_data":
+        if data and table == "group_data":
             for row in data:
                 if "https://i.imgur.com/" not in row[12]:
                     row[12] = default_photo
@@ -36,10 +36,8 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         
     else:
         data = cursor.fetchone()
-        if data:
+        if data and table == "group_data":
             data = list(data)
-            
-        if table == "group_data":
             if "https://i.imgur.com/" not in data[12]:
                 data[12] = default_photo
         return data
