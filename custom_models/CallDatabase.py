@@ -27,15 +27,18 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
     conn.commit
     
     if all_data:
-        all_data = [list(row) for row in cursor.fetchall()]
+        data = [list(row) for row in cursor.fetchall()]
         if table == "group_data":
-            for row in all_data:
+            for row in data:
                 if "https://i.imgur.com/" not in row[12]:
                     row[12] = default_photo
-        return all_data
+        return data
         
     else:
-        data = list(cursor.fetchone())
+        data = cursor.fetchone()
+        if data:
+            data = list(data)
+            
         if table == "group_data":
             if "https://i.imgur.com/" not in data[12]:
                 data[12] = default_photo
