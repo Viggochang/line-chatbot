@@ -468,10 +468,13 @@ def phone(progress):
 
 
 def summary(data):
-    if data[12] == '無':
+    default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
+    if data[12] == default_photo:
+        your_photo = "無"
         act = None
         col = "#141414"
     else:
+        your_photo = "點我查看圖片"
         act = URIAction(uri = f"{data[12]}")
         col = "#229C8F"
         
@@ -745,11 +748,11 @@ def summary(data):
                         layout = "horizontal",
                         contents = [
                             TextComponent(
-                                text = f"活動照片：{data[12]}",
+                                text = f"活動照片：{your_photo}",
                                 size = "md",
                                 flex = 10,
                                 align = "start",
-                                action= act,
+                                action = act,
                                 wrap = True,
                                 color = f"{col}"
                             ),
