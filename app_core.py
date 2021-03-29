@@ -457,11 +457,11 @@ def app_core(event):
                       'phone', 'mail', 'attendee', 'condition', 'user_id']
     
         #準備寫入報名資料的那一列
-        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        #準備寫入報名資料的那一列
-        data_r = cursor.fetchone()
-        #data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
+#        postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#        cursor.execute(postgres_select_query)
+#        #準備寫入報名資料的那一列
+#        data_r = cursor.fetchone()
+        data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
         print(f"data_r:{data_r}")
         column_all_registration = ['registration_no', 'activity_no',
                                    'activity_name', 'attendee_name', 'phone',
