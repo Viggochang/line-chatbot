@@ -637,7 +637,7 @@ def gathering(event):
         
         #撈主揪的資料
         condition = {"user_id": ["=", event.source.user_id], "condition": ["!=", "initial"]}
-        data_for_basicinfo = CallDatabase.get_data("group_data", condition = condition, order = activity_no, ASC = False, all_data = False)
+        data_for_basicinfo = CallDatabase.get_data("group_data", condition = condition, order = "activity_no", ASC = False, all_data = False)
         
 #        postgres_select_query = f'''SELECT name,phone FROM group_data WHERE user_id='{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
 #        cursor.execute(postgres_select_query)
