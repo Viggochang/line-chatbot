@@ -631,28 +631,15 @@ def gathering(event):
         values = ["initial", event.source.user_id, type, 1, "無", "無"]
         CallDatabase.insert("group_data", columns = columns, values = values)
             
-#        postgres_insert_query = f"""INSERT INTO group_data (condition, user_id, activity_type, attendee, photo, description) VALUES ('initial', '{event.source.user_id}', '{type}', '1', '無', '無');"""
-#        cursor.execute(postgres_insert_query)
-#        conn.commit()
-        
         #撈主揪的資料
         condition = {"user_id": ["=", event.source.user_id], "condition": ["!=", "initial"]}
         data_for_basicinfo = CallDatabase.get_data("group_data", condition = condition, order = "activity_no", ASC = False, all_data = False)
-        
-#        postgres_select_query = f'''SELECT name,phone FROM group_data WHERE user_id='{event.source.user_id}' AND condition != 'initial' ORDER BY activity_no DESC;'''
-#        cursor.execute(postgres_select_query)
-#        data_for_basicinfo = cursor.fetchone()
 
         if data_for_basicinfo:
             columns = ["name", "phone"]
             values = [data_for_basicinfo[13], data_for_basicinfo[14]]
             condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
             CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
-        
-#            postgres_update_query = f"""UPDATE group_data SET name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-#            cursor.execute(postgres_update_query)
-#            conn.commit()
-#            progress_target = progress_list_halfgroupdata
 
         cursor.close()
         conn.close()
