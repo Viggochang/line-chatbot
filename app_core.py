@@ -524,7 +524,7 @@ def app_core(event):
 #                postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
 #                cursor.execute(postgres_select_query)
                 condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
-                activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0] #取得正在報名的活動編號
+                activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[1] #取得正在報名的活動編號
 
                 data = CallDatabase.get_data("registration_data", condition = {"activity_no": ["=", activity_no]}, all_data = True)
                 print(f"data:{data}")
