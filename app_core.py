@@ -528,7 +528,7 @@ def app_core(event):
 
                 data = CallDatabase.get_data("registration_data", condition = {"activity_no": ["=", activity_no]}, all_data = True)
                 phone_registration = [row[0] for row in data] #取得報名該團的電話列表
-                print(phone_registration)
+                print(phone_registration, i_r, record)
                         
                     #當進行到輸入電話時(i_r==4)，開始檢驗是否重複
                 if i_r == 4 and record in phone_registration:
