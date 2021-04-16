@@ -525,9 +525,9 @@ def app_core(event):
 #                cursor.execute(postgres_select_query)
                 condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
                 activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0] #取得正在報名的活動編號
-                print(f"activity_no:{activity_no}")
 
                 data = CallDatabase.get_data("registration_data", condition = {"activity_no": ["=", activity_no]}, all_data = True)
+                print(f"data:{data}")
                 phone_registration = [row[0] for row in data] #取得報名該團的電話列表
                 print(phone_registration, i_r, record)
                         
