@@ -1105,6 +1105,7 @@ def gathering(event):
         #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
         cursor.execute(postgres_select_query)
         data_g = cursor.fetchone()
+        print(data_g)
         
         if data_g[14]:
             progress_target = progress_list_halfgroupdata
