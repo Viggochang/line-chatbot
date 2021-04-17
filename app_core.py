@@ -1087,24 +1087,21 @@ def gathering(event):
             record = event.postback.params['datetime']
             record = record.split("T")
             print(record)
-            temp = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1) #due_date
+            due_default = dt.datetime.strptime(record[0], "%Y-%m-%d") - dt.timedelta(days=1) #due_date
             # 寫入資料(更新活動日期、時間，預填截止時間）
-            postgres_update_query = f"""UPDATE group_data SET ({column_all[i]},{column_all[i+1]},{column_all[i+7]} ) = ('{record[0]}','{record[1]}','{temp}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
+            condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+            CallDatabase.update("group_data", columns = ["activity_date", "activity_time", "due_date"], values = [record[0], record[1], due_default], condition = condition)
 
             #處理due date
         elif event.postback.data == "due_time":
 
             record = event.postback.params['date']
             # 寫入資料(更新截止時間)
-            postgres_update_query = f"""UPDATE group_data SET {column_all[i]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
+            condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+            CallDatabase.update("group_data", columns = ["due_date"], values = [record], condition = condition)
 
-        postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        data_g = cursor.fetchone()
+        condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+        data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
         print(data_g)
         
         if data_g[14]:
@@ -1135,9 +1132,9 @@ def gathering(event):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_select_query)
-    data_g = cursor.fetchone()
+    
+    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+    data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     
     i = data_g.index(None)
     print("i =",i)
@@ -1146,13 +1143,11 @@ def gathering(event):
     if record[0] == None:
         record[0] = event.message.address[:50]
     # 寫入資料(更新位置資訊)
-    postgres_update_query = f"""UPDATE group_data SET (location_tittle, lat, long) = ('{record[0]}', '{record[1]}', '{record[2]}') WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_update_query)
-    conn.commit()
+    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+    CallDatabase.update("group_data", columns = ["location_tittle", "lat", "long"], values = [record[0], record[1], record[2]], condition = condition)
     
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_select_query)
-    data_g = cursor.fetchone()
+    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+    data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     print(data_g)
     
     if data_g[14]:
