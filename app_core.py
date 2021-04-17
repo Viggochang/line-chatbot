@@ -637,7 +637,7 @@ def gathering(event):
             CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
             progress_target = progress_list_halfgroupdata
         
-        msg = flexmsg_g.flex(2, data = None, progress=progress_target)
+        msg = flexmsg_g.flex(2, data = None, progress = progress_target)
         line_bot_api.reply_message(
             event.reply_token,
             msg
