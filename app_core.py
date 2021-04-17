@@ -467,48 +467,42 @@ def app_core(event):
 ## 我要開團
 ## ================
         if data_g:
-            progress_target = progress_list_fullgroupdata
             i = data_g.index(None) # 寫入資料的那一格
-            
-            if None in data_g:
-                record = event.message.text
-                #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
-                try:
-                    #輸入資料
-                    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
-                    CallDatabase.update("group_data", columns = [column_all[i]], values = [record], condition = condition)
-                    
-                except:
-                    line_bot_api.reply_message(
-                        event.reply_token,
-                        TextSendMessage(text = "請重新輸入")
-                    )
-                
-                #如果還沒輸入到最後一格, 則繼續詢問下一題
+            record = event.message.text
+            #如果使用者輸入的資料不符合資料庫的資料型態, 則回覆 請重新輸入
+            try:
+                #輸入資料
                 condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
-                data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
-                print(f"輸入資料後 data_g:{data_g}")
+                CallDatabase.update("group_data", columns = [column_all[i]], values = [record], condition = condition)
                 
-                if data_g[14]:
-                    progress_target = progress_list_halfgroupdata
+            except:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text = "請重新輸入")
+                )
+            
+            #如果還沒輸入到最後一格, 則繼續詢問下一題
+            condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+            data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+            print(f"輸入資料後 data_g:{data_g}")
+        
+            progress_target = progress_list_halfgroupdata if data_g[14] else progress_list_fullgroupdata
 
-                if None in data_g: # 問下一題
-                    i = data_g.index(None)
-                    print(f"i={i}")
-                                    
-                    msg = flexmsg_g.flex(i, data_g, progress_target)
-                    line_bot_api.reply_message(
-                        event.reply_token,
-                        msg)
-                    print("問下一題")
-                        
-                elif None not in data_g: # summary
-
-                    msg = flexmsg_g.summary(data_g)
-                    line_bot_api.reply_message(
-                        event.reply_token,
-                        msg
-                    )
+            if None in data_g: # 問下一題
+                i = data_g.index(None)
+                                
+                msg = flexmsg_g.flex(i, data_g, progress_target)
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    msg)
+                print("問下一題")
+                    
+            else: # summary
+                msg = flexmsg_g.summary(data_g)
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    msg
+                )
                         
 
 ## ================
@@ -641,9 +635,7 @@ def gathering(event):
             values = [data_for_basicinfo[13], data_for_basicinfo[14]]
             condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
             CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
-
-        cursor.close()
-        conn.close()
+            progress_target = progress_list_halfgroupdata
         
         msg = flexmsg_g.flex(2, data = None, progress=progress_target)
         line_bot_api.reply_message(
