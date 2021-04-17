@@ -1121,7 +1121,7 @@ def gathering(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 msg)
-                
+                    
         cursor.close()
         conn.close()
                 
@@ -1150,8 +1150,10 @@ def gathering(event):
     cursor.execute(postgres_update_query)
     conn.commit()
     
+    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
     cursor.execute(postgres_select_query)
     data_g = cursor.fetchone()
+    print(data_g)
     
     if data_g[14]:
         progress_target = progress_list_halfgroupdata
@@ -1163,6 +1165,7 @@ def gathering(event):
             event.reply_token,
             msg)
     elif None not in data_g:
+        print(event.reply_token)
         msg = flexmsg_g.summary(data_g)
         line_bot_api.reply_message(
             event.reply_token,
