@@ -1165,8 +1165,8 @@ def gathering(event):
             event.reply_token,
             msg)
     elif None not in data_g:
-        print(event.reply_token)
         msg = flexmsg_g.summary(data_g)
+        print(msg)
         line_bot_api.reply_message(
             event.reply_token,
             msg
