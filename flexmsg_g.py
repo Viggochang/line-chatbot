@@ -469,7 +469,7 @@ def phone(progress):
 
 def summary(data):
     default_photo = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg"
-    if data[12] == default_photo:
+    if data[12] == "無":
         your_photo = "無"
         act = None
         col = "#141414"

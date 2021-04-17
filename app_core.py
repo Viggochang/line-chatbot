@@ -502,7 +502,7 @@ def app_core(event):
                         msg)
                     print("問下一題")
                         
-                elif None not in data_g: # summarys
+                elif None not in data_g: # summary
 
                     msg = flexmsg_g.summary(data_g)
                     line_bot_api.reply_message(
