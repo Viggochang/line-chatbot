@@ -62,7 +62,7 @@ def update(table, columns, values, condition):
     cursor = conn.cursor()
 
     columns = ",".join([f"{col}" for col in columns])
-    values = ",".join([f"'{val}'" for val in values])
+    values = ",".join([f"'{val}'" for val in values]) if values != ["Null"] else "Null"
     condition_query = " WHERE " + " AND ".join([f"{key} {condition[key][0]} '{condition[key][1]}'" for key in condition.keys()])
     
     if "," not in columns and "," not in values:
