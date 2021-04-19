@@ -680,10 +680,13 @@ def gathering(event):
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
         type = postback_data.split("_")[1]
-
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
-        cursor.execute(postgres_select_query)
-        data_carousel = cursor.fetchall()
+        
+        condition = {"activity_date": [">=", dt.date.today()], "activity_type": ["=", type], "people":[">", "attendee"], "condition":["=", "pending"]}
+        data_carousel = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
+        
+#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+#        cursor.execute(postgres_select_query)
+#        data_carousel = cursor.fetchall()
 
         msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
@@ -694,9 +697,12 @@ def gathering(event):
     elif "詳細資訊" in postback_data :
         record = postback_data.split("_")
         
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
-        cursor.execute(postgres_select_query)
-        data_tmp = cursor.fetchone()
+        condition = {activity_no:["=", "record[0]"]}
+        data_tmp = CallDatabase.get_data(group_data, condition = condition, all_data = False)
+        
+#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
+#        cursor.execute(postgres_select_query)
+#        data_tmp = cursor.fetchone()
         msg = flexmsg_r.MoreInfoSummary(data_tmp)
 
         line_bot_api.reply_message(
@@ -706,44 +712,63 @@ def gathering(event):
 
     elif "立即報名" in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
         record = postback_data.split("_")
-        #record[0]:立即報名 record[1]：活動代號 record[2]:活動名稱
 
         #把只創建卻沒有寫入資料的列刪除
         cancel.reset(cursor, conn, event)
 
         #創建一列
-        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_type, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}', '{record[4]}');"""
-        cursor.execute(postgres_insert_query)
-        conn.commit()
+        columns = ["condition", "user_id", "activity_no", "activity_type", "activity_name", "activity_date"]
+        values = ["initial", event.source.user_id, record[1], record[2], record[3], record[4]]
+        CallDatabase.insert(registration_data, columns = columns, values = values)
+        
+#        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_type, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}', '{record[4]}');"""
+#        cursor.execute(postgres_insert_query)
+#        conn.commit()
 
         #撈報團者的資料
-        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY registration_no DESC;'''
-        cursor.execute(postgres_select_query)
-        data_for_basicinfo = cursor.fetchone()
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        data_for_basicinfo = CallDatabase.get_data("registration_data", condition = condition, order = "registration_no", ASC = False, all_data = False)
+        
+        
+#        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY registration_no DESC;'''
+#        cursor.execute(postgres_select_query)
+#        data_for_basicinfo = cursor.fetchone()
         print("data_for_basicinfo = ", data_for_basicinfo)
 
         #審核電話
-        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
-        cursor.execute(postgres_select_query)
-        phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
+        condition = {"activity_no": ["=": record[1]]}
+        phone_registration = [data[4] for data in CallDatabase.get_data(condition = condition) if data[4] != None]
+        
+#        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
+#        cursor.execute(postgres_select_query)
+#        phone_registration = [data[0] for data in cursor.fetchall() if data[0] != None]
 
         print(f"phone_registration:{phone_registration}")
         
         if data_for_basicinfo:
-            name = data_for_basicinfo[0]
-            phone = data_for_basicinfo[1]
+            name = data_for_basicinfo[3]
+            phone = data_for_basicinfo[4]
         else:
             name, phone = None, None
         
         if name != None and phone != None and phone not in phone_registration:
             # 已有報名紀錄則直接帶入先前資料
-            postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
-            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_select_query)
+            columns = ["attendee_name", "phone"]
+            values = [name, phone]
+            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+            CallDatabase.update(registration_data, columns = columns, values = values, condition = condition)
             
-            data_r = cursor.fetchone()
+            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+            data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
+            
+#            postgres_update_query = f"""UPDATE registration_data SET attendee_name='{data_for_basicinfo[0]}' , phone='{data_for_basicinfo[1]}' WHERE (condition, user_id) = ('initial', '{event.source.user_id}');"""
+#            cursor.execute(postgres_update_query)
+#            conn.commit()
+
+#            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#            cursor.execute(postgres_select_query)
+#            data_r = cursor.fetchone()
+            
             msg = flexmsg_r.summary_for_attend(data_r)
             line_bot_api.reply_message(
                 event.reply_token,
@@ -752,10 +777,13 @@ def gathering(event):
     
         else:
             # 重新填寫報名資料
-            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_select_query)
+            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+            data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
             
-            data_r = cursor.fetchone()
+#            postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#            cursor.execute(postgres_select_query)
+#            data_r = cursor.fetchone()
+            
             i_r = data_r.index(None)
             print(f"count none in data_r = {data_r.count(None)}")
             print(f"i_r = {i_r}")
@@ -768,30 +796,39 @@ def gathering(event):
             
     elif "修改報名" in postback_data:
         column = postback_data.split("_", 1)[1]  # attendee_name 或 phone
-
-        postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
+        
+        columns = [column]
+        values = ["Null"]
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
+        
+#        postgres_update_query = f"""UPDATE registration_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#        cursor.execute(postgres_update_query)
+#        conn.commit()
         
         msg = flexmsg_r.flex(column, [2, 0, 0, 0, 0, 0, 1, 1])
         line_bot_api.reply_message(
             event.reply_token,
             msg
         )
-
         
     elif "確認報名" in postback_data:
         #找到他報的團的編號activity_no
-        postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        activity_no = cursor.fetchone()[0]
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0]
+        
+#        postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#        cursor.execute(postgres_select_query)
+#        activity_no = cursor.fetchone()[0]
 
         #找報該團現在的報名人數attendee並更新(+1)
-        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
-        cursor.execute(postgres_select_query)
-        temp = cursor.fetchone()
-        attendee = temp[0]
-        condition = temp[1]
+        condition = {"activity_no": ["=": activity_no]}
+        temp = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+#        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
+#        cursor.execute(postgres_select_query)
+#        temp = cursor.fetchone()
+        attendee = temp[15]
+        condition = temp[16]
         if condition == "closed":
             line_bot_api.reply_message(
                 event.reply_token,
@@ -802,25 +839,42 @@ def gathering(event):
             attendee += 1
 
             #將更新的報名人數attendee記錄到報名表單group_data裡
-            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
+            columns = ["attendee"]
+            values = [attendee]
+            condition = {"activity_no": ["=": activity_no]}
+            CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+            
+#            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
+#            cursor.execute(postgres_update_query)
+#            conn.commit()
 
             #檢查報名人數attendee是否達上限people
-            postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
-            cursor.execute(postgres_select_query)
-            people = cursor.fetchone()[0]
+            condition = {"activity_no": ["=": activity_no]}
+            people = CallDatabase.get_data("group_data", condition = condition)[8]
+            
+#            postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
+#            cursor.execute(postgres_select_query)
+#            people = cursor.fetchone()[0]
 
             if attendee == people:
-                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
-                cursor.execute(postgres_update_query)
-                conn.commit()
-
+                columns = ["condition"]
+                values = ["closed"]
+                condition = {"activity_no": ["=": activity_no]}
+                CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+#
+#                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
+#                cursor.execute(postgres_update_query)
+#                conn.commit()
 
             #將報名表單的condition改成closed
-            postgres_update_query = f"""UPDATE registration_data SET condition = 'closed' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-            cursor.execute(postgres_update_query)
-            conn.commit()
+            columns = ["condition"]
+            values = ["closed"]
+            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+            CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
+            
+#            postgres_update_query = f"""UPDATE registration_data SET condition = 'closed' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+#            cursor.execute(postgres_update_query)
+#            conn.commit()
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -829,7 +883,6 @@ def gathering(event):
 
             cursor.close()
             conn.close()
-
 
 ## ================
 ## 我的開團
