@@ -681,12 +681,12 @@ def gathering(event):
     elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
         type = postback_data.split("_")[1]
         
-        condition = {"activity_date": [">=", dt.date.today()], "activity_type": ["=", type], "people":[">", "attendee"], "condition":["=", "pending"]}
-        data_carousel = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
+#        condition = {"activity_date": [">=", dt.date.today()], "activity_type": ["=", type], "people":[">", "attendee"], "condition":["=", "pending"]}
+#        data_carousel = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
         
-#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
-#        cursor.execute(postgres_select_query)
-#        data_carousel = cursor.fetchall()
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+        cursor.execute(postgres_select_query)
+        data_carousel = cursor.fetchall()
 
         msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
