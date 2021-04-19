@@ -737,7 +737,7 @@ def gathering(event):
 
         #審核電話
         condition = {"activity_no": ["=": record[1]]}
-        phone_registration = [data[4] for data in CallDatabase.get_data(condition = condition) if data[4] != None]
+        phone_registration = [data[4] for data in CallDatabase.get_data("registration_data", condition = condition) if data[4] != None]
         
 #        postgres_select_query = f"""SELECT phone FROM registration_data WHERE activity_no = '{record[1]}' ;"""
 #        cursor.execute(postgres_select_query)
