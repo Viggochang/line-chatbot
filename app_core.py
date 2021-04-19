@@ -423,19 +423,14 @@ def my_registration():
 
         return render_template("my_registration_detail.html", html_data = [group_data, registration_data])
 
-# 聊天機器人
+# 聊天機器人 chatbot
 @handler.add(MessageEvent, message = TextMessage)
 def app_core(event):
 
     progress_list_fullgroupdata=[7, 1, 2, 3, 4, 5, 6 ,7 ]
     progress_list_halfgroupdata=[5, 1, 2, 3, 4, 5]
     progress_list_fullregistrationdata=[2, 0, 0, 0, 0, 0, 1, 2]
-    
-#    if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-#        line_bot_api.reply_message(
-#        event.reply_token,
-#        TextSendMessage(text=event.message.text)
-#        )
+
     print(f"event:{event}")
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
@@ -514,13 +509,12 @@ def app_core(event):
                    
                 i_r = data_r.index(None)
                 record = event.message.text
-#
-#                postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-#                cursor.execute(postgres_select_query)
+
                 condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
                 activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[1] #取得正在報名的活動編號
-
-                data = CallDatabase.get_data("registration_data", condition = {"activity_no": ["=", activity_no]}, all_data = True)
+                
+                condition = {"activity_no": ["=", activity_no]}
+                data = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
                 print(f"data:{data}")
                 phone_registration = [row[4] for row in data] #取得報名該團的電話列表
                 print(phone_registration, i_r, record)
@@ -528,9 +522,8 @@ def app_core(event):
                     #當進行到輸入電話時(i_r==4)，開始檢驗是否重複
                 if i_r == 4 and record in phone_registration:
                     #如果使用者輸入的電話重複則報名失敗，刪掉原本創建的列
-                    postgres_delete_query = f"""DELETE FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                    cursor.execute(postgres_delete_query)
-                    conn.commit()
+                    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+                    CallDatabase.dalete("registration_data", condition = condition)
 
                     line_bot_api.reply_message(
                         event.reply_token,
@@ -541,9 +534,10 @@ def app_core(event):
                 else:
                     try:
                         # 輸入資料型態正確則更新
-                        postgres_update_query = f"""UPDATE registration_data SET {column_all_registration[i_r]} = '{record}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                        cursor.execute(postgres_update_query)
-                        conn.commit()
+                        columns = [column_all_registration[i_r]]
+                        values = [record]
+                        condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+                        CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
        
                     except:
                         # 輸入資料型態錯誤則回應 "請重新輸入"
@@ -553,9 +547,9 @@ def app_core(event):
                         )
 
                 # 檢查是否完成所有問題
-                postgres_select_query = f"""SELECT * FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_select_query)
-                data_r = cursor.fetchone() #準備寫入報名資料的那一列
+                condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+                data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False) #準備寫入報名資料的那一列
+                
                 print("i_r = ",i_r)
                 print("data_r = ",data_r)
 
