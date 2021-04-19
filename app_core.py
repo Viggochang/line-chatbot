@@ -719,7 +719,7 @@ def gathering(event):
         #創建一列
         columns = ["condition", "user_id", "activity_no", "activity_type", "activity_name", "activity_date"]
         values = ["initial", event.source.user_id, record[1], record[2], record[3], record[4]]
-        CallDatabase.insert(registration_data, columns = columns, values = values)
+        CallDatabase.insert("registration_data", columns = columns, values = values)
         
 #        postgres_insert_query = f"""INSERT INTO registration_data (condition, user_id, activity_no, activity_type, activity_name, activity_date) VALUES ('initial', '{event.source.user_id}','{record[1]}', '{record[2]}', '{record[3]}', '{record[4]}');"""
 #        cursor.execute(postgres_insert_query)
@@ -756,7 +756,7 @@ def gathering(event):
             columns = ["attendee_name", "phone"]
             values = [name, phone]
             condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-            CallDatabase.update(registration_data, columns = columns, values = values, condition = condition)
+            CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
             
             condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
             data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
