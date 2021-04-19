@@ -586,9 +586,8 @@ def gathering(event):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
     
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_select_query)
-    data_g = cursor.fetchone()
+    condition = {"condition": ["=", "initial"], "user_id":["=", event.source.user_id]}
+    data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     
     postback_data = event.postback.data
     
@@ -641,9 +640,10 @@ def gathering(event):
         # 在summary點選修改後
         column = postback_data.split("_", 1)[1]
 
-        postgres_update_query = f"""UPDATE group_data SET {column} = Null WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
+        columns = [column]
+        values = ["Null"]
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
         
         progress_target = [7, 6, 6, 6, 6, 6, 6, 6]
         msg = flexmsg_g.flex(column, data_g, progress_target)
@@ -653,19 +653,16 @@ def gathering(event):
         )
         
     elif "確認開團" in postback_data:
-
-        postgres_update_query = f"""UPDATE group_data SET condition = 'pending' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
-
+        
+        columns = ["condition"]
+        values = ["pending"]
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text = "開團成功！")
         )
-
-        cursor.close()
-        conn.close()
-
         
 ## ================
 ## 我要報名
