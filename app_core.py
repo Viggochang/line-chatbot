@@ -697,7 +697,7 @@ def gathering(event):
     elif "詳細資訊" in postback_data :
         record = postback_data.split("_")
         
-        condition = {activity_no:["=", record[0]]}
+        condition = {"activity_no":["=", record[0]]}
         data_tmp = CallDatabase.get_data(group_data, condition = condition, all_data = False)
         
 #        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{record[0]}' ;"""
