@@ -814,8 +814,8 @@ def gathering(event):
     elif "確認報名" in postback_data:
         #找到他報的團的編號activity_no
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-        activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0]
-        print(activity_no)
+        activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[1]
+        
 #        postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
 #        cursor.execute(postgres_select_query)
 #        activity_no = cursor.fetchone()[0]
@@ -823,7 +823,7 @@ def gathering(event):
         #找報該團現在的報名人數attendee並更新(+1)
         condition = {"activity_no": ["=", activity_no]}
         temp = CallDatabase.get_data("group_data", condition = condition, all_data = False)
-        print(temp)
+
 #        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
 #        cursor.execute(postgres_select_query)
 #        temp = cursor.fetchone()
