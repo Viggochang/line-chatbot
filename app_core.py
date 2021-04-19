@@ -822,7 +822,7 @@ def gathering(event):
 #        activity_no = cursor.fetchone()[0]
 
         #找報該團現在的報名人數attendee並更新(+1)
-        condition = {"activity_no": ["=": activity_no]}
+        condition = {"activity_no": ["=", activity_no]}
         temp = CallDatabase.get_data("group_data", condition = condition, all_data = False)
 #        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
 #        cursor.execute(postgres_select_query)
@@ -841,7 +841,7 @@ def gathering(event):
             #將更新的報名人數attendee記錄到報名表單group_data裡
             columns = ["attendee"]
             values = [attendee]
-            condition = {"activity_no": ["=": activity_no]}
+            condition = {"activity_no": ["=", activity_no]}
             CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
             
 #            postgres_update_query = f"""UPDATE group_data SET attendee = {attendee} WHERE activity_no = {activity_no};"""
@@ -849,7 +849,7 @@ def gathering(event):
 #            conn.commit()
 
             #檢查報名人數attendee是否達上限people
-            condition = {"activity_no": ["=": activity_no]}
+            condition = {"activity_no": ["=", activity_no]}
             people = CallDatabase.get_data("group_data", condition = condition)[8]
             
 #            postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
@@ -859,7 +859,7 @@ def gathering(event):
             if attendee == people:
                 columns = ["condition"]
                 values = ["closed"]
-                condition = {"activity_no": ["=": activity_no]}
+                condition = {"activity_no": ["=", activity_no]}
                 CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
 #
 #                postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = {activity_no};"""
