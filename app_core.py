@@ -726,9 +726,8 @@ def gathering(event):
 #        conn.commit()
 
         #撈報團者的資料
-        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id]}
         data_for_basicinfo = CallDatabase.get_data("registration_data", condition = condition, order = "registration_no", ASC = False, all_data = False)
-        
         
 #        postgres_select_query = f'''SELECT attendee_name, phone FROM registration_data WHERE user_id = '{event.source.user_id}' and condition != 'initial' ORDER BY registration_no DESC;'''
 #        cursor.execute(postgres_select_query)
@@ -816,7 +815,7 @@ def gathering(event):
         #找到他報的團的編號activity_no
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
         activity_no = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[0]
-        
+        print(activity_no)
 #        postgres_select_query = f"""SELECT activity_no FROM registration_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
 #        cursor.execute(postgres_select_query)
 #        activity_no = cursor.fetchone()[0]
@@ -824,6 +823,7 @@ def gathering(event):
         #找報該團現在的報名人數attendee並更新(+1)
         condition = {"activity_no": ["=", activity_no]}
         temp = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+        print(temp)
 #        postgres_select_query = f"""SELECT attendee, condition FROM group_data WHERE activity_no = {activity_no};"""
 #        cursor.execute(postgres_select_query)
 #        temp = cursor.fetchone()
