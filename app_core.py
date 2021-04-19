@@ -850,7 +850,7 @@ def gathering(event):
 
             #檢查報名人數attendee是否達上限people
             condition = {"activity_no": ["=", activity_no]}
-            people = CallDatabase.get_data("group_data", condition = condition)[8]
+            people = CallDatabase.get_data("group_data", condition = condition, all_data = False)[8]
             
 #            postgres_select_query = f"""SELECT people FROM group_data WHERE activity_no = {activity_no};"""
 #            cursor.execute(postgres_select_query)
