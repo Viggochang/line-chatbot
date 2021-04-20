@@ -884,13 +884,13 @@ def gathering(event):
         activity_no = postback_data.split("_")[1]
 
         condition = {"activity_no": ["=", activity_no]}
-        temp = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[2]
+        temp = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
 #        postgres_select_query = f"""SELECT activity_name FROM registration_data WHERE activity_no = '{activity_no}';"""
 #        cursor.execute(postgres_select_query)
 #
 #        temp = cursor.fetchone()
         if temp:
-            activity_name = "".join(temp)
+            activity_name = temp[2]
             print("activity_name = ", activity_name)
 
             condition = {"activity_no": ["=", activity_no]}
