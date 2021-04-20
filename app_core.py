@@ -391,8 +391,7 @@ def my_group():
         
         return render_template("my_group_detail.html", html_data = [group_data, attendee_data])
 
-        
-    
+
 # 我的報名紀錄
 @app.route("/my_registration", methods=['GET', 'POST'])
 @login_required
@@ -846,13 +845,16 @@ def gathering(event):
         
         type = postback_data.split("_")[1]
         
+        condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id, ]}
         if type == "已結束":
-            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
+            condition["activity_date"] = ["<", dt.date.today()]
+#            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
         elif type == "進行中":
-            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
+            condition["activity_date"] = [">=", dt.date.today()]
+#            postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;"""
             
-        cursor.execute(postgres_select_query)
-        group_data = cursor.fetchall()
+        group_data = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
+        #group_data = cursor.fetchall()
         print(f"group_data:{group_data}")
 
         msg = flexmsg_glist.glist(group_data, type)
@@ -863,9 +865,12 @@ def gathering(event):
         
     elif "開團資訊" in postback_data:
         activity_no = postback_data.split("_")[1]
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
-        cursor.execute(postgres_select_query)
-        group_data = cursor.fetchone()
+        
+        condition = {"activity_no": ["=", activity_no]}
+        group_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
+#        cursor.execute(postgres_select_query)
+#        group_data = cursor.fetchone()
         print("group_data = ", group_data)
         
         msg = flexmsg_glist.MyGroupInfo(group_data)
@@ -878,29 +883,31 @@ def gathering(event):
     elif "報名者資訊" in postback_data:
         activity_no = postback_data.split("_")[1]
 
-        postgres_select_query = f"""SELECT activity_name FROM registration_data WHERE activity_no = '{activity_no}';"""
-        cursor.execute(postgres_select_query)
-
-#         try:
-        temp = cursor.fetchone()
+        condition = {"activity_no": ["=", activity_no]}
+        temp = CallDatabase.get_data("registration_data", condition = condition, all_data = False)[2]
+#        postgres_select_query = f"""SELECT activity_name FROM registration_data WHERE activity_no = '{activity_no}';"""
+#        cursor.execute(postgres_select_query)
+#
+#        temp = cursor.fetchone()
         if temp:
             activity_name = "".join(temp)
             print("activity_name = ", activity_name)
 
-            postgres_select_query = f"""SELECT attendee_name, phone FROM registration_data WHERE activity_no = '{activity_no}' ;"""
-            cursor.execute(postgres_select_query)
-            attendee_data = cursor.fetchall()
+            condition = {"activity_no": ["=", activity_no]}
+            attendee_data = [f"{data[3]} {data[4]}" for data in CallDatabase.get_data("registration_data", condition = condition)]
+            
+#            postgres_select_query = f"""SELECT attendee_name, phone FROM registration_data WHERE activity_no = '{activity_no}' ;"""
+#            cursor.execute(postgres_select_query)
+#            attendee_data = cursor.fetchall()
             print("attendee_data = ", attendee_data)
 
-            attendee_lst = []
-            for row in attendee_data:
-                attendee_lst.append(" ".join(row))
+#            attendee_lst = []
+#            for row in attendee_data:
+#                attendee_lst.append(" ".join(row))
 
-            msg = f"{activity_name}"+"\n報名者資訊："
-            for attendee in attendee_lst:
-                msg += f"\n{attendee}"
-    #         except:
-    #             msg = "本活動目前無人報名"
+            msg = f"{activity_name}" + "\n報名者資訊：\n" + "\n".join(attendee_data)
+#            for attendee in attendee_data:
+#                msg += f"\n{attendee}"
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -915,9 +922,14 @@ def gathering(event):
     elif "結束報名" in postback_data:
         activity_no = postback_data.split("_")[1]
         
-        postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = '{activity_no}';"""
-        cursor.execute(postgres_update_query)
-        conn.commit()
+        columns = ["condition"]
+        values = ["closed by owner"]
+        condition = {"activity_no": ["=", activity_no]}
+        CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+        
+#        postgres_update_query = f"""UPDATE group_data SET condition = 'closed' WHERE activity_no = '{activity_no}';"""
+#        cursor.execute(postgres_update_query)
+#        conn.commit()
 
         line_bot_api.reply_message(
             event.reply_token,
