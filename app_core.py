@@ -347,6 +347,7 @@ def r_summary():
 def r_cancel():
     registration_no = request.form["registration_no"]
     activity_no = request.form["activity_no"]
+    activity_name = request.form["activity_name"]
     user_id = current_user.get_id()
     
     condition = {"registration_no":["=", registration_no]}
@@ -363,7 +364,7 @@ def r_cancel():
     CallDatabase.update("group_data", columns = ["attendee"], values = [attendee], condition =condition_1)
     CallDatabase.update("group_data", columns = ["condition"], values = ["pending"], condition = condition_2)
     
-    return render_template("r_cancel.html")
+    return render_template("r_cancel.html", html_data = activity_name)
 
 # 我的開團紀錄
 @app.route("/my_group", methods=['GET', 'POST'])
