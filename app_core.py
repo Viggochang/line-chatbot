@@ -219,7 +219,7 @@ def group():
         return render_template("group.html", html_data = [user_name, user_phone])
         
 @app.route("/group_cancel", methods=['POST'])
-def group_cancel():
+def group_cancel(): #取消開團
     print(request.form)
     
     condition = {"activity_no": ["=", request.form['activity_no_cancel']]}
@@ -986,7 +986,7 @@ def gathering(event):
     elif "取消報名" in postback_data: #按下取消報名按鈕將回傳(record_activity_取消報名)
         registration_no = postback_data.split('_')[0]
         activity_no = postback_data.split('_')[1]
-
+        print(f"r:{registration_no} a:{activity_no}")
         # 刪除報名
         condiiton = {"registration_no": ["=", registration_no], "user_id": ["=", event.source.user_id]}
         CallDatabase.delete("registration_data", condition = condition)
