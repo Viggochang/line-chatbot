@@ -231,9 +231,9 @@ def group_cancel(): #取消開團
 def group_closed():
     activity_no = request.form["activity_no"]
     activity_name = request.form["activity_name"]
-    print(activity_name)
+    print(activity_no, activity_name)
     #提早關團 condition >> closed by owner
-    CallDatabase.update("group_data", columns=["condition"], values = ["closed by owner"], condition = {"activity_no":["=", activity_no]})
+    CallDatabase.update("group_data", columns = ["condition"], values = ["closed by owner"], condition = {"activity_no":["=", activity_no]})
     
     return render_template("group_closed.html", html_data = activity_name)
 
