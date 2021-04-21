@@ -186,25 +186,30 @@ def carousel_registration(data_g, data_r):
                             spacing = "sm",
                             contents = [
                                 TextComponent(
-                                    text = f"地點 {data_g[5]}",
+                                    text = f"地點: {data_g[5]}",
                                     wrap = True,
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     flex = 5
                                 ),
                                 TextComponent(
-                                    text = f"時間 {data_g[3]} {str(data_g[4])[:5]}",
+                                    text = f"時間: {data_g[3]} {str(data_g[4])[:5]}",
+                                    color = "#8c8c8c",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"費用 {data_g[9]}",
+                                    text = f"費用: {data_g[9]}",
+                                    color = "#8c8c8c",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"主揪 {data_g[13]}",
+                                    text = f"主揪: {data_g[13]}",
+                                    color = "#8c8c8c",
                                     size = "sm"
                                 ),
                                 TextComponent(
-                                    text = f"主揪電話 {data_g[14]}",
+                                    text = f"主揪電話: {data_g[14]}",
+                                    color = "#8c8c8c",
                                     size = "sm"
                                 )
                             ]
@@ -246,15 +251,15 @@ def carousel_registration(data_g, data_r):
                                 spacing = "sm",
                                 contents = [
                                     TextComponent(
-                                        text = f"活動名稱：{row[2]}",
+                                        text = f"活動名稱: {row[2]}",
                                         size = "sm"
                                     ),
                                     TextComponent(
-                                        text = f"姓名：{row[3]}",
+                                        text = f"姓名: {row[3]}",
                                         size = "sm"
                                     ),
                                     TextComponent(
-                                        text = f"電話：{row[4]}",
+                                        text = f"電話: {row[4]}",
                                         size = "sm"
                                     )
                                 ]
