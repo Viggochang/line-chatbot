@@ -944,8 +944,9 @@ def gathering(event):
 #            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
             
         rg_data = CallDatabase.get_data("registration_data", condition = condition, order = "activity_date", all_data = True)
-        rg_data = [[data[1], data[2], data[7]] for data in rg_data]
-        rg_data = sorted(list(set(rg_data)), key = lambda x: x[2])
+        if rg_data:
+            rg_data = [[data[1], data[2], data[7]] for data in rg_data]
+            rg_data = sorted(list(set(rg_data)), key = lambda x: x[2])
         
 #        cursor.execute(postgres_select_query)
 #        rg_data = sorted(list(set(cursor.fetchall())), key = lambda x: x[2])
