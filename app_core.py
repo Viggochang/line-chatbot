@@ -931,14 +931,24 @@ def gathering(event):
     
         type = postback_data.split("_")[1]
         
+        condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id, ]}
         if type == "已結束":
-            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
- 
+            condition["activity_date"] = ["<", dt.date.today()]
         elif type == "進行中":
-            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
+            condition["activity_date"] = [">=", dt.date.today()]
             
-        cursor.execute(postgres_select_query)
-        rg_data = sorted(list(set(cursor.fetchall())), key = lambda x: x[2])
+#        if type == "已結束":
+#            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
+#
+#        elif type == "進行中":
+#            postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' AND condition != 'initial' ORDER BY activity_date ASC;;"""
+            
+        rg_data = CallDatabase.get_data("registration_data", condition = condition, order = "activity_date", all_data = True)
+        rg_data = [[data[1], data[2], data[7]] for data in rg_data]
+        rg_data = sorted(list(set(rg_data)), key = lambda x: x[2])
+        
+#        cursor.execute(postgres_select_query)
+#        rg_data = sorted(list(set(cursor.fetchall())), key = lambda x: x[2])
         print(f"rg_data:{rg_data}")
 
         msg = flexmsg_rlist.rlist(rg_data, type)
@@ -952,13 +962,19 @@ def gathering(event):
         activity_no = postback_data.split('_')[0]
         
         #根據回傳的activity_no，從group_data裡找到活動資訊
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
-        cursor.execute(postgres_select_query)
-        group_info = cursor.fetchone()
+        condition = {"activity_no": ["=", activity_no]}
+        group_info = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+        
+#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = {activity_no};"""
+#        cursor.execute(postgres_select_query)
+#        group_info = cursor.fetchone()
         #根據回傳的activity_no和user_id找到報名資訊(可能不只一列)
-        postgres_select_query = f"""SELECT * FROM registration_data WHERE activity_no = {activity_no} AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_select_query)
-        registration_info = cursor.fetchall()
+        condition = {"activity_no": ["=", activity_no], "user_id": ["=", event.source.user_id]}
+        registration_info = CallDatabase.get_data("registration_data", condition = condition, all_data = True)
+        
+#        postgres_select_query = f"""SELECT * FROM registration_data WHERE activity_no = {activity_no} AND user_id = '{event.source.user_id}';"""
+#        cursor.execute(postgres_select_query)
+#        registration_info = cursor.fetchall()
         
         msg = flexmsg_rlist.carousel_registration(group_info, registration_info)
         line_bot_api.reply_message(
@@ -971,9 +987,12 @@ def gathering(event):
         activity_no = postback_data.split('_')[1]
 
         # 刪除報名
-        postgres_delete_query = f"""DELETE FROM registration_data WHERE registration_no = {registration_no} AND user_id = '{event.source.user_id}';"""
-        cursor.execute(postgres_delete_query)
-        conn.commit()
+        condiiton = {"registration_no": ["=", registration_no], "user_id": ["=", event.source.user_id]}
+        CallDatabase.delete("registration_data", condition = condition)
+        
+#        postgres_delete_query = f"""DELETE FROM registration_data WHERE registration_no = {registration_no} AND user_id = '{event.source.user_id}';"""
+#        cursor.execute(postgres_delete_query)
+#        conn.commit()
 
         #找報該團現在的報名人數attendee並更新(-1)
         postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no};"""

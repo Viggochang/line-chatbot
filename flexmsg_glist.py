@@ -181,25 +181,30 @@ def MyGroupInfo(data):
                             spacing = "sm",
                             contents = [
                                 TextComponent(
-                                    text = f"地點 {data[5]}",
+                                    text = f"地點: {data[5]}",
                                     wrap = True,
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     flex = 5,
                                     ),
                                 TextComponent(
-                                    text = f"時間 {data[3]} {str(data[4])[:5]}",
+                                    text = f"時間: {data[3]} {str(data[4])[:5]}",
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"費用 {data[9]}",
+                                    text = f"費用: {data[9]}",
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"已報名人數 {data[15]}/{data[8]}",
+                                    text = f"已報名人數: {data[15]}/{data[8]}",
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     ),
                                 TextComponent(
-                                    text = f"狀態 {data[16]}",
+                                    text = f"狀態: {data[16]}",
+                                    color = "#8c8c8c",
                                     size = "sm",
                                     )
                                 ]
