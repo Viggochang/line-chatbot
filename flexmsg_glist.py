@@ -132,7 +132,7 @@ def glist(data, type, i = 0):
                 spacing = "md",
                 contents = [
                     TextComponent(
-                        text = f"目前無資料！",
+                        text = f"目前沒有開團資料！",
                         size = "lg",
                         weight = "bold",
                         color = "#AAAAAA"
