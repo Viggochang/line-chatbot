@@ -11,14 +11,7 @@
     </div>
     <div></br></div>
 
-    <div class="box">
-      <style>
-      .box{
-         border:5px #dfefff solid;
-         margin: 0px 8px;
-         padding:45px;
-         }
-      </style>
+    <div class="box-record-detail">
 
         <div class="row">
           <div class="col-5">
@@ -37,7 +30,7 @@
           </div>
 
 
-          <div class="col-7" style="border-width:0px 0px 0px 5px; border-color:#dfefff; border-style:solid; padding:5px 55px 0px">
+          <div class="col-7" style="border-width:0px 0px 0px 5px; border-color:#CBDFB8; border-style:solid; padding:5px 55px 0px">
             <div class="row"><h3>{{html_data[2]}}</h3></div>
             <div class="row">
               <span style="line-height: 30px"><font color="#7B7B7B" size="4">
@@ -60,7 +53,7 @@
       <div class="row">
         <form method="post" action="/group_cancel">
           <input type="hidden" name="activity_no_cancel" value={{html_data[0]}}>
-          <div class="col"><input type="submit" value="取消開團" style="width:120px; height:45px; background-color:#dfefff; border:none; font-size:20px"></div>
+          <button type="submit" class="btn btn-primary" style="background-color:#81C0C0; border:0px; font-size:20px">取消開團</button>
         </form>
       </div>
     </div>
