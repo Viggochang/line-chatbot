@@ -17,11 +17,11 @@
   padding: 100px 100px 100px 100px;
 }
 
-.box-registration{
-  border:5px #CBDFB8 solid;
-  margin: 15px 8px;
-  padding:15px;
-  width:260px;
+.box-registration {
+    border: 1px #BEBEBE solid;
+    margin: 15px 8px;
+    padding: 15px;
+    width: 260px;
 }
 
 .box-rsummary {
