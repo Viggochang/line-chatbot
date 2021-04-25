@@ -98,12 +98,10 @@ def login():
             user = User()
             user.id = account
             login_user(user)
-            flash(f"Hi {account}~~歡迎使用揪團機器人！！")
             print("登入成功")
             return render_template("home.html")  #回到首頁
-            #return redirect(url_for("from_start"))
+
         else:
-            flash("登入失敗！")
             print("登入失敗")
             return render_template("login.html")
             
@@ -111,7 +109,6 @@ def login():
 def logout():
     account = current_user.get_id()
     logout_user()
-    flash(f"再見啦~~{account}")
     print("登出成功")
     return redirect(url_for("login"))
     
@@ -330,7 +327,7 @@ def r_summary():
             
             #將更新的報名人數attendee記錄到報名表單group_data裡
             columns = ["attendee"]
-            values = [attendee+1]
+            values = [attendee + 1]
             condition = {"activity_no":["=", activity_no]}
             CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
 
@@ -354,9 +351,13 @@ def r_cancel():
     CallDatabase.delete("registration_data", condition = condition)
     
     # 取得該團的報名人數(attendee)
-    postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no}"""
-    cursor.execute(postgres_select_query)
-    attendee = int(cursor.fetchone()[0])
+    condition = {"activity_no": ["=", activity_no]}
+    attendee = CallDatabase.get_data("group_data", condition = condition, all_data = False)[15]
+
+    #postgres_select_query = f"""SELECT attendee FROM group_data WHERE activity_no = {activity_no}"""
+    #cursor.execute(postgres_select_query)
+    #attendee = int(cursor.fetchone()[0])
+
     attendee -= 1
     
     condition_1 = {"activity_no":["=", activity_no]}
