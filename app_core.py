@@ -1022,11 +1022,9 @@ def gathering(event):
             #record[2] = 進行中或已結束, record[3] = i
             if type == "已結束":
                 condition = {"user_id": ["=", event.source.user_id], "activity_date": ["<", dt.date.today()]}
-                #postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             elif type == "進行中":
                 condition = {"user_id": ["=", event.source.user_id], "activity_date": [">=", dt.date.today()]}
-                #postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
-
+                
             if record[1] == "glist":
                 data = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
                 msg = flexmsg_glist.glist(data, type, i)
@@ -1182,15 +1180,22 @@ def pic(event):
                 os.remove(dist_path)
                 print("image = ",image)
                 #把圖片網址存進資料庫
-                postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_update_query)
-                conn.commit()
+                condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+                columns = ["photo"]
+                values = [image['link']]
+                CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
+                #postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                #cursor.execute(postgres_update_query)
+                #conn.commit()
                 
                 print(image['link'])
 
-                postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                cursor.execute(postgres_select_query)
-                data_g = cursor.fetchone()
+                condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+                data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False) 
+
+                #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
+                #cursor.execute(postgres_select_query)
+                #data_g = cursor.fetchone()
                 
                 msg = [TextSendMessage(text='上傳成功！'), flexmsg_g.summary(data_g)]
 
