@@ -1140,8 +1140,13 @@ def gathering(event):
 
 @handler.add(MessageEvent, message = ImageMessage)
 def pic(event):
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode = 'require')
+    cursor = conn.cursor()
+
     condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
     data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+
     if data_g:
         i = data_g.index(None)
         print("i =",i)
