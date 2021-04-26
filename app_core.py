@@ -1140,12 +1140,8 @@ def gathering(event):
 
 @handler.add(MessageEvent, message = ImageMessage)
 def pic(event):
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode = 'require')
-    cursor = conn.cursor()
-    postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-    cursor.execute(postgres_select_query)
-    data_g = cursor.fetchone()
+    condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+    data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False)
     if data_g:
         i = data_g.index(None)
         print("i =",i)
@@ -1184,18 +1180,11 @@ def pic(event):
                 columns = ["photo"]
                 values = [image['link']]
                 CallDatabase.update("group_data", columns = columns, values = values, condition = condition)
-                #postgres_update_query = f"""UPDATE group_data SET photo = '{image['link']}' WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                #cursor.execute(postgres_update_query)
-                #conn.commit()
                 
                 print(image['link'])
 
                 condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
                 data_g = CallDatabase.get_data("group_data", condition = condition, all_data = False) 
-
-                #postgres_select_query = f"""SELECT * FROM group_data WHERE condition = 'initial' AND user_id = '{event.source.user_id}';"""
-                #cursor.execute(postgres_select_query)
-                #data_g = cursor.fetchone()
                 
                 msg = [TextSendMessage(text='上傳成功！'), flexmsg_g.summary(data_g)]
 
