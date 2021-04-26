@@ -30,7 +30,7 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         data = [list(row) for row in cursor.fetchall()]
         if data and table == "group_data":
             for row in data:
-                if "https://i.imgur.com/" not in row[12]:
+                if row[12] and "https://i.imgur.com/" not in row[12]:
                     row[12] = default_photo
         return data
         
@@ -39,7 +39,7 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         if data and table == "group_data":
             data = list(data)
             print(data)
-            if "https://i.imgur.com/" not in data[12]:
+            if data[12] and "https://i.imgur.com/" not in data[12]:
                 data[12] = default_photo
         return data
     
