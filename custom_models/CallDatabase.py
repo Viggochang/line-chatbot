@@ -38,6 +38,7 @@ def get_data(table, condition = None, order = None, ASC = True, all_data = True)
         data = cursor.fetchone()
         if data and table == "group_data":
             data = list(data)
+            print(data)
             if "https://i.imgur.com/" not in data[12]:
                 data[12] = default_photo
         return data
