@@ -50,15 +50,15 @@ def rlist(data, type, i = 0):
                         flex =  9,
                         contents = [
                             TextComponent(
-                                text = f"{row[1]}",
+                                text = f"{row[2]}",
                                 align = "start",
                                 size = "md",
                                 color = "#227C9D",
                                 weight = "regular",
                                 margin= "sm",
                                 action = PostbackAction(
-                                    data = f"{row[0]}_查報名",
-                                    display_text = f"{row[1]} 活動資訊與報名資訊"
+                                    data = f"{row[1]}_查報名",
+                                    display_text = f"{row[2]} 活動資訊與報名資訊"
                                 )
                             )
                         ]

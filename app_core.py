@@ -1016,33 +1016,24 @@ def gathering(event):
             data = cursor.fetchall()
             print(f"data:{data}")
             msg = flexmsg_r.carousel(data, type, i)
-            
-        # [我的開團] 開團列表的下一頁
-        elif record[1] == "glist":
+
+        # [我的開團]、[我的報名] 列表的下一頁
+        elif record[1] in ["glist", "rlist"] :
             #record[2] = 進行中或已結束, record[3] = i
             if type == "已結束":
-                postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;"""
+                condition = {"user_id": ["=", event.source.user_id], "activity_date": ["<", dt.date.today()]}
+                #postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
             elif type == "進行中":
-                postgres_select_query = f"""SELECT * FROM group_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;"""
-           
-            cursor.execute(postgres_select_query)
-            data = cursor.fetchall()
-            print(f"data:{data}")
-            msg = flexmsg_glist.glist(data, type, i)
+                condition = {"user_id": ["=", event.source.user_id], "activity_date": [">=", dt.date.today()]}
+                #postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
 
-
-        # [我的報名] 報名列表的下一頁
-        elif record[1] == "rlist":
-            #record[2] = 進行中或已結束, record[3] = i
-            if type == "已結束":
-                postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date < '{dt.date.today()}' ORDER BY activity_date ASC;;"""
-            elif type == "進行中":
-                postgres_select_query = f"""SELECT activity_no, activity_name, activity_date FROM registration_data WHERE user_id = '{event.source.user_id}' AND activity_date >= '{dt.date.today()}' ORDER BY activity_date ASC;;"""
-            
-            cursor.execute(postgres_select_query)
-            data = sorted(list(set(cursor.fetchall())), key = lambda x: x[2])
-            print(f"data:{data}")
-            msg = flexmsg_rlist.rlist(data, type, i)
+            if record[1] == "glist":
+                data = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
+                msg = flexmsg_glist.glist(data, type, i)
+            elif record[1] == "rlist":
+                data = CallDatabase.get_data("registration_data", condition = condition, order = "activity_date", all_data = True)
+                data = sorted(list(set(data)), key = lambda x: x[7])
+                msg = flexmsg_rlist.rlist(data, type, i)
         
         line_bot_api.reply_message(
             event.reply_token,
