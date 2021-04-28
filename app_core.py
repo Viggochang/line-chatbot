@@ -1054,6 +1054,7 @@ def gathering(event):
         start_time = dt.datetime.strptime(weather_element[0]["time"][0]["startTime"], "%Y-%m-%d %H:%M:%S")
         dt_list = [start_time] + [dt.datetime.strptime(time["endTime"], "%Y-%m-%d %H:%M:%S") for time in weather_element[0]["time"]]
 
+        activity_date, activity_time = g_data[3], g_data[4]
         activity_dt = dt.datetime.strptime(str(date) + str(time), "%Y-%m-%d%H:%M:%S")
         i = 1
         while activity_dt > dt_list[i] and i < len(dt_list):
@@ -1063,7 +1064,7 @@ def gathering(event):
             print("僅提供一週內的天氣預報！")
         else:
             climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
-            print(climate_data)
+            print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
 
 ## ================
 ## 開團回傳時間
