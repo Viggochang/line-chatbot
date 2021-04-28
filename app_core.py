@@ -1034,7 +1034,7 @@ def gathering(event):
 
         #geo_data
         activity_no = postback_data.split("_")[1]
-        conditino = {"activity_no": activity_no}
+        condition = {"activity_no": activity_no}
         g_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
         longtitude, latitude = g_data[7], g_data[6]
 
