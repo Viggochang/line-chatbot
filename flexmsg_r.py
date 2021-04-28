@@ -166,7 +166,7 @@ def carousel(data, act_type, i = 0):
                                             contents = [
                                                 TextComponent(
                                                     text = "天氣預報",
-                                                    size = "xs",
+                                                    size = "sm",
                                                     color = "#FFFFFF",
                                                     align = "center",
                                                     action = PostbackAction(

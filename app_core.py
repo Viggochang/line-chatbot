@@ -1029,7 +1029,7 @@ def gathering(event):
 ## ================
 ## 天氣預報
 ## ================
-    elif climate in postback_data:
+    elif "climate" in postback_data:
         climate_key = config.get("climate", "authorization")
 
         #geo_data
