@@ -174,7 +174,7 @@ def carousel(data, act_type, i = 0):
                                                     action = PostbackAction(
                                                         label = "天氣預報",
                                                         data = f"climate_{row[0]}",
-                                                        display_text = "天氣預報"
+                                                        display_text = f"{row[2]}的天氣預報"
                                                     )
                                                 )
                                             ]
