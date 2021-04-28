@@ -161,7 +161,7 @@ def carousel(data, act_type, i = 0):
                                         BoxComponent(
                                             layout = "vertical",
                                             spacing = "sm",
-                                            backgroundcolor = "#A7D5E1",
+                                            background_color = "#A7D5E1",
                                             width = "100px",                                             
                                             contents = [
                                                 TextComponent(
