@@ -1066,6 +1066,8 @@ def gathering(event):
             print("僅提供一週內的天氣預報！")
         else:
             climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
+            UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
+            climate_data["紫外線指數"] = UVI["activity_date"]
             print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
 
 ## ================
