@@ -1042,6 +1042,7 @@ def gathering(event):
         my_params = {"lat": latitude, "lon": longtitude, "format": "json"}
         re_geo = requests.get(geocode_url, params = my_params).json()["address"]
         county, district = list(re_geo.values())[-4], list(re_geo.values())[-5]
+        print(county, district)
 
         #climate_data
         county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
@@ -1067,7 +1068,7 @@ def gathering(event):
         else:
             climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
             UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
-            climate_data["紫外線指數"] = UVI["activity_date"]
+            climate_data["紫外線指數"] = UVI[activity_date]
             print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
 
 ## ================
