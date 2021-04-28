@@ -162,7 +162,7 @@ def carousel(data, act_type, i = 0):
                                             layout = "vertical",
                                             spacing = "sm",
                                             background_color = "#A7D5E1",
-                                            width = "100px",                                             
+                                            width = "80px",                                             
                                             contents = [
                                                 TextComponent(
                                                     text = "天氣預報",
