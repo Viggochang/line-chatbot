@@ -1059,7 +1059,7 @@ def gathering(event):
         activity_date, activity_time = g_data[3], g_data[4]
         activity_dt = dt.datetime.strptime(str(activity_date) + str(activity_time), "%Y-%m-%d%H:%M:%S")
         i = 1
-        while activity_dt > dt_list[i] and i < len(dt_list):
+        while i < len(dt_list) and activity_dt > dt_list[i]:
             i += 1
         print(i-1)
 
