@@ -1050,6 +1050,7 @@ def gathering(event):
 
         re_climate = requests.get(climate_url, params = my_params).json()
         weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
+        UVI = weather_element.pop(9)
 
         start_time = dt.datetime.strptime(weather_element[0]["time"][0]["startTime"], "%Y-%m-%d %H:%M:%S")
         dt_list = [start_time] + [dt.datetime.strptime(time["endTime"], "%Y-%m-%d %H:%M:%S") for time in weather_element[0]["time"]]
@@ -1059,6 +1060,7 @@ def gathering(event):
         i = 1
         while activity_dt > dt_list[i] and i < len(dt_list):
             i += 1
+        print(i-1)
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
