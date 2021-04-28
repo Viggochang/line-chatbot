@@ -180,6 +180,7 @@ def carousel(data, act_type, i = 0):
                                         BoxComponent(
                                             layout = "vertical",
                                             spacing = "sm",
+                                            margin = "sm",
                                             contents = [
                                                 TextComponent(
                                                     text = f"地點: {row[5]}",
