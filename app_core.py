@@ -4,6 +4,7 @@ import configparser
 import psycopg2
 import datetime as dt
 import tempfile
+import requests
 from imgurpython import ImgurClient
 from werkzeug.utils import secure_filename
 
@@ -681,10 +682,7 @@ def gathering(event):
     # 按下rich menu中"我要報名" 選擇其中一種活動類型後
     elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
         type = postback_data.split("_")[1]
-        
-#        condition = {"activity_date": [">=", dt.date.today()], "activity_type": ["=", type], "people":[">", "attendee"], "condition":["=", "pending"]}
-#        data_carousel = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
-        
+      
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
@@ -714,13 +712,6 @@ def gathering(event):
         #把只創建卻沒有寫入資料的列刪除
         cancel.reset(cursor, conn, event)
 
-        #創建一列
-        columns = ["condition", "user_id", "activity_no", "activity_type", "activity_name", "activity_date"]
-        values = ["initial", event.source.user_id, record[1], record[2], record[3], record[4]]
-        CallDatabase.insert("registration_data", columns = columns, values = values)
-
-        #撈報團者的資料
-        condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id]}
         data_for_basicinfo = CallDatabase.get_data("registration_data", condition = condition, order = "registration_no", ASC = False, all_data = False)
         
         print("data_for_basicinfo = ", data_for_basicinfo)
@@ -867,9 +858,7 @@ def gathering(event):
         
         condition = {"activity_no": ["=", activity_no]}
         group_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
-#        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_no = '{activity_no}';"""
-#        cursor.execute(postgres_select_query)
-#        group_data = cursor.fetchone()
+
         print("group_data = ", group_data)
         
         msg = flexmsg_glist.MyGroupInfo(group_data)
@@ -1037,12 +1026,50 @@ def gathering(event):
             event.reply_token,
             msg
             )
-                
+## ================
+## 天氣預報
+## ================
+    elif climate in postback_data:
+        climate_key = config.get("climate", "authorization")
+
+        #geo_data
+        activity_no = postback_data.split("_")[1]
+        conditino = {"activity_no": activity_no}
+        g_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
+        longtitude, latitude = g_data[7], g_data[6]
+
+        geocode_url = "https://nominatim.openstreetmap.org/reverse"
+        my_params = {"lat": latitude, "lon": longtitude, "format": "json"}
+        re_geo = requests.get(geocode_url, params = my_params).json()["address"]
+        county, district = list(re_geo.values())[-4], list(re_geo.values())[-5]
+
+        #climate_data
+        county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
+        climate_uri = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{county_code.get(county)}"
+        my_params = {"Authorization": climate_key, "locationName": district}
+
+        re_climate = requests.get(climate_url, params = my_params).json()
+        weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
+
+        start_time = dt.datetime.strptime(weather_element[0]["time"][0]["startTime"], "%Y-%m-%d %H:%M:%S")
+        dt_list = [start_time] + [dt.datetime.strptime(time["endTime"], "%Y-%m-%d %H:%M:%S") for time in weather_element[0]["time"]]
+
+        activity_dt = dt.datetime.strptime(str(date) + str(time), "%Y-%m-%d%H:%M:%S")
+        i = 1
+        while activity_dt > dt_list[i] and i < len(dt_list):
+            i += 1
+
+        if i == len(dt_list):
+            print("僅提供一週內的天氣預報！")
+        else:
+            climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
+            print(climate_data)
+
 ## ================
 ## 開團回傳時間
 ## ================
     else:
-        # 開團時,填寫時間資料
+        #開團時,填寫時間資料
         i = data_g.index(None)
         print("i =",i)
         column_all = ['acrivity_no', 'activity_type', 'activity_name',
@@ -1089,7 +1116,6 @@ def gathering(event):
                     
         cursor.close()
         conn.close()
-                
 
 @handler.add(MessageEvent, message = LocationMessage)
 def gathering(event):

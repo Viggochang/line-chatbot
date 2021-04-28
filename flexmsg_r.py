@@ -127,7 +127,7 @@ def carousel(data, act_type, i = 0):
                 ]
             )
         )
-        bubbles = [index]
+        bubbles = [index] #第一頁的列表
         
         for row in data[i:]:
             
@@ -158,6 +158,25 @@ def carousel(data, act_type, i = 0):
                                 BoxComponent(
                                     layout = "vertical",
                                     contents = [
+                                        BoxComponent(
+                                            layout = "vertical",
+                                            spacing = "sm",
+                                            backgroundcolor = "#A7D5E1"
+                                            width = "100px"                                             
+                                            contents = [
+                                                TextComponent(
+                                                    text = "天氣預報",
+                                                    size = "xs",
+                                                    color = "#FFFFFF"
+                                                    align = "center"
+                                                    action = PostbackAction(
+                                                        label = "天氣預報",
+                                                        data = f"climate_{row[0]}",
+                                                        display_text = "天氣預報"
+                                                    )
+                                                )
+                                            ]
+                                        ),
                                         BoxComponent(
                                             layout = "vertical",
                                             spacing = "sm",
