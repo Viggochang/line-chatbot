@@ -161,14 +161,14 @@ def carousel(data, act_type, i = 0):
                                         BoxComponent(
                                             layout = "vertical",
                                             spacing = "sm",
-                                            backgroundcolor = "#A7D5E1"
-                                            width = "100px"                                             
+                                            backgroundcolor = "#A7D5E1",
+                                            width = "100px",                                             
                                             contents = [
                                                 TextComponent(
                                                     text = "天氣預報",
                                                     size = "xs",
-                                                    color = "#FFFFFF"
-                                                    align = "center"
+                                                    color = "#FFFFFF",
+                                                    align = "center",
                                                     action = PostbackAction(
                                                         label = "天氣預報",
                                                         data = f"climate_{row[0]}",
