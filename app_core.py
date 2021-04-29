@@ -930,7 +930,7 @@ def gathering(event):
               
         rg_data = CallDatabase.get_data("registration_data", condition = condition, order = "activity_date", all_data = True)
         if rg_data:
-            # activity_no, activity_name, activity_date
+            #activity_no, activity_name, activity_date
             rg_data = [(data[1], data[2], data[7]) for data in rg_data] 
             rg_data = sorted(list(set(rg_data)), key = lambda x: x[2])
         
