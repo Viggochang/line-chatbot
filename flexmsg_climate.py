@@ -5,11 +5,11 @@ def climate():
     msg =  BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
+            background_color = "#A7D5E1",
             contents = TextComponent(
                 text = "天氣預報",
                 size = "lg"
-            ),
-            background_color = "#A7D5E1"
+            )
         ),
         body = BoxComponent(
             layout = "vertical",
