@@ -15,7 +15,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 # from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, PostbackEvent, LocationMessage, ImageMessage
 
-import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist
+import flexmsg_g, flexmsg_r, flexmsg_glist, flexmsg_rlist, flexmsg_climate
 import cancel
 from custom_models import CallDatabase
 
@@ -1066,11 +1066,23 @@ def gathering(event):
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
+            msg = "僅提供一週內的天氣預報！"
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
         else:
             climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
             UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
             climate_data["紫外線指數"] = UVI[str(activity_date)]
             print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
+            
+            msg = flexmsg_climate.climate()
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
 
 ## ================
 ## 開團回傳時間

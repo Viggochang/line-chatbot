@@ -1,3 +1,5 @@
+from linebot.models import *
+
 def climate():
 
     msg =  BubbleContainer(
@@ -24,44 +26,43 @@ def climate():
                     layout = "vertical",
                     contents = [
                         BoxComponent(
-                           layout = "vertical",
-                           margin = "lg",
-                           spacing = "xl",
-                           contents = [
-                               BoxComponent(
-                                   layout = "vertical",
-                                   flex = 6,
-                                   contents = [
-                                       TextComponent(
-                                           text = "降雨機率:15%",
-                                           color = "#aaaaaa",
-                                           size = "sm",
-                                           flex = 1,
-                                           align = "end"
-                                       ),
-                                       TextComponent(
-                                           text = "晴時多雲",
-                                           wrap = True,                                    
-                                           size = "3xl",
-                                           flex = 5,
-                                           align = "end"
-                                       ),
-                                   ]
-                               ),
-                               BoxComponent(
-                                   layout = "baseline",
-                                   spacing = "sm",
-                                   flex = 4,
-                                   contents = [
-                                       ImageComponent(
-                                           url = "",
-                                           size = "5xl"
-                                       )
-                                   ]
-
-                               )
-
-                           ] 
+                            layout = "vertical",
+                            margin = "lg",
+                            spacing = "xl",
+                            contents = [
+                                BoxComponent(
+                                    layout = "vertical",
+                                    flex = 6,
+                                    contents = [
+                                        TextComponent(
+                                            text = "降雨機率:15%",
+                                            color = "#aaaaaa",
+                                            size = "sm",
+                                            flex = 1,
+                                            align = "end"
+                                        ),
+                                        TextComponent(
+                                            text = "晴時多雲",
+                                            wrap = True,                                    
+                                            size = "3xl",
+                                            flex = 5,
+                                            align = "end"
+                                        ),
+                                    ]
+                                ),
+                                BoxComponent(
+                                    layout = "baseline",
+                                    spacing = "sm",
+                                    flex = 4,
+                                    contents = [
+                                        ImageComponent(
+                                            # 待改
+                                            url = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg",
+                                            size = "5xl"
+                                        )
+                                    ]
+                                )
+                            ] 
                         )
                     ]
                 ),        
