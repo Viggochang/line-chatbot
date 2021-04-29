@@ -941,7 +941,7 @@ def gathering(event):
         msg
         )
     
-    # 在報名列表點選活動
+    # 在報名列表 點選活動
     elif "查報名" in postback_data:
         activity_no = postback_data.split('_')[0]
         
