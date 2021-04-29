@@ -90,7 +90,7 @@ def climate():
                             ]
                         )
                     ]
-                )
+                ),
                 BoxComponent(
                     layout = "vertical",
                     contents = [
