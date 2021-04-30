@@ -176,19 +176,19 @@ def x():
                                     align = "end"
                                 ),
                             ]
-                        )#,
-                        # BoxComponent(
-                        #     layout = "baseline",
-                        #     spacing = "sm",
-                        #     flex = 4,
-                        #     contents = [
-                        #         ImageComponent(
-                        #             # 待改
-                        #             url = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg",
-                        #             size = "5xl"
-                        #         )
-                        #     ]
-                        # )
+                        ),
+                        BoxComponent(
+                            layout = "vertical",
+                            spacing = "sm",
+                            flex = 4,
+                            contents = [
+                                ImageComponent(
+                                    # 待改
+                                    url = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg",
+                                    size = "5xl"
+                                )
+                            ]
+                        )
                     ] 
                 ),
                 TextComponent(
