@@ -1078,7 +1078,10 @@ def gathering(event):
             climate_data["紫外線指數"] = UVI[str(activity_date)]
             print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
             
-            msg = flexmsg_climate.x()
+            climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "紫外線指數", "風向", "最大風速"]
+            rain, weather, temperature_avg, temperature_max, temperature_min, humidity, uvi, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
+            
+            msg = flexmsg_climate.climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, uvi, wind_d, wind_v)
             line_bot_api.reply_message(
                 event.reply_token,
                 msg

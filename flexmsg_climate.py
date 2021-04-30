@@ -1,6 +1,6 @@
 from linebot.models import *
 
-def x():
+def climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, uvi, wind_d, wind_v):
     bubble = BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
@@ -25,7 +25,7 @@ def x():
                             flex = 6,
                             contents = [
                                 TextComponent(
-                                    text = "降雨機率:15%",
+                                    text = f"降雨機率:{rain}%",
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
@@ -33,7 +33,7 @@ def x():
                                     offset_top = "25px"
                                 ),
                                 TextComponent(
-                                    text = "晴天多雲",
+                                    text = weather,
                                     wrap = True,                                    
                                     size = "3xl",
                                     flex = 1,
@@ -61,12 +61,12 @@ def x():
                     contents = [
                         TextComponent(
                             flex = 3,
-                            text = "16ºC",
+                            text = f"{temperature_avg}ºC",
                             size = "3xl"
                         ),
                         TextComponent(
                             flex = 7,
-                            text = "最高25ºC 最低12ºＣ",
+                            text = f"最高{temperature_max}ºC 最低{temperature_min}ºＣ",
                             offset_top = "xxl"
                         )
                     ]
@@ -83,22 +83,22 @@ def x():
                     layout = "vertical",
                     contents = [
                         TextComponent(
-                            text = "相對濕度: 10%",
+                            text = f"相對濕度: {humidity} %",
                             margin = "xl",
                             size = "sm" 
                         ),
                         TextComponent(
-                            text = "紫外線等級: 過量級",
+                            text = f"紫外線指數: {uvi[0]} ({uvi[1]})",
                             margin = "sm",
                             size = "sm" 
                         ),
                         TextComponent(
-                            text = "風向: 偏西風%",
+                            text = f"風向: {wind_d}",
                             margin = "sm",
                             size = "sm" 
                         ),
                         TextComponent(
-                            text = "最大風速: 5 m/s",
+                            text = f"最大風速: {wind_v} m/s",
                             margin = "sm",
                             size = "sm" 
                         )
