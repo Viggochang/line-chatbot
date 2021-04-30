@@ -1,6 +1,8 @@
 from linebot.models import *
 
 def climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
+    rain_prob = f"降雨機率:{rain}%" if rain else "目前無降雨機率資料"
+
     bubble = BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
@@ -25,7 +27,7 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                             flex = 6,
                             contents = [
                                 TextComponent(
-                                    text = f"降雨機率:{rain}%" if rain else "現在無降雨機率資料",
+                                    text = rain_prob,
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
