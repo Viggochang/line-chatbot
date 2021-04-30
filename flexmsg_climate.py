@@ -30,13 +30,13 @@ def x():
                                     size = "md",
                                     flex = 1,
                                     align = "end",
-                                    offset_top = "5xl"
+                                    offset_top = "10px"
                                 ),
                                 TextComponent(
-                                    text = "晴時多雲",
+                                    text = "晴天",
                                     wrap = True,                                    
                                     size = "3xl",
-                                    flex = 1,
+                                    flex = 2,
                                     align = "end",
                                     offset_top = "md"
                                 ),
