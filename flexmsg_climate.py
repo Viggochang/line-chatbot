@@ -190,7 +190,7 @@ def x():
                             ]
                         )
                     ] 
-                )
+                ),
                 TextComponent(
                     text = f"目前沒有報名資料",
                     size = "lg",
