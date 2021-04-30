@@ -191,6 +191,46 @@ def x():
                         )
                     ] 
                 ),
+                BoxComponent(
+                    layout = "horizontal",
+                    contents = [
+                        TextComponent(
+                            flex = 3,
+                            text = "16C",
+                            size = "3xl"
+                        ),
+                        TextComponent(
+                            flex = 7,
+                            text = "最高25Ｃ 最低12Ｃ",
+                            offset_top = "xxl"
+                        )
+                    ]
+                ),
+                BoxComponent(
+                    layout = "vertical",
+                    contents = [
+                        TextComponent(
+                            text = "相對濕度: 10%",
+                            margin = "xl",
+                            size = "sm" 
+                        ),
+                        TextComponent(
+                            text = "紫外線等級: 過量級",
+                            margin = "sm",
+                            size = "sm" 
+                        ),
+                        TextComponent(
+                            text = "風向: 偏西風%",
+                            margin = "sm",
+                            size = "sm" 
+                        ),
+                        TextComponent(
+                            text = "最大風速: 5 m/s",
+                            margin = "sm",
+                            size = "sm" 
+                        )
+                    ]
+                )
                 TextComponent(
                     text = f"目前沒有報名資料",
                     size = "lg",
