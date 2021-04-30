@@ -25,7 +25,7 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                             flex = 6,
                             contents = [
                                 TextComponent(
-                                    text = f"降雨機率:{rain}%",
+                                    text = f"降雨機率:{rain}%" if rain else "現在無降雨機率資料",
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
@@ -84,21 +84,25 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                     contents = [
                         TextComponent(
                             text = f"相對濕度: {humidity} %",
+                            color = "#8c8c8c",
                             margin = "xl",
                             size = "sm" 
                         ),
                         TextComponent(
                             text = f"紫外線指數: {uvi[0]} ({uvi[1]})",
+                            color = "#8c8c8c",
                             margin = "sm",
                             size = "sm" 
                         ),
                         TextComponent(
                             text = f"風向: {wind_d}",
+                            color = "#8c8c8c",
                             margin = "sm",
                             size = "sm" 
                         ),
                         TextComponent(
                             text = f"最大風速: {wind_v} m/s",
+                            color = "#8c8c8c",
                             margin = "sm",
                             size = "sm" 
                         )
