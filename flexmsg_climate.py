@@ -142,10 +142,16 @@ def x():
             ]
         ),
         body = BoxComponent(
-            size = "xs",
             layout = "vertical",
-            spacing = "md",
             contents = [
+                BoxComponent(
+                    layout = "vertical",
+                    contents = [
+                        SeparatorComponent(
+                            margin = "xs"
+                        )
+                    ]
+                ),
                 TextComponent(
                     text = f"目前沒有報名資料",
                     size = "lg",
