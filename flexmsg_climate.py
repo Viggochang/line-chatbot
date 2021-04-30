@@ -184,7 +184,7 @@ def x():
                             contents = [
                                 ImageComponent(
                                     # 待改
-                                    url = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg",
+                                    url = "https://uploadfile.huiyi8.com/2016/0620/20160620120418789.jpg",
                                     size = "5xl"
                                 )
                             ]
@@ -230,13 +230,7 @@ def x():
                             size = "sm" 
                         )
                     ]
-                )
-                TextComponent(
-                    text = f"目前沒有報名資料",
-                    size = "lg",
-                    weight = "bold",
-                    color = "#AAAAAA"
-                )
+                ),
             ]
         )
     )
