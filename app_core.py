@@ -1048,7 +1048,7 @@ def gathering(event):
         #climate_data
         county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
         climate_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{county_code.get(county)}"
-        my_params = {"Authorization": climate_key)#, "locationName": district}
+        my_params = {"Authorization": climate_key}#, "locationName": district}
 
         re_climate = requests.get(climate_url, params = my_params).json()
         weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
