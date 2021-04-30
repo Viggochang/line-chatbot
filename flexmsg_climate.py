@@ -61,12 +61,12 @@ def x():
                     contents = [
                         TextComponent(
                             flex = 3,
-                            text = "16C",
+                            text = "16ºC",
                             size = "3xl"
                         ),
                         TextComponent(
                             flex = 7,
-                            text = "最高25Ｃ 最低12Ｃ",
+                            text = "最高25ºC 最低12ºＣ",
                             offset_top = "xxl"
                         )
                     ]
