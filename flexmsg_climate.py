@@ -1,6 +1,6 @@
 from linebot.models import *
 
-def climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, uvi, wind_d, wind_v):
+def climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
     bubble = BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
@@ -35,7 +35,7 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                                 TextComponent(
                                     text = weather,
                                     wrap = True,                                    
-                                    size = "3xl",
+                                    size = "xxl",
                                     flex = 1,
                                     align = "end",
                                     offset_top = "lg"
@@ -60,12 +60,12 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                     layout = "horizontal",
                     contents = [
                         TextComponent(
-                            flex = 3,
+                            flex = 4,
                             text = f"{temperature_avg}ºC",
                             size = "3xl"
                         ),
                         TextComponent(
-                            flex = 7,
+                            flex = 6,
                             text = f"最高{temperature_max}ºC 最低{temperature_min}ºＣ",
                             offset_top = "xxl"
                         )
