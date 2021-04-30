@@ -27,7 +27,7 @@ def x():
                                 TextComponent(
                                     text = "降雨機率:15%",
                                     color = "#aaaaaa",
-                                    size = "sm",
+                                    size = "md",
                                     flex = 1,
                                     align = "end"
                                 ),
@@ -35,9 +35,9 @@ def x():
                                     text = "晴時多雲",
                                     wrap = True,                                    
                                     size = "3xl",
-                                    flex = 5,
+                                    flex = 4,
                                     align = "end",
-                                    offset_top = "md"
+                                    offset_top = "xl"
                                 ),
                             ]
                         ),
