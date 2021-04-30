@@ -33,9 +33,9 @@ def x():
                                     offset_top = "10px"
                                 ),
                                 TextComponent(
-                                    text = "晴天",
+                                    text = "晴天多雲",
                                     wrap = True,                                    
-                                    size = "5xl",
+                                    size = "3xl",
                                     flex = 2,
                                     align = "end",
                                     offset_top = "xxl"
