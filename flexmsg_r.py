@@ -82,8 +82,6 @@ def carousel(data, act_type, i = 0):
             direction = "ltr",
             header = BoxComponent(
                 layout = "horizontal",
-                border_width = "normal",
-                border_color = "#AAAAAA",
                 contents = [
                     TextComponent(
                         text = f"{act_type}-揪團列表",
