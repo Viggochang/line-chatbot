@@ -1066,10 +1066,7 @@ def gathering(event):
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
-            msg = FlexSendMessage(
-                alt_text = "僅提供一週內的天氣預報！",
-                contents = ["僅提供一週內的天氣預報！"]
-            )
+            msg = "僅提供一週內的天氣預報！"
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -1081,7 +1078,7 @@ def gathering(event):
             climate_data["紫外線指數"] = UVI[str(activity_date)]
             print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
             
-            msg = flexmsg_climate.climate()
+            msg = flexmsg_climate.x()
             line_bot_api.reply_message(
                 event.reply_token,
                 msg

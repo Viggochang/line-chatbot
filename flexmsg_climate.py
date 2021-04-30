@@ -129,3 +129,26 @@ def climate():
 
     return msg
 
+def x():
+    bubble = BubbleContainer(
+        body = BoxComponent(
+            size = "xs",
+            layout = "vertical",
+            spacing = "md",
+            contents = [
+                TextComponent(
+                    text = f"目前沒有報名資料",
+                    size = "lg",
+                    weight = "bold",
+                    color = "#AAAAAA"
+                )
+            ]
+        )
+    )
+
+    msg = FlexSendMessage(
+        alt_text = "天氣預報",
+        contents = bubble
+    )
+
+    return msg        
