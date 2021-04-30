@@ -32,6 +32,16 @@ def carousel(data, act_type, i = 0):
             i -= 8
         
         act_lst = []
+        separator = BoxComponent(
+                        layout = "vertical",
+                        contents = [
+                            SeparatorComponent(
+                                margin = "xs"
+                            )
+                        ]
+                    )
+        act_lst.append(separator)
+                    
         for row in data[i:]:
             temp = BoxComponent(
                 layout = "horizontal",
@@ -80,15 +90,15 @@ def carousel(data, act_type, i = 0):
             size = "kilo",
             direction = "ltr",
             header = BoxComponent(
-            layout = "horizontal",
-            contents = [
-                TextComponent(
-                    text = f"{act_type}-揪團列表",
-                    size = "lg",
-                    weight = "bold",
-                    color = "#AAAAAA"
-                )
-            ]
+                layout = "horizontal",
+                contents = [
+                    TextComponent(
+                        text = f"{act_type}-揪團列表",
+                        size = "lg",
+                        weight = "bold",
+                        color = "#AAAAAA"
+                    )
+                ]
             ),
             body = BoxComponent(
                 layout = "vertical",
