@@ -2,7 +2,7 @@ from linebot.models import *
 
 def climate():
 
-    msg =  BubbleContainer(
+    bubble =  BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
             background_color = "#A7D5E1",
@@ -120,6 +120,11 @@ def climate():
                 )
             ]
         )
+    )
+
+    msg = FlexSendMessage(
+        alt_text = "天氣預報",
+        contents = [bubble]
     )
 
     return msg
