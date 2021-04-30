@@ -124,7 +124,7 @@ def climate():
 
     msg = FlexSendMessage(
         alt_text = "天氣預報",
-        contents = [bubble]
+        contents = bubble
     )
 
     return msg
