@@ -29,15 +29,16 @@ def x():
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
-                                    align = "end"
+                                    align = "end",
+                                    offset_top = "5xl"
                                 ),
                                 TextComponent(
                                     text = "晴時多雲",
                                     wrap = True,                                    
                                     size = "3xl",
-                                    flex = 4,
+                                    flex = 1,
                                     align = "end",
-                                    offset_top = "xl"
+                                    offset_top = "md"
                                 ),
                             ]
                         ),
