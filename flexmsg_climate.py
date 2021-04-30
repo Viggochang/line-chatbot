@@ -36,8 +36,8 @@ def x():
                                     wrap = True,                                    
                                     size = "3xl",
                                     flex = 5,
-                                    align = "end"
-                                    offset_top = "5px"
+                                    align = "end",
+                                    offset_top = "md"
                                 ),
                             ]
                         ),
