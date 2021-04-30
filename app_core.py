@@ -1066,7 +1066,10 @@ def gathering(event):
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
-            msg = "僅提供一週內的天氣預報！"
+            msg = FlexSendMessage(
+                alt_text = "僅提供一週內的天氣預報！",
+                contents = ["僅提供一週內的天氣預報！"]
+            )
 
             line_bot_api.reply_message(
                 event.reply_token,
