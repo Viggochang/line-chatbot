@@ -152,6 +152,45 @@ def x():
                         )
                     ]
                 ),
+                BoxComponent(
+                    layout = "horizontal",
+                    margin = "lg",
+                    spacing = "xl",
+                    contents = [
+                        BoxComponent(
+                            layout = "vertical",
+                            flex = 6,
+                            contents = [
+                                TextComponent(
+                                text = "降雨機率:15%",
+                                color = "#aaaaaa",
+                                size = "sm",
+                                flex = 1,
+                                align = "end"
+                                ),
+                                TextComponent(
+                                    text = "晴時多雲",
+                                    wrap = True,                                    
+                                    size = "3xl",
+                                    flex = 5,
+                                    align = "end"
+                                ),
+                            ]
+                        ),
+                        BoxComponent(
+                            layout = "baseline",
+                            spacing = "sm",
+                            flex = 4,
+                            contents = [
+                                ImageComponent(
+                                    # 待改
+                                    url = "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip11.jpg",
+                                    size = "5xl"
+                                )
+                            ]
+                        )
+                    ] 
+                )
                 TextComponent(
                     text = f"目前沒有報名資料",
                     size = "lg",
