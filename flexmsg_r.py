@@ -41,7 +41,7 @@ def carousel(data, act_type, i = 0):
                         ]
                     )
         act_lst.append(separator)
-                    
+
         for row in data[i:]:
             temp = BoxComponent(
                 layout = "horizontal",
@@ -102,7 +102,6 @@ def carousel(data, act_type, i = 0):
             ),
             body = BoxComponent(
                 layout = "vertical",
-                spacing = "md",
                 contents = act_lst
             ),
             footer = BoxComponent(
