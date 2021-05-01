@@ -1031,24 +1031,26 @@ def gathering(event):
 ## 天氣預報
 ## ================
     elif "climate" in postback_data:
+        mapbox_key = config.get("mapbox", "access_token")
         climate_key = config.get("climate", "authorization")
 
-        #geo_data
         activity_no = postback_data.split("_")[1]
         condition = {"activity_no": ["=" ,activity_no]}
         g_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
         longtitude, latitude = g_data[7], g_data[6]
 
-        geocode_url = "https://nominatim.openstreetmap.org/reverse"
-        my_params = {"lat": latitude, "lon": longtitude, "format": "json"}
-        re_geo = requests.get(geocode_url, params = my_params).json()["address"]
-        county, district = list(re_geo.values())[-4], list(re_geo.values())[-5]
+        #geo_data
+        url = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{longtitude},{latitude}.json"
+        my_params = {"language": "zh-tw", "access_token": mapbox_token}
+        re_mapbox = requests.get(url, params = my_params)
+        county = re_mapbox.json()["features"][0]["context"][-2]["text"]
+        district = re_mapbox.json()["features"][0]["context"][-3]["text"]
         print(county, district)
 
         #climate_data
         county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
         climate_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{county_code.get(county)}"
-        my_params = {"Authorization": climate_key}#, "locationName": district}
+        my_params = {"Authorization": climate_key}, "locationName": district}
 
         re_climate = requests.get(climate_url, params = my_params).json()
         weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
