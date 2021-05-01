@@ -157,6 +157,18 @@ def carousel_registration(data_g, data_r):
     group_info = BubbleContainer(
         size = "kilo",
         direction = "ltr",
+        header = BoxComponent(
+            layout = "vertical",
+            contents = [
+                TextComponent(
+                    text = "活動詳細資訊",
+                    weight = "bold",
+                    size = "md",
+                    align = "start",
+                    color = "#000000"
+                )
+            ]
+        ),
         hero = ImageComponent(
             size = "full",
             aspectRatio = "16:9",
@@ -167,16 +179,31 @@ def carousel_registration(data_g, data_r):
             layout = "vertical",
             contents = [
                 TextComponent(
-                    text = f"活動詳細資訊",
-                    weight = "bold",
-                    size = "md",
-                    wrap = True
-                ),
-                TextComponent(
                     text = f"{data_g[2]}", #activity_name
                     weight = "bold",
                     size = "md",
                     wrap = True
+                ),
+                BoxComponent(
+                    layout = "vertical",
+                    spacing = "sm",
+                    background_color = "#A7D5E1",
+                    width = "80px",
+                    height = "25.5px",                                           
+                    contents = [
+                        TextComponent(
+                            text = "天氣預報",
+                            size = "sm",
+                            color = "#FFFFFF",
+                            align = "center",
+                            offset_top = "2.5px",
+                            action = PostbackAction(
+                                label = "天氣預報",
+                                data = f"climate_{row[0]}",
+                                display_text = f"{row[2]}的天氣預報"
+                            )
+                        )
+                    ]
                 ),
                 BoxComponent(
                     layout = "vertical",
