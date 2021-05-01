@@ -1041,7 +1041,7 @@ def gathering(event):
 
         #geo_data
         url = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{longtitude},{latitude}.json"
-        my_params = {"language": "zh-tw", "access_token": mapbox_token}
+        my_params = {"language": "zh-tw", "access_token": mapbox_key}
         re_mapbox = requests.get(url, params = my_params)
         county = re_mapbox.json()["features"][0]["context"][-2]["text"]
         district = re_mapbox.json()["features"][0]["context"][-3]["text"]
