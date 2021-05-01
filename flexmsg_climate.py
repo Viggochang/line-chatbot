@@ -3,7 +3,7 @@ from flask import url_for
 
 def climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
     rain_prob = f"降雨機率:{rain}%" if rain != " " else "無降雨機率資料"
-    weather_size = "lg" if len(weather) > 4 else "30px"
+    weather_size = "lg" if len(weather) > 4 else "31px"
 
     if "晴" in weather and "雨" in weather:
         image = "https://i.imgur.com/jM4qYAq.png"
@@ -38,7 +38,6 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
             contents = [
                 BoxComponent(
                     layout = "horizontal",
-                    margin = "lg",
                     spacing = "xl",
                     contents = [
                         BoxComponent(
@@ -76,7 +75,6 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                             flex = 4,
                             contents = [
                                 ImageComponent(
-                                    # 待改
                                     url = image,
                                     size = "5xl"
                                 )
@@ -86,6 +84,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                 ),
                 BoxComponent(
                     layout = "horizontal",
+                    margin = "md",
                     contents = [
                         TextComponent(
                             flex = 3,
@@ -95,7 +94,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                         TextComponent(
                             flex = 6,
                             text = f"最高{temperature_max}ºC  最低{temperature_min}ºＣ",
-                            offset_top = "md"
+                            offset_top = "lg"
                         )
                     ]
                 ),
