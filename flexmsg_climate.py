@@ -132,7 +132,7 @@ def no_climate():
             spacing = "md",
             contents = [
                 TextComponent(
-                    text = f"僅提供一週內的天氣預報！",
+                    text = "僅提供一週內的天氣預報！",
                     size = "lg",
                     weight = "bold",
                     color = "#AAAAAA"

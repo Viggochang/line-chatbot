@@ -1059,20 +1059,24 @@ def gathering(event):
 
         activity_date, activity_time = g_data[3], g_data[4]
         activity_dt = dt.datetime.strptime(str(activity_date) + str(activity_time), "%Y-%m-%d%H:%M:%S")
-        i = 1
-        while i < len(dt_list) and activity_dt > dt_list[i]:
-            i += 1
-        print(i-1)
+
+        i = 0
+        while i < len(dt_list-1):
+            if dt_list[i] <=  activity_dt < dt_list[i+1]:
+                break
+            else:
+                i += 1
+        print(i)
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
             msg = flexmsg_climate.no_climate()
 
         else:
-            climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
+            climate_data = {item["description"]: list(item["time"][i]["elementValue"][0].values()) for item in weather_element}
             UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
             uvi = [row[0] for row in UVI[str(activity_date)]]
-            print(activity_dt, weather_element[0]["time"][i-1], climate_data, end = "\n")
+            print(activity_dt, weather_element[0]["time"][i], climate_data, end = "\n")
             
             climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "風向", "最大風速"]
             rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
