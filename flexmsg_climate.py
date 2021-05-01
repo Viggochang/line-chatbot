@@ -2,8 +2,8 @@ from linebot.models import *
 from flask import url_for
 
 def climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
-    rain_prob = f"降雨機率:{rain}%" if rain != " " else "目前無降雨機率資料"
-    weather_size = "xl" if len(weather) > 4 else "3xl"
+    rain_prob = f"降雨機率:{rain}%" if rain != " " else "無降雨機率資料"
+    weather_size = "xl" if len(weather) > 4 else "lg"
 
     if "晴" in weather and "雨" in weather:
         image = "https://i.imgur.com/jM4qYAq.png"
@@ -88,14 +88,14 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                     layout = "horizontal",
                     contents = [
                         TextComponent(
-                            flex = 4,
+                            flex = 3,
                             text = f" {temperature_avg}ºC",
-                            size = "xxl"
+                            size = "xl"
                         ),
                         TextComponent(
                             flex = 6,
                             text = f"最高{temperature_max}ºC  最低{temperature_min}ºＣ",
-                            offset_top = "xxl"
+                            offset_top = "xl"
                         )
                     ]
                 ),
