@@ -27,7 +27,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
             contents = [
                 TextComponent(
                     text = "天氣預報",
-                    size = "lg",
+                    size = "xl",
                     align = "start",
                     color = "#ffffff"
                 )
@@ -90,7 +90,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                         TextComponent(
                             flex = 4,
                             text = f" {temperature_avg}ºC",
-                            size = "2xl"
+                            size = "xxl"
                         ),
                         TextComponent(
                             flex = 6,
