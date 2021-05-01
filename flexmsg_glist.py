@@ -185,7 +185,7 @@ def MyGroupInfo(data):
                     weight = "bold",
                     size = "md",
                     wrap = True
-                    ),
+                ),
                 BoxComponent(
                     layout = "vertical",
                     spacing = "sm",
