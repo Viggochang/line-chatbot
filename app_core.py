@@ -1068,14 +1068,14 @@ def gathering(event):
                 i += 1
         print(i)
 
-        if i == len(dt_list):
+        if i == len(dt_list) - 1:
             print("僅提供一週內的天氣預報！")
             msg = flexmsg_climate.no_climate()
 
         else:
             climate_data = {item["description"]: list(item["time"][i]["elementValue"][0].values()) for item in weather_element}
             UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
-            uvi = [row[0] for row in UVI[str(activity_date)]]
+            uvi = [row[0] for row in UVI.get(str(activity_date), [])]
             print(activity_dt, weather_element[0]["time"][i], climate_data, end = "\n")
             
             climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "風向", "最大風速"]
