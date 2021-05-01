@@ -199,8 +199,8 @@ def carousel_registration(data_g, data_r):
                             offset_top = "2.5px",
                             action = PostbackAction(
                                 label = "天氣預報",
-                                data = f"climate_{row[0]}",
-                                display_text = f"{row[2]}的天氣預報"
+                                data = f"climate_{data_g[0]}",
+                                display_text = f"{data_g[2]}的天氣預報"
                             )
                         )
                     ]
