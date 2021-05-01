@@ -1,4 +1,5 @@
 from linebot.models import *
+from flask import url_for
 
 def climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
     rain_prob = f"降雨機率:{rain}%" if rain != " " else "目前無降雨機率資料"
@@ -59,7 +60,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                             contents = [
                                 ImageComponent(
                                     # 待改
-                                    url = "static/img/climate/climate_sunny.png",
+                                    url = url_for('static', filename='img/climate/climate_sunny.png.jpg'),
                                     size = "5xl"
                                 )
                             ]
