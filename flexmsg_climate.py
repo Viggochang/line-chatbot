@@ -90,11 +90,11 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                         TextComponent(
                             flex = 3,
                             text = f" {temperature_avg}ºC",
-                            size = "2xl"
+                            size = "xxl"
                         ),
                         TextComponent(
                             flex = 6,
-                            text = f"最高{temperature_max}ºC  最低{temperature_min}ºＣ",
+                            text = f"最高{temperature_max}ºC  最低{temperature_min}ºＣ"
                         )
                     ]
                 ),
