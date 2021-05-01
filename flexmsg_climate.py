@@ -27,7 +27,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
             contents = [
                 TextComponent(
                     text = "天氣預報",
-                    size = "xl",
+                    size = "lg",
                     align = "start",
                     color = "#ffffff"
                 )
