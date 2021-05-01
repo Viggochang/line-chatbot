@@ -163,7 +163,7 @@ def carousel_registration(data_g, data_r):
             contents = [
                 TextComponent(
                     text = "活動詳細資訊",
-                    size = "md",
+                    size = "lg",
                     align = "start",
                     color = "#ffffff"
                 )
@@ -261,7 +261,7 @@ def carousel_registration(data_g, data_r):
                 contents = [
                     TextComponent(
                         text = "報名資訊",
-                        size = "md",
+                        size = "lg",
                         align = "start",
                         color = "#ffffff"
                     )
