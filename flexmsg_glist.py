@@ -158,6 +158,19 @@ def MyGroupInfo(data):
     bubble = BubbleContainer(
         size = "kilo",
         direction = "ltr",
+        header = BoxComponent(
+            layout = "vertical",
+            background_color = "#A7D5E1",
+            contents = [
+                TextComponent(
+                    text = "活動詳細資訊",
+                    weight = "bold",
+                    size = "md",
+                    align = "start",
+                    color = "#000000"
+                )
+            ]
+        ),
         hero = ImageComponent(
             size = "full",
             aspectMode = "cover",
@@ -173,6 +186,27 @@ def MyGroupInfo(data):
                     size = "md",
                     wrap = True
                     ),
+                BoxComponent(
+                    layout = "vertical",
+                    spacing = "sm",
+                    background_color = "#A7D5E1",
+                    width = "80px",
+                    height = "25.5px",                                           
+                    contents = [
+                        TextComponent(
+                            text = "天氣預報",
+                            size = "sm",
+                            color = "#FFFFFF",
+                            align = "center",
+                            offset_top = "2.5px",
+                            action = PostbackAction(
+                                label = "天氣預報",
+                                data = f"climate_{data[0]}",
+                                display_text = f"{data[2]}的天氣預報"
+                            )
+                        )
+                    ]
+                ),
                 BoxComponent(
                     layout = "vertical",
                     contents = [
