@@ -1,6 +1,6 @@
 from linebot.models import *
 
-def climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
+def climate(county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
     rain_prob = f"降雨機率:{rain}%" if rain != " " else "目前無降雨機率資料"
     weather_size = "xxl" if len(weather) > 4 else "3xl"
 
@@ -28,18 +28,26 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
                             flex = 6,
                             contents = [
                                 TextComponent(
+                                    text = f"county district",
+                                    color = "#aaaaaa",
+                                    size = "lg",
+                                    flex = 1,
+                                    align = "start",
+                                    offset_top = "5px"
+                                ),
+                                TextComponent(
                                     text = rain_prob,
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
                                     align = "end",
-                                    offset_top = "25px"
+                                    offset_top = "5px"
                                 ),
                                 TextComponent(
                                     text = weather,
                                     wrap = True,                                    
                                     size = weather_size,
-                                    flex = 1,
+                                    flex = 2,
                                     align = "end",
                                     offset_top = "lg"
                                 ),
