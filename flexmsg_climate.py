@@ -1,6 +1,6 @@
 from linebot.models import *
 
-def climate(county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
+def climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi):
     rain_prob = f"降雨機率:{rain}%" if rain != " " else "目前無降雨機率資料"
     weather_size = "xxl" if len(weather) > 4 else "3xl"
 
@@ -39,7 +39,8 @@ def climate(county, district, rain, weather, temperature_avg, temperature_max, t
                                     color = "#aaaaaa",
                                     size = "md",
                                     flex = 1,
-                                    align = "end"
+                                    align = "end",
+                                    offset_top = "5px"
                                 ),
                                 TextComponent(
                                     text = weather,
@@ -75,7 +76,7 @@ def climate(county, district, rain, weather, temperature_avg, temperature_max, t
                         ),
                         TextComponent(
                             flex = 6,
-                            text = f"最高{temperature_max}ºC 最低{temperature_min}ºＣ",
+                            text = f"最高{temperature_max}ºC  最低{temperature_min}ºＣ",
                             offset_top = "xxl"
                         )
                     ]
@@ -92,9 +93,15 @@ def climate(county, district, rain, weather, temperature_avg, temperature_max, t
                     layout = "vertical",
                     contents = [
                         TextComponent(
-                            text = f"相對濕度: {humidity} %",
+                            text = f"{activity_date}",
                             color = "#8c8c8c",
                             margin = "xl",
+                            size = "md" 
+                        ),
+                        TextComponent(
+                            text = f"相對濕度: {humidity} %",
+                            color = "#8c8c8c",
+                            margin = "sm",
                             size = "sm" 
                         ),
                         TextComponent(

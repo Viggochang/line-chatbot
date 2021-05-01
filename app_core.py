@@ -1081,7 +1081,7 @@ def gathering(event):
             climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "風向", "最大風速"]
             rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
             
-            msg = flexmsg_climate.climate(county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi)
+            msg = flexmsg_climate.climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi)
         
         line_bot_api.reply_message(
             event.reply_token,
