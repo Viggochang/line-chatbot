@@ -31,25 +31,23 @@ def climate(county, district, rain, weather, temperature_avg, temperature_max, t
                                     text = f"{county} {district}",
                                     color = "#aaaaaa",
                                     size = "lg",
-                                    flex = 2,
-                                    align = "start",
-                                    offset_top = "5px"
+                                    flex = 1,
+                                    align = "start" #offset_top = "5px"
                                 ),
                                 TextComponent(
                                     text = rain_prob,
                                     color = "#aaaaaa",
                                     size = "md",
-                                    flex = 2,
-                                    align = "end",
-                                    offset_top = "5px"
+                                    flex = 1,
+                                    align = "end"
                                 ),
                                 TextComponent(
                                     text = weather,
                                     wrap = True,                                    
                                     size = weather_size,
-                                    flex = 5,
+                                    flex = 3,
                                     align = "end",
-                                    offset_top = "lg"
+                                    offset_top = "sm"
                                 ),
                             ]
                         ),
