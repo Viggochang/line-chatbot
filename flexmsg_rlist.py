@@ -157,6 +157,7 @@ def carousel_registration(data_g, data_r):
     group_info = BubbleContainer(
         size = "kilo",
         direction = "ltr",
+        background_color = "#A7D5E1",
         header = BoxComponent(
             layout = "vertical",
             contents = [
@@ -257,6 +258,7 @@ def carousel_registration(data_g, data_r):
             direction = "ltr",
             header = BoxComponent(
                 layout = "vertical",
+                background_color = "#A7D5E1",
                 contents = [
                     TextComponent(
                         text = "報名資訊",
