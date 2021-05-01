@@ -1066,12 +1066,8 @@ def gathering(event):
 
         if i == len(dt_list):
             print("僅提供一週內的天氣預報！")
-            msg = "僅提供一週內的天氣預報！"
+            msg = flexmsg_climate.no_climate()
 
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-            )
         else:
             climate_data = {item["description"]: list(item["time"][i-1]["elementValue"][0].values()) for item in weather_element}
             UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
@@ -1082,10 +1078,11 @@ def gathering(event):
             rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
             
             msg = flexmsg_climate.climate(rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-            )
+        
+        line_bot_api.reply_message(
+            event.reply_token,
+            msg
+        )
 
 ## ================
 ## 開團回傳時間

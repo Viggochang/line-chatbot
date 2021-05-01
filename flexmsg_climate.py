@@ -120,4 +120,30 @@ def climate(rain, weather, temperature_avg, temperature_max, temperature_min, hu
         contents = bubble
     )
 
-    return msg        
+    return msg       
+
+def no_climate():
+
+    bubble = BubbleContainer(
+        direction = "ltr",
+        body = BoxComponent(
+            size = "xs",
+            layout = "vertical",
+            spacing = "md",
+            contents = [
+                TextComponent(
+                    text = f"僅提供一週內的天氣預報！",
+                    size = "lg",
+                    weight = "bold",
+                    color = "#AAAAAA"
+                )
+            ]
+        )
+    )
+
+    msg = FlexSendMessage(
+        alt_text = "僅提供一週內的天氣預報！",
+        contents = bubble
+    )
+
+    return msg
