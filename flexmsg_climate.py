@@ -71,7 +71,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                     contents = [
                         TextComponent(
                             flex = 4,
-                            text = f"{temperature_avg}ºC",
+                            text = f" {temperature_avg}ºC",
                             size = "3xl"
                         ),
                         TextComponent(
