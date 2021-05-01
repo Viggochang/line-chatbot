@@ -5,6 +5,19 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
     rain_prob = f"降雨機率:{rain}%" if rain != " " else "目前無降雨機率資料"
     weather_size = "xxl" if len(weather) > 4 else "3xl"
 
+    if "晴" in weather and "雨" in weather:
+        image = "https://i.imgur.com/jM4qYAq.png"
+    elif "雷雨" in weather:
+        image = "https://i.imgur.com/tEXBJwC.png"  
+    elif "雨" in weather:
+        image = "https://i.imgur.com/NULZt0V.png"
+    elif "晴" in weather and ("陰" in weather or "多雲" in weather):
+        image = "https://i.imgur.com/M0N0JSk.png"
+    elif "晴" in weather:
+        image = "https://i.imgur.com/Rjogm0N.png"
+    else:
+        image = "https://i.imgur.com/BoseTDT.png"
+
     bubble = BubbleContainer(
         header = BoxComponent(
             layout = "vertical",
@@ -60,7 +73,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                             contents = [
                                 ImageComponent(
                                     # 待改
-                                    url = "https://i.imgur.com/Rjogm0N.png",
+                                    url = image,
                                     size = "5xl"
                                 )
                             ]
