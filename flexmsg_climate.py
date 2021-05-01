@@ -59,7 +59,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                             contents = [
                                 ImageComponent(
                                     # 待改
-                                    url = "https://uploadfile.huiyi8.com/2016/0620/20160620120418789.jpg",
+                                    url = "static/img/climate/climate_sunny.png",
                                     size = "5xl"
                                 )
                             ]
