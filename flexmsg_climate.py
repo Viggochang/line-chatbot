@@ -19,6 +19,8 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
         image = "https://i.imgur.com/BoseTDT.png"
 
     bubble = BubbleContainer(
+        size = "kilo",
+        direction = "ltr",
         header = BoxComponent(
             layout = "vertical",
             background_color = "#A7D5E1",
@@ -27,7 +29,7 @@ def climate(activity_date, county, district, rain, weather, temperature_avg, tem
                     text = "天氣預報",
                     size = "md",
                     align = "start",
-                    color = "#000000"
+                    color = "#ffffff"
                 )
             ]
         ),

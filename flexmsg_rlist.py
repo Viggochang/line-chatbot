@@ -165,7 +165,7 @@ def carousel_registration(data_g, data_r):
                     text = "活動詳細資訊",
                     size = "md",
                     align = "start",
-                    color = "#000000"
+                    color = "#ffffff"
                 )
             ]
         ),
@@ -263,7 +263,7 @@ def carousel_registration(data_g, data_r):
                         text = "報名資訊",
                         size = "md",
                         align = "start",
-                        color = "#000000"
+                        color = "#ffffff"
                     )
                 ]
             ),

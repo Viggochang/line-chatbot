@@ -164,10 +164,9 @@ def MyGroupInfo(data):
             contents = [
                 TextComponent(
                     text = "活動詳細資訊",
-                    weight = "bold",
                     size = "md",
                     align = "start",
-                    color = "#000000"
+                    color = "#ffffff"
                 )
             ]
         ),
