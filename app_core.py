@@ -238,8 +238,8 @@ def group_closed():
 # 我要報名
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
-    condition = {"condition":["=", "pending"], "due_date":[">=", dt.date.today()]}
-    print(dt.date.today())
+    today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
+    condition = {"condition":["=", "pending"], "due_date":[">=", today_tw]}
     order = "activity_date"
     
     if request.method == 'POST':
@@ -376,8 +376,9 @@ def my_group():
     if request.method == "GET":
         user_id = current_user.get_id()
         
-        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", dt.date.today()], "condition":["!=", "initial"]}
-        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()], "condition":["!=", "initial"]}
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
+        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", today_tw ], "condition":["!=", "initial"]}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw ], "condition":["!=", "initial"]}
         order = "activity_date"
         
         past_group_data = CallDatabase.get_data("group_data", condition = condition_past, order = order, ASC = False, all_data = True)
@@ -403,8 +404,9 @@ def my_registration():
     if request.method == "GET":
         user_id = current_user.get_id()
         
-        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", dt.date.today()]}
-        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", dt.date.today()]}
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
+        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", today_tw]}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw}
         order = "activity_date"
         
         past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order, ASC = False, all_data = True)
@@ -685,7 +687,7 @@ def gathering(event):
         type = postback_data.split("_")[1]
       
         today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{today_tw}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+        postgres_select_query = f"""SELECT * FROM group_data WHERE due_date >= '{today_tw}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
         print(data_carousel)
