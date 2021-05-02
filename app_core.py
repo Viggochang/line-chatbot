@@ -733,7 +733,7 @@ def gathering(event):
             
         columns = ["activity_no", "activity_name", "attendee_name", "phone", "condition", "user_id", "activity_date", "activity_type"]
         values = [activity_no, activity_name, name, phone, "initial", event.source.user_id, activity_date, activity_type]
-        CallDatabase.insert("group_data", columns = columns, values = values)
+        CallDatabase.insert("registration_data", columns = columns, values = values)
 
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
         data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
