@@ -712,6 +712,7 @@ def gathering(event):
         #把只創建卻沒有寫入資料的列刪除
         cancel.reset(cursor, conn, event)
 
+        condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id]}
         data_for_basicinfo = CallDatabase.get_data("registration_data", condition = condition, order = "registration_no", ASC = False, all_data = False)
         
         print("data_for_basicinfo = ", data_for_basicinfo)
@@ -723,21 +724,20 @@ def gathering(event):
         print(f"phone_registration:{phone_registration}")
         
         if data_for_basicinfo:
-            name = data_for_basicinfo[3]
-            phone = data_for_basicinfo[4]
+            name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
+            if phone in phone_registration:
+                name, phone = None, None
         else:
             name, phone = None, None
-        
+            
+        columns = ["attendee_name", "phone"]
+        values = [name, phone]
+        condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+        CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
+        data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
+
         if name != None and phone != None and phone not in phone_registration:
             # 已有報名紀錄則直接帶入先前資料
-            columns = ["attendee_name", "phone"]
-            values = [name, phone]
-            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-            CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
-            
-            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-            data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
-            
             msg = flexmsg_r.summary_for_attend(data_r)
             line_bot_api.reply_message(
                 event.reply_token,
@@ -746,9 +746,6 @@ def gathering(event):
     
         else:
             # 重新填寫報名資料
-            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-            data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
-            
             i_r = data_r.index(None)
             print(f"count none in data_r = {data_r.count(None)}")
             print(f"i_r = {i_r}")
