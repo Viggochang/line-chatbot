@@ -686,6 +686,7 @@ def gathering(event):
         postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
+        print(data_carousel)
 
         msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
