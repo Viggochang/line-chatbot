@@ -737,6 +737,7 @@ def gathering(event):
 
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
         data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
+        print(data_r)
 
         if None in data_r:
             # 重新填寫報名資料
