@@ -723,17 +723,19 @@ def gathering(event):
         phone_registration = [data[4] for data in CallDatabase.get_data("registration_data", condition = condition) if data[4] != None]
 
         print(f"phone_registration:{phone_registration}")
-        
-        if data_for_basicinfo:
-            name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
-            if phone in phone_registration:
-                name, phone = "Null", "Null"
-        else:
-            name, phone = "Null", "Null"
             
-        columns = ["activity_no", "activity_name", "attendee_name", "phone", "condition", "user_id", "activity_date", "activity_type"]
-        values = [activity_no, activity_name, name, phone, "initial", event.source.user_id, activity_date, activity_type]
+        columns = ["activity_no", "activity_name", "condition", "user_id", "activity_date", "activity_type"]
+        values = [activity_no, activity_name, "initial", event.source.user_id, activity_date, activity_type]
         CallDatabase.insert("registration_data", columns = columns, values = values)
+
+        if data_for_basicinfo:
+            if data_for_basicinfo[3] not in phone_registration:
+            name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
+
+            condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
+            columns = ["attendee_name", "phone"]
+            values = [name, phone]
+            CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
 
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
         data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
