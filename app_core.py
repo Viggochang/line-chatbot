@@ -730,7 +730,7 @@ def gathering(event):
 
         if data_for_basicinfo:
             if data_for_basicinfo[3] not in phone_registration:
-            name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
+                name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
 
             condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
             columns = ["attendee_name", "phone"]
