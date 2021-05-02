@@ -727,9 +727,9 @@ def gathering(event):
         if data_for_basicinfo:
             name, phone = data_for_basicinfo[3], data_for_basicinfo[4]
             if phone in phone_registration:
-                name, phone = None, None
+                name, phone = "Null", "Null"
         else:
-            name, phone = None, None
+            name, phone = "Null", "Null"
             
         columns = ["activity_no", "activity_name", "attendee_name", "phone", "condition", "user_id", "activity_date", "activity_type"]
         values = [activity_no, activity_name, name, phone, "initial", event.source.user_id, activity_date, activity_type]
