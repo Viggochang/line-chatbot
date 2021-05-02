@@ -690,7 +690,7 @@ def gathering(event):
         data_carousel = cursor.fetchall()
         print(data_carousel)
         print(dt.date.today())
-        print(today)
+        print(today_tw)
 
         msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
