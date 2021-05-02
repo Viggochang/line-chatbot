@@ -377,8 +377,8 @@ def my_group():
         user_id = current_user.get_id()
         
         today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
-        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", today_tw ], "condition":["!=", "initial"]}
-        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw ], "condition":["!=", "initial"]}
+        condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", today_tw], "condition":["!=", "initial"]}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw], "condition":["!=", "initial"]}
         order = "activity_date"
         
         past_group_data = CallDatabase.get_data("group_data", condition = condition_past, order = order, ASC = False, all_data = True)
@@ -406,7 +406,7 @@ def my_registration():
         
         today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
         condition_past = {"user_id":["=", current_user.get_id()], "activity_date":["<", today_tw]}
-        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw}
+        condition_now = {"user_id":["=", current_user.get_id()], "activity_date":[">=", today_tw]}
         order = "activity_date"
         
         past_registration_data = CallDatabase.get_data("registration_data", condition = condition_past, order = order, ASC = False, all_data = True)
@@ -1012,7 +1012,7 @@ def gathering(event):
         today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
         if record[1] == "activity":
             #record[2] = activity_type, record[3] = i
-            postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{today_tw}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
+            postgres_select_query = f"""SELECT * FROM group_data WHERE due_date >= '{today_tw}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
            
             cursor.execute(postgres_select_query)
             data = cursor.fetchall()
