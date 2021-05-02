@@ -239,6 +239,7 @@ def group_closed():
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
     condition = {"condition":["=", "pending"], "due_date":[">=", dt.date.today()]}
+    print(dt.date.today())
     order = "activity_date"
     
     if request.method == 'POST':
@@ -683,11 +684,13 @@ def gathering(event):
     elif "報名活動類型" in postback_data: #這裡的event.message.text會是上面quick reply回傳的訊息(四種type其中一種)
         type = postback_data.split("_")[1]
       
-        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
+        postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{today_tw}' AND activity_type = '{type}' AND people > attendee and condition = 'pending' ORDER BY activity_date ASC ;"""
         cursor.execute(postgres_select_query)
         data_carousel = cursor.fetchall()
         print(data_carousel)
-        print(dt.datetime.now())
+        print(dt.date.today())
+        print(today)
 
         msg = flexmsg_r.carousel(data_carousel, type)
         line_bot_api.reply_message(
@@ -842,11 +845,12 @@ def gathering(event):
         
         type = postback_data.split("_")[1]
         
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
         condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id, ]}
         if type == "已結束":
-            condition["activity_date"] = ["<", dt.date.today()]
+            condition["activity_date"] = ["<", today_tw]
         elif type == "進行中":
-            condition["activity_date"] = [">=", dt.date.today()]
+            condition["activity_date"] = [">=", today_tw]
             
         group_data = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
         print(f"group_data:{group_data}")
@@ -926,11 +930,12 @@ def gathering(event):
     
         type = postback_data.split("_")[1]
         
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
         condition = {"condition": ["!=", "initial"], "user_id": ["=", event.source.user_id, ]}
         if type == "已結束":
-            condition["activity_date"] = ["<", dt.date.today()]
+            condition["activity_date"] = ["<", today_tw]
         elif type == "進行中":
-            condition["activity_date"] = [">=", dt.date.today()]
+            condition["activity_date"] = [">=", today_tw]
               
         rg_data = CallDatabase.get_data("registration_data", condition = condition, order = "activity_date", all_data = True)
         if rg_data:
@@ -1002,9 +1007,10 @@ def gathering(event):
         i = int(record[3])
 
         # [我要報名] 活動列表的下一頁
+        today_tw = (dt.datetime.now() + dt.timedelta(hours = 8)).date()
         if record[1] == "activity":
             #record[2] = activity_type, record[3] = i
-            postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{dt.date.today()}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
+            postgres_select_query = f"""SELECT * FROM group_data WHERE activity_date >= '{today_tw}' AND activity_type = '{record[2]}' and people > attendee and condition = 'pending' ORDER BY activity_date ASC;"""
            
             cursor.execute(postgres_select_query)
             data = cursor.fetchall()
@@ -1015,9 +1021,9 @@ def gathering(event):
         elif record[1] in ["glist", "rlist"] :
             #record[2] = 進行中或已結束, record[3] = i
             if type == "已結束":
-                condition = {"user_id": ["=", event.source.user_id], "activity_date": ["<", dt.date.today()]}
+                condition = {"user_id": ["=", event.source.user_id], "activity_date": ["<", today_tw]}
             elif type == "進行中":
-                condition = {"user_id": ["=", event.source.user_id], "activity_date": [">=", dt.date.today()]}
+                condition = {"user_id": ["=", event.source.user_id], "activity_date": [">=", today_tw]}
                 
             if record[1] == "glist":
                 data = CallDatabase.get_data("group_data", condition = condition, order = "activity_date", all_data = True)
