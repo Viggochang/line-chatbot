@@ -707,7 +707,8 @@ def gathering(event):
         )
 
     elif "立即報名" in postback_data: #點了"立即報名後即回傳activity_no和activity_name"
-        record = postback_data.split("_")
+        record = postback_data.split("_") #立即報名_{activity_no}_{type}_{name}_{date}
+        activity_no, activity_type, activity_name, activity_date = record[1:]
 
         #把只創建卻沒有寫入資料的列刪除
         cancel.reset(cursor, conn, event)
@@ -717,7 +718,7 @@ def gathering(event):
         
         print("data_for_basicinfo = ", data_for_basicinfo)
 
-        #審核電話
+        #審核電話 是否重複報名
         condition = {"activity_no": ["=", record[1]]}
         phone_registration = [data[4] for data in CallDatabase.get_data("registration_data", condition = condition) if data[4] != None]
 
@@ -730,27 +731,28 @@ def gathering(event):
         else:
             name, phone = None, None
             
-        columns = ["attendee_name", "phone"]
-        values = [name, phone]
+        columns = ["activity_no", "activity_name", "attendee_name", "phone", "condition", "user_id", "activity_date", "activity_type"]
+        values = [activity_no, activity_name, name, phone, "initial", event.source.user_id, activity_date, activity_type]
+        CallDatabase.insert("group_data", columns = columns, values = values)
+
         condition = {"condition": ["=", "initial"], "user_id": ["=", event.source.user_id]}
-        CallDatabase.update("registration_data", columns = columns, values = values, condition = condition)
         data_r = CallDatabase.get_data("registration_data", condition = condition, all_data = False)
 
-        if name != None and phone != None and phone not in phone_registration:
-            # 已有報名紀錄則直接帶入先前資料
-            msg = flexmsg_r.summary_for_attend(data_r)
-            line_bot_api.reply_message(
-                event.reply_token,
-                msg
-            )
-    
-        else:
+        if None in data_r:
             # 重新填寫報名資料
             i_r = data_r.index(None)
             print(f"count none in data_r = {data_r.count(None)}")
             print(f"i_r = {i_r}")
         
             msg = flexmsg_r.flex(i_r, progress_list_fullregistrationdata) #flexmsg需要新增報名情境
+            line_bot_api.reply_message(
+                event.reply_token,
+                msg
+            )
+
+        else:
+            # 已有報名紀錄則直接帶入先前資料
+            msg = flexmsg_r.summary_for_attend(data_r)
             line_bot_api.reply_message(
                 event.reply_token,
                 msg
