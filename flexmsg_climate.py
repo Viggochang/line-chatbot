@@ -178,3 +178,29 @@ def no_climate():
     )
 
     return msg
+
+def no_data():
+
+    bubble = BubbleContainer(
+        direction = "ltr",
+        body = BoxComponent(
+            size = "xs",
+            layout = "vertical",
+            spacing = "md",
+            contents = [
+                TextComponent(
+                    text = "無資料",
+                    size = "lg",
+                    weight = "bold",
+                    color = "#AAAAAA"
+                )
+            ]
+        )
+    )
+
+    msg = FlexSendMessage(
+        alt_text = "無資料",
+        contents = bubble
+    )
+
+    return msg

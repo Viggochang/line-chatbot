@@ -1051,52 +1051,55 @@ def gathering(event):
         g_data = CallDatabase.get_data("group_data", condition = condition, all_data = False)
         longtitude, latitude = g_data[7], g_data[6]
 
-        #geo_data
-        url = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{longtitude},{latitude}.json"
-        my_params = {"language": "zh-tw", "access_token": mapbox_key}
-        re_mapbox = requests.get(url, params = my_params)
-        county = re_mapbox.json()["features"][0]["context"][-2]["text"]
-        district = re_mapbox.json()["features"][0]["context"][-3]["text"]
-        print(county, district)
+        try:
+            #geo_data
+            url = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{longtitude},{latitude}.json"
+            my_params = {"language": "zh-tw", "access_token": mapbox_key}
+            re_mapbox = requests.get(url, params = my_params)
+            county = re_mapbox.json()["features"][0]["context"][-2]["text"]
+            district = re_mapbox.json()["features"][0]["context"][-3]["text"]
+            print(county, district)
 
-        #climate_data
-        county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
-        climate_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{county_code.get(county)}"
-        my_params = {"Authorization": climate_key, "locationName": district}
+            #climate_data
+            county_code = {'宜蘭縣': 'F-D0047-003', '桃園市': 'F-D0047-007', '新竹縣': 'F-D0047-011', '苗栗縣': 'F-D0047-015', '彰化縣': 'F-D0047-019', '南投縣': 'F-D0047-023', '雲林縣': 'F-D0047-027', '嘉義縣': 'F-D0047-031', '屏東縣': 'F-D0047-035', '臺東縣': 'F-D0047-039', '花蓮縣': 'F-D0047-043', '澎湖縣': 'F-D0047-047', '基隆市': 'F-D0047-051', '新竹市': 'F-D0047-055', '嘉義市': 'F-D0047-059', '臺北市': 'F-D0047-063', '高雄市': 'F-D0047-067', '新北市': 'F-D0047-071', '臺中市': 'F-D0047-075', '臺南市': 'F-D0047-079', '連江縣': 'F-D0047-083', '金門縣': 'F-D0047-087'}
+            climate_url = f"https://opendata.cwb.gov.tw/api/v1/rest/datastore/{county_code.get(county)}"
+            my_params = {"Authorization": climate_key, "locationName": district}
 
-        re_climate = requests.get(climate_url, params = my_params).json()
-        weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
-        UVI = weather_element.pop(9)
+            re_climate = requests.get(climate_url, params = my_params).json()
+            weather_element = re_climate["records"]["locations"][0]["location"][0]["weatherElement"]
+            UVI = weather_element.pop(9)
 
-        start_time = dt.datetime.strptime(weather_element[0]["time"][0]["startTime"], "%Y-%m-%d %H:%M:%S")
-        dt_list = [start_time] + [dt.datetime.strptime(time["endTime"], "%Y-%m-%d %H:%M:%S") for time in weather_element[0]["time"]]
+            start_time = dt.datetime.strptime(weather_element[0]["time"][0]["startTime"], "%Y-%m-%d %H:%M:%S")
+            dt_list = [start_time] + [dt.datetime.strptime(time["endTime"], "%Y-%m-%d %H:%M:%S") for time in weather_element[0]["time"]]
 
-        activity_date, activity_time = g_data[3], g_data[4]
-        activity_dt = dt.datetime.strptime(str(activity_date) + str(activity_time), "%Y-%m-%d%H:%M:%S")
+            activity_date, activity_time = g_data[3], g_data[4]
+            activity_dt = dt.datetime.strptime(str(activity_date) + str(activity_time), "%Y-%m-%d%H:%M:%S")
 
-        i = 0
-        while i < len(dt_list) - 1:
-            if dt_list[i] <=  activity_dt < dt_list[i+1]:
-                break
+            i = 0
+            while i < len(dt_list) - 1:
+                if dt_list[i] <=  activity_dt < dt_list[i+1]:
+                    break
+                else:
+                    i += 1
+            print(i)
+
+            if i == len(dt_list) - 1:
+                print("僅提供一週內的天氣預報！")
+                msg = flexmsg_climate.no_climate()
+
             else:
-                i += 1
-        print(i)
+                climate_data = {item["description"]: list(item["time"][i]["elementValue"][0].values()) for item in weather_element}
+                UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
+                uvi = [row[0] for row in UVI.get(str(activity_date), [])]
+                print(activity_dt, weather_element[0]["time"][i], climate_data, end = "\n")
+                
+                climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "風向", "最大風速"]
+                rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
+                
+                msg = flexmsg_climate.climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi)
+        except:
+             msg = flexmsg_climate.no_data()
 
-        if i == len(dt_list) - 1:
-            print("僅提供一週內的天氣預報！")
-            msg = flexmsg_climate.no_climate()
-
-        else:
-            climate_data = {item["description"]: list(item["time"][i]["elementValue"][0].values()) for item in weather_element}
-            UVI = {item["startTime"].split()[0]:[[row["value"], row["measures"]] for row in item["elementValue"]] for item in UVI["time"]}
-            uvi = [row[0] for row in UVI.get(str(activity_date), [])]
-            print(activity_dt, weather_element[0]["time"][i], climate_data, end = "\n")
-            
-            climate_lst = ["12小時降雨機率", "天氣現象", "平均溫度", "最高溫度", "最低溫度", "平均相對濕度", "風向", "最大風速"]
-            rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v = [climate_data[item][0] for item in climate_lst]
-            
-            msg = flexmsg_climate.climate(activity_date, county, district, rain, weather, temperature_avg, temperature_max, temperature_min, humidity, wind_d, wind_v, uvi)
-        
         line_bot_api.reply_message(
             event.reply_token,
             msg
