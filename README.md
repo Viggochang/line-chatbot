@@ -7,6 +7,9 @@
 + 查詢記錄：查看歷史開團及報名紀錄，以及活動詳細資訊
 
 ## Techniques
++ Built a web hook server using Python, deployed on Heroku. 
++ Connected postgreSQL database to store information of users and activities.
++ Used Flex Messages to customize layout and make it interactive with LINE Messaging API SDK. 
 
 ## Flow Chart
 
