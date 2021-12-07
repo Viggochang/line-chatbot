@@ -1,4 +1,4 @@
-# hang out! 邊緣人揪團
+# <img width="60px" src="/README/icon.png"/> hang out! 邊緣人揪團
 
 ## Introduction 
 + 以 LINE 作為操作介面，運用對話方式完成開團及報名
@@ -16,13 +16,13 @@
 
 ## Demo
 + 新增活動
-&emsp;<img src="/README/group.gif"/> 
+&emsp;<img src="/README/group.gif" width=300px/> 
 + 報名活動
-&emsp;<img src="/README/registration.gif"/> 
+&emsp;<img src="/README/registration.gif" width=300px/> 
 + 開團紀錄
-&emsp;<img src="/README/group_record.gif"/> 
+&emsp;<img src="/README/group_record.gif" width=300px/> 
 + 報名紀錄
-&emsp;<img src="/README/registration_record.gif"/> 
+&emsp;<img src="/README/registration_record.gif" width=300px/> 
 
 
 ## Contact
