@@ -15,13 +15,13 @@
 
 
 ## Demo
-+ 新增活動
++ 新增活動 <br/><br/>
 &emsp;<img src="/README/group.gif" width=300px/> 
-+ 報名活動
++ 報名活動 <br/><br/>
 &emsp;<img src="/README/registration.gif" width=300px/> 
-+ 開團紀錄
++ 開團紀錄 <br/><br/>
 &emsp;<img src="/README/group_record.gif" width=300px/> 
-+ 報名紀錄
++ 報名紀錄 <br/><br/>
 &emsp;<img src="/README/registration_record.gif" width=300px/> 
 
 
