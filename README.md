@@ -1,4 +1,4 @@
-# Hang out
+# hang out! 邊緣人揪團
 
 ## Introduction 
 + 以 LINE 作為操作介面，運用對話方式完成開團及報名
@@ -13,7 +13,17 @@
 
 ## Flow Chart
 
+
 ## Demo
++ 新增活動
+&emsp;<img src="/README/group.gif"/> 
++ 報名活動
+&emsp;<img src="/README/registration.gif"/> 
++ 開團紀錄
+&emsp;<img src="/README/group_record.gif"/> 
++ 報名紀錄
+&emsp;<img src="/README/registration_record.gif"/> 
+
 
 ## Contact
 + Author: Viggo Chang
